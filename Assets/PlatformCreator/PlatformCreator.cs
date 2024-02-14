@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace Guidance.Gameplay {
   public class PlatformCreator : MonoBehaviour {
+    public static Action OnPlatformCreated;
     [SerializeField] private GameObject m_CubePrefab;
     [SerializeField] private float m_ScaleModifier = 23.5f;
     private GameObject m_CurrentCube;
@@ -50,6 +52,7 @@ namespace Guidance.Gameplay {
     }
 
     void ResetMousePosition() {
+      OnPlatformCreated?.Invoke();
       m_InitialMousePosition = Vector3.zero;
       m_CurrentMousePosition = Vector3.zero;
     }

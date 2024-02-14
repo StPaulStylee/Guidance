@@ -7,6 +7,17 @@ namespace Guidance.Gameplay {
     private void Awake() {
       rb = GetComponent<Rigidbody>();
       rb.isKinematic = true;
+      PlatformCreator.OnPlatformCreated += EnableRigidBody;
+    }
+
+    private void OnDisable() {
+      PlatformCreator.OnPlatformCreated -= EnableRigidBody;
+    }
+
+    private void EnableRigidBody() {
+      if (rb.isKinematic == true) {
+        rb.isKinematic = false;
+      }
     }
   }
 }
