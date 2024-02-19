@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 16720690878051459, guid: f2d981b190226b049ba339965f7088ed,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 16720690878051459, guid: f2d981b190226b049ba339965f7088ed,
         type: 3}
@@ -66,13 +66,43 @@ PrefabInstance:
     - target: {fileID: 824360825633320505, guid: f2d981b190226b049ba339965f7088ed,
         type: 3}
       propertyPath: m_Name
-      value: Platform_White 1
+      value: Platform_Green
       objectReference: {fileID: 0}
     - target: {fileID: 1184529979605553132, guid: f2d981b190226b049ba339965f7088ed,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1e24479530b629b4db2236d40b5bb4d7, type: 2}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_ColorTarget.b
+      value: 0.011764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_ColorTarget.g
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_ColorTarget.r
+      value: 0.039215688
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColor.b
+      value: 0.18986976
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColor.g
+      value: 2.1185474
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColor.r
+      value: 0.6398946
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

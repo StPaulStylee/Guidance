@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 16720690878051459, guid: f2d981b190226b049ba339965f7088ed,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 16720690878051459, guid: f2d981b190226b049ba339965f7088ed,
         type: 3}
@@ -73,6 +73,56 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e0849b4c69321334990a35b421ba2a64, type: 2}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: ColorTarget.b
+      value: 0.09411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: ColorTarget.g
+      value: 0.07058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: ColorTarget.r
+      value: 0.078431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_ColorTarget.b
+      value: 0.09411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_ColorTarget.g
+      value: 0.07058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_ColorTarget.r
+      value: 0.078431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColor.b
+      value: 2.9960787
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColor.g
+      value: 2.218794
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColor.r
+      value: 2.4778893
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639185502535821120, guid: f2d981b190226b049ba339965f7088ed,
+        type: 3}
+      propertyPath: m_TargetColorHex
+      value: Color(2.4778893,2.21879411,2.99607873,1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
