@@ -722,6 +722,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 608344538}
     m_Modifications:
+    - target: {fileID: 1250574318702290823, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c5c9993bc87312c49981c938ce7fc547, type: 2}
+    - target: {fileID: 1540107344989774321, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c5c9993bc87312c49981c938ce7fc547, type: 2}
     - target: {fileID: 2863096179479617898, guid: 64a6766be18e7dc48b65e38a591b2759,
         type: 3}
       propertyPath: m_RootOrder
@@ -777,10 +787,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5065057790712277383, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: m_MoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736986061030827336, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: Id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736986061030827336, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872946555035800590, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: Id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872946555035800590, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339638526424614422, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: Id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339638526424614422, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6454776731573116500, guid: 64a6766be18e7dc48b65e38a591b2759,
         type: 3}
       propertyPath: m_Name
       value: WallBackground
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693048075218650961, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
