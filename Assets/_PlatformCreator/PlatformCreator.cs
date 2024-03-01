@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +10,7 @@ namespace Guidance.Gameplay {
 
 
     private GameObject m_CurrentCube;
-    private Material m_CurrentCubeMaterial;
-    private Color m_CurrentEmission;
-    private Color m_EmissionTarget;
+    private Platform m_CurrentCubePlatform;
 
     [SerializeField] private float m_EmissionTransitionLengthInSeconds = 1f;
     private Vector3 m_InitialMousePosition;
@@ -25,20 +22,19 @@ namespace Guidance.Gameplay {
     private void Start() {
       m_MainCamera = Camera.main;
       m_CameraOffset = m_MainCamera.transform.position.z;
-      m_EmissionTarget = m_PlatformPrefab.GetComponent<Platform>().GetTargetColor();
     }
 
     void Update() {
       if (Input.GetMouseButtonDown(0)) {
-        CreateCube();
+        CreatePlatform();
       }
 
       if (Input.GetMouseButton(0)) {
-        UpdateCubeSize();
+        UpdatePlatformSize();
       }
 
       if (Input.GetMouseButtonUp(0)) {
-        StartCoroutine(TransitionEmission());
+        m_CurrentCubePlatform.PerformTransitionEmission();
         OnPlatformCreated?.Invoke();
         ResetMousePosition();
       }
@@ -47,16 +43,16 @@ namespace Guidance.Gameplay {
       }
     }
 
-    void CreateCube() {
+    private void CreatePlatform() {
       m_InitialMousePosition = Input.mousePosition;
       m_InitialMousePosition.z = m_CameraOffset;
       Vector3 spawnPosition = m_MainCamera.ScreenToWorldPoint(new Vector3(m_InitialMousePosition.x, m_InitialMousePosition.y, -m_CameraOffset));
 
       m_CurrentCube = Instantiate(m_PlatformPrefab, spawnPosition, m_PlatformPrefab.transform.rotation, transform);
-      m_CurrentCubeMaterial = m_CurrentCube.GetComponent<MeshRenderer>().material;
+      m_CurrentCubePlatform = m_CurrentCube.GetComponent<Platform>();
     }
 
-    void UpdateCubeSize() {
+    private void UpdatePlatformSize() {
       if (m_CurrentCube != null) {
         m_CurrentMousePosition = Input.mousePosition;
         m_CurrentMousePosition.z = m_CameraOffset;
@@ -68,18 +64,7 @@ namespace Guidance.Gameplay {
       }
     }
 
-    private IEnumerator TransitionEmission() {
-      m_CurrentEmission = m_CurrentCubeMaterial.GetColor("_EmissionColor");
-      float timeElapsed = 0f;
-      while (timeElapsed < m_EmissionTransitionLengthInSeconds) {
-        Color currentEmissionColor = Color.Lerp(m_CurrentEmission, m_EmissionTarget, timeElapsed / m_EmissionTransitionLengthInSeconds);
-        m_CurrentCubeMaterial.SetColor("_EmissionColor", currentEmissionColor);
-        timeElapsed += Time.deltaTime;
-        yield return null;
-      }
-    }
-
-    void ResetMousePosition() {
+    private void ResetMousePosition() {
       m_InitialMousePosition = Vector3.zero;
       m_CurrentMousePosition = Vector3.zero;
     }

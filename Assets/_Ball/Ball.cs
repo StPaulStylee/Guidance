@@ -19,5 +19,9 @@ namespace Guidance.Gameplay {
         rb.isKinematic = false;
       }
     }
+
+    public void ToggleRigidBody() {
+      rb.isKinematic = !rb.isKinematic;
+    }
   }
 }

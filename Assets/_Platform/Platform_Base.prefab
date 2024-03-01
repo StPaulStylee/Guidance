@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 16720690878051459}
+  - component: {fileID: 5639185502535821120}
   - component: {fileID: 4005033726913313574}
   - component: {fileID: 1184529979605553132}
   - component: {fileID: 77017864569846812}
-  - component: {fileID: 5639185502535821120}
   m_Layer: 0
   m_Name: Platform_Base
   m_TagString: Untagged
@@ -35,6 +35,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5639185502535821120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824360825633320505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a2513ff5ad8f94a8d8da2f3766410e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetColor: {r: 1.2917056, g: 0.15545689, b: 2.9960783, a: 1}
 --- !u!33 &4005033726913313574
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -106,17 +119,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.625595, y: 0.27123722, z: 0.65091443}
   m_Center: {x: 0.3127975, y: 0.00000010430813, z: 0.00000013411045}
---- !u!114 &5639185502535821120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 824360825633320505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a2513ff5ad8f94a8d8da2f3766410e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TargetColorHex: '#0A2203'
-  m_TargetColor: {r: 1.2917056, g: 0.15545689, b: 2.9960783, a: 1}
