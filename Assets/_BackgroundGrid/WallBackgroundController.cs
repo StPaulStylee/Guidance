@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.BackgroundGrid {
   public class WallBackgroundController : MonoBehaviour {
+    // Should this be private?
     public bool IsSettingHeadWallSection = false;
 
     [SerializeField] private float m_MoveSpeed = 1f;
     [SerializeField] private bool m_IsMoving = false;
-    [SerializeField] private GameObject m_WallSectionsPrefab;
+    [SerializeField] private GameObject m_WallSectionPrefab;
 
     private WallSection[] m_WallSections = null;
     private WallSection m_CurrentHeadWallSection;
@@ -31,11 +32,10 @@ namespace Guidance.Gameplay.BackgroundGrid {
     }
 
     public void AttachNewWall() {
-      Vector3 location = new Vector3(transform.position.x, transform.position.y - WALL_BACKGROUND_LENGTH, transform.position.z);
-      Instantiate(m_WallSectionsPrefab, location, Quaternion.identity, transform);
+      // I want to try and add 4 more single wall sections to the current WallSections GO. I need to first 
+      // get the position of the bottom most wall section minus another 5 units on the Y. Then place the first
+      // new wall section there. Then spawn 3 more at a distance of 10 units apart for each
     }
-
-
 
     private void MoveWallBackground() {
       if (!m_IsMoving) {
@@ -51,9 +51,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
     }
 
     private void SetCurrentHeadWallSection() {
-      // Vector3.forward is used here because given the walls current rotation the walls z-axis is pointed in the global y direction.
-      // When this is ready bring the walls into blender as reset their transforms and then change this to Vector3.up
-      m_CurrentHeadWallSection.transform.Translate(Vector3.forward * -WALL_BACKGROUND_LENGTH, Space.Self);
+      m_CurrentHeadWallSection.transform.Translate(Vector3.up * -WALL_BACKGROUND_LENGTH, Space.Self);
       m_CurrentHeadWallSectionIndex++;
       if (m_CurrentHeadWallSectionIndex >= m_WallSections.Length) {
         m_CurrentHeadWallSectionIndex = 0;

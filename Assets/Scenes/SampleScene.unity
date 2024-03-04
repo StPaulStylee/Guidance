@@ -817,6 +817,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5065057790712277383, guid: 64a6766be18e7dc48b65e38a591b2759,
         type: 3}
+      propertyPath: m_WallSectionPrefab
+      value: 
+      objectReference: {fileID: 5901666661317781305, guid: 6773bc86abcb4fd4da08a7b14110f3ae,
+        type: 3}
+    - target: {fileID: 5065057790712277383, guid: 64a6766be18e7dc48b65e38a591b2759,
+        type: 3}
       propertyPath: m_WallSectionsPrefab
       value: 
       objectReference: {fileID: 7585513420376450893, guid: 506047b517717b64fba18c0e4741bcab,
