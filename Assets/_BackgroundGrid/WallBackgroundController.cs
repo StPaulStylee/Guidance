@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.BackgroundGrid {
   public class WallBackgroundController : MonoBehaviour {
+    public bool IsSettingHeadWallSection = false;
+
     [SerializeField] private float m_MoveSpeed = 1f;
+    [SerializeField] private bool m_IsMoving = false;
+    [SerializeField] private GameObject m_WallSectionsPrefab;
 
     private WallSection[] m_WallSections = null;
     private WallSection m_CurrentHeadWallSection;
@@ -13,18 +17,31 @@ namespace Guidance.Gameplay.BackgroundGrid {
     private const int WALL_BACKGROUND_LENGTH = 40;
     private float m_YDistanceTraveled = 0f;
 
+    public int WallBackgroundLength => WALL_BACKGROUND_LENGTH;
+
     private void Awake() {
       m_WallSections = GetComponentsInChildren<WallSection>().OrderBy(section => section.Id).ToArray();
       m_CurrentHeadWallSection = m_WallSections[0];
       m_CurrentHeadWallSectionIndex = 0;
+      IsSettingHeadWallSection = true;
     }
 
     private void Update() {
       MoveWallBackground();
     }
 
+    public void AttachNewWall() {
+      Vector3 location = new Vector3(transform.position.x, transform.position.y - WALL_BACKGROUND_LENGTH, transform.position.z);
+      Instantiate(m_WallSectionsPrefab, location, Quaternion.identity, transform);
+    }
+
+
+
     private void MoveWallBackground() {
-      if (m_YDistanceTraveled > INCREMENT_DISTANCE) {
+      if (!m_IsMoving) {
+        return;
+      }
+      if (m_YDistanceTraveled > INCREMENT_DISTANCE && IsSettingHeadWallSection) {
         m_YDistanceTraveled = 0f;
         SetCurrentHeadWallSection();
       }
