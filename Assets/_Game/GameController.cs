@@ -13,7 +13,8 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void OnTargetReached() {
-      m_WallBackgroundController.AttachNewWall();
+      m_WallBackgroundController.ExecuteNewWallProcedure();
+      m_WallBackgroundController.IsCreatingNewWallSection = true;
     }
   }
 }

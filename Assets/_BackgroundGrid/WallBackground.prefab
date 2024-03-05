@@ -48,7 +48,7 @@ MonoBehaviour:
   IsSettingHeadWallSection: 0
   m_MoveSpeed: 1
   m_IsMoving: 0
-  m_WallSectionsPrefab: {fileID: 0}
+  m_WallSectionPrefab: {fileID: 0}
 --- !u!1001 &8837873639070592393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 7585513420376450893, guid: 506047b517717b64fba18c0e4741bcab,
         type: 3}
       propertyPath: m_Name
-      value: WallSections
+      value: WallSectionsContainer
       objectReference: {fileID: 0}
     - target: {fileID: 7899340147008663294, guid: 506047b517717b64fba18c0e4741bcab,
         type: 3}
