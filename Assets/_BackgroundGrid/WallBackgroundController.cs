@@ -22,9 +22,12 @@ namespace Guidance.Gameplay.BackgroundGrid {
     private const int WALL_BACKGROUND_LENGTH = 40;
     private float m_YDistanceTraveled = 0f;
 
+    private Camera m_Camera;
+
     public int WallBackgroundLength => WALL_BACKGROUND_LENGTH;
 
     private void Awake() {
+      m_Camera = Camera.main;
       m_WallSectionsContainer = GetComponentInChildren<WallSectionsContainer>();
       m_WallSections = GetComponentsInChildren<WallSection>().OrderBy(section => section.Id).ToList();
       m_CurrentHeadWallSection = m_WallSections[0];
@@ -36,10 +39,14 @@ namespace Guidance.Gameplay.BackgroundGrid {
       MoveWallBackground();
     }
 
-    public void ExecuteNewWallProcedure() {
-      AttachNewWallSection();
-      StartCoroutine(TrackWallBackgroundMovement());
+    public void TransitionToNextStage() {
+      StartCoroutine(ExecuteNextStageProcedure());
+    }
 
+    private IEnumerator ExecuteNextStageProcedure() {
+      AttachNewWallSection();
+      yield return StartCoroutine(ShiftCameraForNextStage());
+      yield return StartCoroutine(ManageWallSectionsAfterAddition());
       // I am debugging why this coroutine isn't working as expected. Currently it starts
       // and then stops almost instantaneously, which isn't correct. Also, it seems like the
       // remove logic isn't working correctly either. I need to ensure that the items in 
@@ -53,7 +60,8 @@ namespace Guidance.Gameplay.BackgroundGrid {
       // Perhaps I could add a property to the WallSection like a "isOld" flag
       // and I can filter using LINQ
       for (int i = 0; i <= 3; i++) {
-        WallSection sectionToRemove = m_WallSections[i];
+        // Always remove [0] because you've popped off the first element in the prior iteration
+        WallSection sectionToRemove = m_WallSections[0];
         m_WallSections.Remove(sectionToRemove);
         Destroy(sectionToRemove.gameObject);
       }
@@ -71,16 +79,30 @@ namespace Guidance.Gameplay.BackgroundGrid {
       }
     }
 
-    private IEnumerator TrackWallBackgroundMovement() {
+    private IEnumerator ManageWallSectionsAfterAddition() {
       float distanceTraveled = 0f;
       float yPositionAtStart = transform.position.y;
-      Debug.Log("Tracking");
       while (distanceTraveled < WALL_BACKGROUND_LENGTH) {
-        distanceTraveled += transform.position.y - yPositionAtStart;
+        distanceTraveled = transform.position.y - yPositionAtStart;
         yield return null;
       }
-      Debug.Log("Done");
-      //IsCreatingNewWallSection = false;
+      RemoveOldWallSections();
+      m_CurrentHeadWallSection = m_WallSections[0];
+      m_CurrentHeadWallSectionIndex = 0;
+      IsCreatingNewWallSection = false;
+    }
+
+    private IEnumerator ShiftCameraForNextStage() {
+      float distanceToMove = 11.25f;
+      Vector3 currentPosition = m_Camera.transform.position;
+      Vector3 targetPosition = new Vector3(currentPosition.x, currentPosition.y - distanceToMove, currentPosition.z);
+      float moveSpeed = 2f;
+      while (Vector3.Distance(m_Camera.transform.position, targetPosition) > 0.01f) {
+        Vector3 position = Vector3.Lerp(m_Camera.transform.position, targetPosition, Time.deltaTime * moveSpeed);
+        m_Camera.transform.position = position;
+        yield return null;
+      }
+      m_Camera.transform.position = targetPosition;
     }
 
     private void MoveWallBackground() {
