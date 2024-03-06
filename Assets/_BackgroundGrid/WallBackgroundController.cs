@@ -5,22 +5,24 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.BackgroundGrid {
   public class WallBackgroundController : MonoBehaviour {
-    public bool IsCreatingNewWallSection { get; set; } = false;
+    public bool IsCreatingNewWallSection { get; private set; } = false;
 
     [SerializeField] private float m_MoveSpeed = 1f;
     [SerializeField] private bool m_IsMoving = false;
     [SerializeField] private GameObject m_WallSectionPrefab;
 
     private List<WallSection> m_WallSections = null;
-    private WallSection m_CurrentHeadWallSection;
+    [SerializeField] private WallSection m_CurrentHeadWallSection;
     private int m_CurrentHeadWallSectionIndex;
-    private WallSection m_CurrentTailWallSection;
+    [SerializeField] private WallSection m_CurrentTailWallSection;
     private int m_CurrentTailWallSectionIndex;
     private WallSectionsContainer m_WallSectionsContainer;
 
     private const int INCREMENT_DISTANCE = 10;
     private const int WALL_BACKGROUND_LENGTH = 40;
     private float m_YDistanceTraveled = 0f;
+
+    private float temporaryYTargetPosition;
 
     private Camera m_Camera;
 
@@ -40,11 +42,16 @@ namespace Guidance.Gameplay.BackgroundGrid {
     }
 
     public void TransitionToNextStage() {
+      IsCreatingNewWallSection = true;
       StartCoroutine(ExecuteNextStageProcedure());
     }
 
     private IEnumerator ExecuteNextStageProcedure() {
       AttachNewWallSection();
+
+      // Get position data here
+      temporaryYTargetPosition = m_CurrentTailWallSection.transform.position.y;
+
       yield return StartCoroutine(ShiftCameraForNextStage());
       yield return StartCoroutine(ManageWallSectionsAfterAddition());
       // I am debugging why this coroutine isn't working as expected. Currently it starts
@@ -80,15 +87,27 @@ namespace Guidance.Gameplay.BackgroundGrid {
     }
 
     private IEnumerator ManageWallSectionsAfterAddition() {
-      float distanceTraveled = 0f;
-      float yPositionAtStart = transform.position.y;
-      while (distanceTraveled < WALL_BACKGROUND_LENGTH) {
-        distanceTraveled = transform.position.y - yPositionAtStart;
+      // Get the position of the current tail so I know the location to target
+      //float oldTailYPosition = m_CurrentTailWallSection.transform.position.y;
+      Debug.Log(temporaryYTargetPosition);
+      m_CurrentHeadWallSection = m_WallSections[4];
+      m_CurrentTailWallSection = m_WallSections[7];
+
+      //float distanceTraveled = 0f;
+      float yPositionAtStart = m_CurrentTailWallSection.transform.position.y;
+      while (m_CurrentTailWallSection.transform.position.y < temporaryYTargetPosition) {
+        // distanceTraveled = m_CurrentTailWallSection.transform.position.y - yPositionAtStart;
         yield return null;
       }
+      Debug.Log(m_CurrentTailWallSection.transform.position.y);
+      //Debug.Log(distanceTraveled);
       RemoveOldWallSections();
-      m_CurrentHeadWallSection = m_WallSections[0];
+
       m_CurrentHeadWallSectionIndex = 0;
+      m_CurrentTailWallSectionIndex = m_WallSections.Count - 1;
+
+      //m_CurrentHeadWallSection = m_WallSections[0];
+      //m_CurrentHeadWallSectionIndex = 0;
       IsCreatingNewWallSection = false;
     }
 
