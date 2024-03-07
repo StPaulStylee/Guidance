@@ -16,7 +16,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
     private int m_CurrentHeadWallSectionIndex;
     [SerializeField] private WallSection m_CurrentTailWallSection;
     private WallSectionsContainer m_WallSectionsContainer;
-
+    private float m_OldWallYPositionRemovalPoint;
     private float m_YDistanceTraveled = 0f;
 
     private const int INCREMENT_DISTANCE = 10;
@@ -44,9 +44,15 @@ namespace Guidance.Gameplay.BackgroundGrid {
       MoveWallBackground();
     }
 
-    public void TransitionToNextStage() {
+    public void TransitionToNextStage() { //
       IsCreatingNewWallSection = true;
       StartCoroutine(ExecuteNextStageProcedure());
+    }
+
+    public void ExecuteNewWallAttachmentProcedure() { //
+      IsCreatingNewWallSection = true;
+      AttachNewWallSection();
+      m_OldWallYPositionRemovalPoint = m_CurrentTailWallSection.transform.position.y - WALL_SECTION_OFFSET;
     }
 
     private IEnumerator ExecuteNextStageProcedure() {
@@ -54,7 +60,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
       float currentTailYPoint = m_CurrentTailWallSection.transform.position.y - WALL_SECTION_OFFSET;
 
       yield return StartCoroutine(ShiftCameraForNextStage());
-      yield return StartCoroutine(ManageWallSectionsAfterAddition(currentTailYPoint));
+      yield return StartCoroutine(ManageWallSectionsAfterAddition());
     }
 
     private void RemoveOldWallSections() {
@@ -80,12 +86,12 @@ namespace Guidance.Gameplay.BackgroundGrid {
       }
     }
 
-    private IEnumerator ManageWallSectionsAfterAddition(float targetYPosition) {
+    public IEnumerator ManageWallSectionsAfterAddition() {
       // Maybe add a flag to WallSection component isHead/isTail???
       m_CurrentHeadWallSection = m_WallSections[4];
       m_CurrentTailWallSection = m_WallSections[7];
 
-      while (m_CurrentTailWallSection.transform.position.y < targetYPosition) {
+      while (m_CurrentTailWallSection.transform.position.y < m_OldWallYPositionRemovalPoint) {
         yield return null;
       }
       RemoveOldWallSections();
