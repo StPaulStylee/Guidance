@@ -15,15 +15,18 @@ namespace Guidance.Gameplay.BackgroundGrid {
     [SerializeField] private WallSection m_CurrentHeadWallSection;
     private int m_CurrentHeadWallSectionIndex;
     [SerializeField] private WallSection m_CurrentTailWallSection;
-    private int m_CurrentTailWallSectionIndex;
     private WallSectionsContainer m_WallSectionsContainer;
+
+    private float m_YDistanceTraveled = 0f;
 
     private const int INCREMENT_DISTANCE = 10;
     private const int WALL_BACKGROUND_LENGTH = 40;
-    private float m_YDistanceTraveled = 0f;
-
-    private float temporaryYTargetPosition;
-
+    private const float WALL_SECTION_OFFSET = 5f;
+    private const int NUMBER_OF_WALL_SECTIONS_TO_REMOVE = 4;
+    private const float WALL_SECTION_Y_SCALE = 10f;
+    private const float CAMERA_SHIFT_MOVE_SPEED = 2f;
+    private const float CAMERA_SHIFT_DISTANCE = 11.25f;
+    private const float CAMERA_SHIFT_DISTANCE_OFFSET = 0.01f;
     private Camera m_Camera;
 
     public int WallBackgroundLength => WALL_BACKGROUND_LENGTH;
@@ -48,25 +51,16 @@ namespace Guidance.Gameplay.BackgroundGrid {
 
     private IEnumerator ExecuteNextStageProcedure() {
       AttachNewWallSection();
-
-      // Get position data here
-      temporaryYTargetPosition = m_CurrentTailWallSection.transform.position.y;
+      float currentTailYPoint = m_CurrentTailWallSection.transform.position.y - WALL_SECTION_OFFSET;
 
       yield return StartCoroutine(ShiftCameraForNextStage());
-      yield return StartCoroutine(ManageWallSectionsAfterAddition());
-      // I am debugging why this coroutine isn't working as expected. Currently it starts
-      // and then stops almost instantaneously, which isn't correct. Also, it seems like the
-      // remove logic isn't working correctly either. I need to ensure that the items in 
-      // the list are in the correct order.
-
-      //RemoveOldWallSections();
-      //IsCreatingNewWallSection = false;
+      yield return StartCoroutine(ManageWallSectionsAfterAddition(currentTailYPoint));
     }
 
     private void RemoveOldWallSections() {
       // Perhaps I could add a property to the WallSection like a "isOld" flag
       // and I can filter using LINQ
-      for (int i = 0; i <= 3; i++) {
+      for (int i = 0; i < NUMBER_OF_WALL_SECTIONS_TO_REMOVE; i++) {
         // Always remove [0] because you've popped off the first element in the prior iteration
         WallSection sectionToRemove = m_WallSections[0];
         m_WallSections.Remove(sectionToRemove);
@@ -76,8 +70,8 @@ namespace Guidance.Gameplay.BackgroundGrid {
 
     private void AttachNewWallSection() {
       Vector3 seedPosition = m_CurrentTailWallSection.transform.position;
-      for (int i = 0; i <= 3; i++) {
-        Vector3 spawnPosition = new Vector3(seedPosition.x, seedPosition.y - ((i + 1) * 10f), seedPosition.z);
+      for (int i = 0; i < NUMBER_OF_WALL_SECTIONS_TO_REMOVE; i++) {
+        Vector3 spawnPosition = new Vector3(seedPosition.x, seedPosition.y - ((i + 1) * WALL_SECTION_Y_SCALE), seedPosition.z);
         GameObject wallSectionGO = Instantiate(m_WallSectionPrefab, spawnPosition, Quaternion.identity, m_WallSectionsContainer.transform);
         WallSection wallSection = wallSectionGO.GetComponent<WallSection>();
         wallSectionGO.name = $"WallSection_{m_WallSections.Count}";
@@ -86,37 +80,28 @@ namespace Guidance.Gameplay.BackgroundGrid {
       }
     }
 
-    private IEnumerator ManageWallSectionsAfterAddition() {
-      // Get the position of the current tail so I know the location to target
-      //float oldTailYPosition = m_CurrentTailWallSection.transform.position.y;
-      Debug.Log(temporaryYTargetPosition);
+    private IEnumerator ManageWallSectionsAfterAddition(float targetYPosition) {
+      // Maybe add a flag to WallSection component isHead/isTail???
       m_CurrentHeadWallSection = m_WallSections[4];
       m_CurrentTailWallSection = m_WallSections[7];
 
-      //float distanceTraveled = 0f;
-      float yPositionAtStart = m_CurrentTailWallSection.transform.position.y;
-      while (m_CurrentTailWallSection.transform.position.y < temporaryYTargetPosition) {
-        // distanceTraveled = m_CurrentTailWallSection.transform.position.y - yPositionAtStart;
+      while (m_CurrentTailWallSection.transform.position.y < targetYPosition) {
         yield return null;
       }
-      Debug.Log(m_CurrentTailWallSection.transform.position.y);
-      //Debug.Log(distanceTraveled);
       RemoveOldWallSections();
 
+      // This is needed here to ensure proper setting in "SetCurrentHeadWallSection"
       m_CurrentHeadWallSectionIndex = 0;
-      m_CurrentTailWallSectionIndex = m_WallSections.Count - 1;
 
-      //m_CurrentHeadWallSection = m_WallSections[0];
-      //m_CurrentHeadWallSectionIndex = 0;
       IsCreatingNewWallSection = false;
     }
 
     private IEnumerator ShiftCameraForNextStage() {
-      float distanceToMove = 11.25f;
+      float distanceToMove = CAMERA_SHIFT_DISTANCE;
       Vector3 currentPosition = m_Camera.transform.position;
       Vector3 targetPosition = new Vector3(currentPosition.x, currentPosition.y - distanceToMove, currentPosition.z);
-      float moveSpeed = 2f;
-      while (Vector3.Distance(m_Camera.transform.position, targetPosition) > 0.01f) {
+      float moveSpeed = CAMERA_SHIFT_MOVE_SPEED;
+      while (Vector3.Distance(m_Camera.transform.position, targetPosition) > CAMERA_SHIFT_DISTANCE_OFFSET) {
         Vector3 position = Vector3.Lerp(m_Camera.transform.position, targetPosition, Time.deltaTime * moveSpeed);
         m_Camera.transform.position = position;
         yield return null;
@@ -140,7 +125,6 @@ namespace Guidance.Gameplay.BackgroundGrid {
     private void SetCurrentHeadWallSection() {
       m_CurrentHeadWallSection.transform.Translate(Vector3.up * -WALL_BACKGROUND_LENGTH, Space.Self);
       m_CurrentTailWallSection = m_CurrentHeadWallSection;
-      m_CurrentTailWallSectionIndex = m_CurrentHeadWallSectionIndex;
       m_CurrentHeadWallSectionIndex++;
       if (m_CurrentHeadWallSectionIndex >= m_WallSections.Count) {
         m_CurrentHeadWallSectionIndex = 0;
