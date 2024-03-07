@@ -24,15 +24,10 @@ namespace Guidance.Gameplay.BackgroundGrid {
     private const float WALL_SECTION_OFFSET = 5f;
     private const int NUMBER_OF_WALL_SECTIONS_TO_REMOVE = 4;
     private const float WALL_SECTION_Y_SCALE = 10f;
-    private const float CAMERA_SHIFT_MOVE_SPEED = 2f;
-    private const float CAMERA_SHIFT_DISTANCE = 11.25f;
-    private const float CAMERA_SHIFT_DISTANCE_OFFSET = 0.01f;
-    private Camera m_Camera;
 
     public int WallBackgroundLength => WALL_BACKGROUND_LENGTH;
 
     private void Awake() {
-      m_Camera = Camera.main;
       m_WallSectionsContainer = GetComponentInChildren<WallSectionsContainer>();
       m_WallSections = GetComponentsInChildren<WallSection>().OrderBy(section => section.Id).ToList();
       m_CurrentHeadWallSection = m_WallSections[0];
@@ -44,23 +39,26 @@ namespace Guidance.Gameplay.BackgroundGrid {
       MoveWallBackground();
     }
 
-    public void TransitionToNextStage() { //
-      IsCreatingNewWallSection = true;
-      StartCoroutine(ExecuteNextStageProcedure());
-    }
-
-    public void ExecuteNewWallAttachmentProcedure() { //
+    public void ExecuteNewWallAttachmentProcedure() {
       IsCreatingNewWallSection = true;
       AttachNewWallSection();
       m_OldWallYPositionRemovalPoint = m_CurrentTailWallSection.transform.position.y - WALL_SECTION_OFFSET;
     }
 
-    private IEnumerator ExecuteNextStageProcedure() {
-      AttachNewWallSection();
-      float currentTailYPoint = m_CurrentTailWallSection.transform.position.y - WALL_SECTION_OFFSET;
+    public IEnumerator ManageWallSectionsAfterAddition() {
+      // Maybe add a flag to WallSection component isHead/isTail???
+      m_CurrentHeadWallSection = m_WallSections[4];
+      m_CurrentTailWallSection = m_WallSections[7];
 
-      yield return StartCoroutine(ShiftCameraForNextStage());
-      yield return StartCoroutine(ManageWallSectionsAfterAddition());
+      while (m_CurrentTailWallSection.transform.position.y < m_OldWallYPositionRemovalPoint) {
+        yield return null;
+      }
+      RemoveOldWallSections();
+
+      // This is needed here to ensure proper setting in "SetCurrentHeadWallSection"
+      m_CurrentHeadWallSectionIndex = 0;
+
+      IsCreatingNewWallSection = false;
     }
 
     private void RemoveOldWallSections() {
@@ -84,35 +82,6 @@ namespace Guidance.Gameplay.BackgroundGrid {
         wallSection.Id = m_WallSections.Count;
         m_WallSections.Add(wallSection);
       }
-    }
-
-    public IEnumerator ManageWallSectionsAfterAddition() {
-      // Maybe add a flag to WallSection component isHead/isTail???
-      m_CurrentHeadWallSection = m_WallSections[4];
-      m_CurrentTailWallSection = m_WallSections[7];
-
-      while (m_CurrentTailWallSection.transform.position.y < m_OldWallYPositionRemovalPoint) {
-        yield return null;
-      }
-      RemoveOldWallSections();
-
-      // This is needed here to ensure proper setting in "SetCurrentHeadWallSection"
-      m_CurrentHeadWallSectionIndex = 0;
-
-      IsCreatingNewWallSection = false;
-    }
-
-    private IEnumerator ShiftCameraForNextStage() {
-      float distanceToMove = CAMERA_SHIFT_DISTANCE;
-      Vector3 currentPosition = m_Camera.transform.position;
-      Vector3 targetPosition = new Vector3(currentPosition.x, currentPosition.y - distanceToMove, currentPosition.z);
-      float moveSpeed = CAMERA_SHIFT_MOVE_SPEED;
-      while (Vector3.Distance(m_Camera.transform.position, targetPosition) > CAMERA_SHIFT_DISTANCE_OFFSET) {
-        Vector3 position = Vector3.Lerp(m_Camera.transform.position, targetPosition, Time.deltaTime * moveSpeed);
-        m_Camera.transform.position = position;
-        yield return null;
-      }
-      m_Camera.transform.position = targetPosition;
     }
 
     private void MoveWallBackground() {
