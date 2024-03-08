@@ -1,17 +1,19 @@
 using Guidance.Gameplay.BackgroundGrid;
+using Guidance.Gameplay.Targets;
 using System.Collections;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
-    [SerializeField] WallBackgroundController m_WallBackgroundController;
     [SerializeField] CameraController m_CameraController;
+    //[SerializeField] Tar
+    [SerializeField] WallBackgroundController m_WallBackgroundController;
     private void Awake() {
-      TargetGoalLocation.OnTargetReached += OnTargetReached;
+      TargetManager.OnTargetReached += OnTargetReached;
     }
 
     private void OnDisable() {
-      TargetGoalLocation.OnTargetReached -= OnTargetReached;
+      TargetManager.OnTargetReached -= OnTargetReached;
     }
 
     private void OnTargetReached() {

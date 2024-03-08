@@ -32,7 +32,7 @@ Transform:
   - {fileID: 2478562274451035726}
   - {fileID: 4992513722994722227}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &166820049137713478
 MonoBehaviour:
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856a128266e8a9c48b5602510e769b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TargetCollider: {fileID: 2106333202836981475}
+  GoalLocation: {fileID: 1887910045158897739}
 --- !u!1001 &7646935281550846460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,12 +129,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 1887910045158897739}
   m_SourcePrefab: {fileID: 100100000, guid: 6d4d20774bf018f428810e526bc42458, type: 3}
---- !u!64 &2106333202836981475 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 8585107722138611487, guid: 6d4d20774bf018f428810e526bc42458,
-    type: 3}
-  m_PrefabInstance: {fileID: 7646935281550846460}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4992513722994722227 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3411379789018197071, guid: 6d4d20774bf018f428810e526bc42458,

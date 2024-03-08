@@ -1,12 +1,10 @@
 using UnityEngine;
 
-namespace Guidance.Gameplay {
+namespace Guidance.Gameplay.Targets {
   public class Target : MonoBehaviour {
-    //public static event Action OnTargetReached;
-    //[SerializeField] private MeshCollider m_TargetCollider;
-
-    //private void Awake() {
-    //  Debug.Log("Target");
-    //}
+    public TargetGoalLocation GoalLocation;
+    private void Awake() {
+      GoalLocation = GetComponentInChildren<TargetGoalLocation>();
+    }
   }
 }
