@@ -1,29 +1,38 @@
 using Guidance.Gameplay.BackgroundGrid;
 using Guidance.Gameplay.Targets;
-using System.Collections;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
     [SerializeField] CameraController m_CameraController;
-    //[SerializeField] Tar
     [SerializeField] WallBackgroundController m_WallBackgroundController;
+    [SerializeField] Ball m_CurrentActiveBall;
+    [SerializeField] TargetManager m_TargetManager;
+    [SerializeField] PlatformCreator m_PlatformCreator;
     private void Awake() {
-      TargetManager.OnTargetReached += OnTargetReached;
+      m_TargetManager.OnTargetReached += TargetManager_OnTargetReached;
+      m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
     }
 
     private void OnDisable() {
-      TargetManager.OnTargetReached -= OnTargetReached;
+      m_TargetManager.OnTargetReached -= TargetManager_OnTargetReached;
+      m_PlatformCreator.OnPlatformCreated -= PlatformCreator_OnPlatformCreated;
     }
 
-    private void OnTargetReached() {
+    private void PlatformCreator_OnPlatformCreated() {
+      m_CurrentActiveBall.ActivateRigidbody();
+      m_TargetManager.DeactivatePreviousGoalTarget();
+    }
+
+    private void TargetManager_OnTargetReached() {
       m_WallBackgroundController.ExecuteNewWallAttachmentProcedure();
-      StartCoroutine(TransitionToNextStage());
+      TransitionToNextStage();
     }
 
-    private IEnumerator TransitionToNextStage() {
-      yield return StartCoroutine(m_CameraController.ShiftCameraForNextStage());
-      yield return StartCoroutine(m_WallBackgroundController.ManageWallSectionsAfterAddition());
+    private void TransitionToNextStage() {
+      StartCoroutine(m_CurrentActiveBall.ShiftBallForNextStage());
+      m_TargetManager.ShiftTargetsForNextStage();
+      //yield return StartCoroutine(m_WallBackgroundController.ManageWallSectionsAfterAddition());
     }
   }
 }

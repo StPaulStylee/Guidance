@@ -19,11 +19,11 @@ namespace Guidance.Gameplay.BackgroundGrid {
     private float m_OldWallYPositionRemovalPoint;
     private float m_YDistanceTraveled = 0f;
 
-    private const int INCREMENT_DISTANCE = 10;
-    private const int WALL_BACKGROUND_LENGTH = 40;
+    private const int INCREMENT_DISTANCE = 40;
+    private const int WALL_BACKGROUND_LENGTH = 160;
     private const float WALL_SECTION_OFFSET = 5f;
     private const int NUMBER_OF_WALL_SECTIONS_TO_REMOVE = 4;
-    private const float WALL_SECTION_Y_SCALE = 10f;
+    private const float WALL_SECTION_Y_SCALE = 40f;
 
     public int WallBackgroundLength => WALL_BACKGROUND_LENGTH;
 
@@ -84,6 +84,18 @@ namespace Guidance.Gameplay.BackgroundGrid {
       }
     }
 
+    private void Test() {
+      Vector3 seedPosition = m_CurrentTailWallSection.transform.position;
+      // This logic isn't right. The newly spawned wall sections are not getting placed in the right position
+      Vector3 spawnPosition = new Vector3(seedPosition.x, seedPosition.y - WALL_SECTION_Y_SCALE, seedPosition.z);
+      GameObject wallSectionGO = Instantiate(m_WallSectionPrefab, spawnPosition, Quaternion.identity, m_WallSectionsContainer.transform);
+      WallSection wallSection = wallSectionGO.GetComponent<WallSection>();
+      wallSectionGO.name = $"WallSection_{m_WallSections.Count}";
+      wallSection.Id = m_WallSections.Count;
+      m_WallSections.Add(wallSection);
+      m_CurrentTailWallSection = m_WallSections[m_WallSections.Count - 1];
+    }
+
     private void MoveWallBackground() {
       if (!m_IsMoving) {
         return;
@@ -91,6 +103,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
       if (m_YDistanceTraveled > INCREMENT_DISTANCE && !IsCreatingNewWallSection) {
         m_YDistanceTraveled = 0f;
         SetCurrentHeadWallSection();
+        Test();
       }
       Vector3 translation = Vector3.up * m_MoveSpeed * Time.deltaTime;
       m_YDistanceTraveled += translation.y;
@@ -98,8 +111,9 @@ namespace Guidance.Gameplay.BackgroundGrid {
     }
 
     private void SetCurrentHeadWallSection() {
-      m_CurrentHeadWallSection.transform.Translate(Vector3.up * -WALL_BACKGROUND_LENGTH, Space.Self);
-      m_CurrentTailWallSection = m_CurrentHeadWallSection;
+      //m_CurrentHeadWallSection.transform.Translate(Vector3.up * -WALL_BACKGROUND_LENGTH, Space.Self);
+      Destroy(m_CurrentHeadWallSection.gameObject);
+      //m_CurrentTailWallSection = m_CurrentHeadWallSection;
       m_CurrentHeadWallSectionIndex++;
       if (m_CurrentHeadWallSectionIndex >= m_WallSections.Count) {
         m_CurrentHeadWallSectionIndex = 0;

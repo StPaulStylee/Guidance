@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Guidance.Gameplay {
   public class PlatformCreator : MonoBehaviour {
-    public static Action OnPlatformCreated;
+    public Action OnPlatformCreated;
     [SerializeField] private GameObject m_PlatformPrefab;
     [SerializeField] private float m_ScaleModifier = 23.5f;
 
@@ -37,9 +36,6 @@ namespace Guidance.Gameplay {
         m_CurrentCubePlatform.PerformTransitionEmission();
         OnPlatformCreated?.Invoke();
         ResetMousePosition();
-      }
-      if (Input.GetKeyDown(KeyCode.R)) {
-        SceneManager.LoadSceneAsync(0);
       }
     }
 
