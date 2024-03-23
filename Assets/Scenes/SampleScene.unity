@@ -596,6 +596,11 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2106333202836981475, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3404347066038450803, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
         type: 3}
       propertyPath: m_RootOrder
@@ -651,7 +656,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5734056764825421635, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
+        type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5734056764825421635, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5734056764825421635, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8718069785869039790, guid: 2630a9b5020e8214e89ce1a2c4f722ec, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -731,13 +752,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 976413484291591908, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 976413484291591908, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
+      propertyPath: m_Constraints
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}

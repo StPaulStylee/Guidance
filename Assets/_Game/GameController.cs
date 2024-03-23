@@ -30,9 +30,9 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void TransitionToNextStage() {
-      StartCoroutine(m_CurrentActiveBall.ShiftBallForNextStage());
-      m_TargetManager.ShiftTargetsForNextStage();
-      //yield return StartCoroutine(m_WallBackgroundController.ManageWallSectionsAfterAddition());
+      //m_CurrentActiveBall.ShiftForStageTransition();
+      m_TargetManager.ShiftForStageTransition();
+      m_PlatformCreator.ShiftForStageTransition();
     }
   }
 }

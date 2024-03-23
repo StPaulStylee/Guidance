@@ -1,17 +1,15 @@
 using Guidance.Data;
+using Guidance.Gameplay.Game.Manager;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Targets {
-  public class TargetManager : MonoBehaviour {
+  public class TargetManager : MonoBehaviour, IStageTransition {
     private const float MINIMUM_X_SPAWN_LOCATION = -4.5F;
     private const float MAXIMUM_X_SPAWN_LOCATION = 4.5f;
 
     private readonly float m_YSpawnDistance = Constants.Y_STAGE_LENGTH;
-    private readonly float m_TargetShiftMoveSpeed = Constants.STAGE_TRANSITION_EFFECT_SPEED;
-    private readonly float m_TargetShiftDistanceOffset = Constants.STAGE_TRANSITION_DISTANCE_OFFSET;
 
     public event Action OnTargetReached;
 
@@ -23,7 +21,7 @@ namespace Guidance.Gameplay.Targets {
 
     private void Awake() {
       m_Targets = new();
-      GameObject initialTarget = SpawnNewTarget(-2.97f, -5.5f, -0.35f);
+      GameObject initialTarget = SpawnNewTarget(-2.97f, -5.5f, 0f);
       RegisterNewTarget(initialTarget);
     }
 
@@ -37,22 +35,12 @@ namespace Guidance.Gameplay.Targets {
       m_Targets[^2].GoalLocation.DisableMeshCollider();
     }
 
-    public void ShiftTargetsForNextStage() {
+    public void ShiftForStageTransition() {
       foreach (Target target in m_Targets) {
-        StartCoroutine(ShiftTargetForNextStage(target));
+        StartCoroutine(StageTransitionManager.ShiftForNextStage(target.transform));
       }
     }
 
-    private IEnumerator ShiftTargetForNextStage(Target target) {
-      Vector3 currentPos = target.transform.position;
-      Vector3 targetPosition = new Vector3(currentPos.x, currentPos.y + m_YSpawnDistance, currentPos.z);
-      while (Vector3.Distance(target.transform.position, targetPosition) > m_TargetShiftDistanceOffset) {
-        Vector3 position = Vector3.Lerp(target.transform.position, targetPosition, Time.deltaTime * m_TargetShiftMoveSpeed);
-        target.transform.position = position;
-        yield return null;
-      }
-      target.transform.position = targetPosition;
-    }
 
     private void TargetGoalLocation_OnTargetReached() {
       GameObject newTarget = SpawnNewTarget();
@@ -72,7 +60,7 @@ namespace Guidance.Gameplay.Targets {
 
     private GameObject SpawnNewTarget(float xPos, float yPos, float zPos) {
       float spawnLocationX = UnityEngine.Random.Range(MINIMUM_X_SPAWN_LOCATION, MAXIMUM_X_SPAWN_LOCATION);
-      Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
+      Vector3 spawnLocation = new Vector3(spawnLocationX, yPos, zPos);
       GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, transform);
       return newTarget;
     }

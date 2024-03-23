@@ -1,8 +1,10 @@
+using Guidance.Gameplay.Game.Manager;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Guidance.Gameplay {
-  public class PlatformCreator : MonoBehaviour {
+  public class PlatformCreator : MonoBehaviour, IStageTransition {
     public Action OnPlatformCreated;
     [SerializeField] private GameObject m_PlatformPrefab;
     [SerializeField] private float m_ScaleModifier = 23.5f;
@@ -10,6 +12,7 @@ namespace Guidance.Gameplay {
 
     private GameObject m_CurrentCube;
     private Platform m_CurrentCubePlatform;
+    private List<Platform> m_CreatedPlatforms;
 
     [SerializeField] private float m_EmissionTransitionLengthInSeconds = 1f;
     private Vector3 m_InitialMousePosition;
@@ -17,6 +20,10 @@ namespace Guidance.Gameplay {
 
     private Camera m_MainCamera;
     private float m_CameraOffset;
+
+    private void Awake() {
+      m_CreatedPlatforms = new List<Platform>();
+    }
 
     private void Start() {
       m_MainCamera = Camera.main;
@@ -39,6 +46,12 @@ namespace Guidance.Gameplay {
       }
     }
 
+    public void ShiftForStageTransition() {
+      foreach (Platform platform in m_CreatedPlatforms) {
+        StartCoroutine(StageTransitionManager.ShiftForNextStage(platform.transform));
+      }
+    }
+
     private void CreatePlatform() {
       m_InitialMousePosition = Input.mousePosition;
       m_InitialMousePosition.z = m_CameraOffset;
@@ -46,6 +59,7 @@ namespace Guidance.Gameplay {
 
       m_CurrentCube = Instantiate(m_PlatformPrefab, spawnPosition, m_PlatformPrefab.transform.rotation, transform);
       m_CurrentCubePlatform = m_CurrentCube.GetComponent<Platform>();
+      m_CreatedPlatforms.Add(m_CurrentCubePlatform);
     }
 
     private void UpdatePlatformSize() {
