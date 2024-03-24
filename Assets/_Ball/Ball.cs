@@ -13,19 +13,15 @@ namespace Guidance.Gameplay {
 
     public void ActivateRigidbody() {
       if (rb.isKinematic == false) {
-        Debug.Log("Don't need to activiate");
         return;
       }
-      Debug.Log("Activating...");
       rb.isKinematic = false;
     }
 
     public void DeactivateRigidbody() {
       if (rb.isKinematic) {
-        Debug.Log("Already inactive");
         return;
       }
-      Debug.Log("Deactivating...");
       rb.isKinematic = true;
     }
 

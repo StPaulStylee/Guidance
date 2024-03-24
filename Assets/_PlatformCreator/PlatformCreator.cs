@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Guidance.Gameplay {
   public class PlatformCreator : MonoBehaviour, IStageTransition {
-    public Action OnPlatformCreated;
+    public event Action OnPlatformCreated;
     [SerializeField] private GameObject m_PlatformPrefab;
     [SerializeField] private float m_ScaleModifier = 23.5f;
 
@@ -17,6 +17,20 @@ namespace Guidance.Gameplay {
     [SerializeField] private float m_EmissionTransitionLengthInSeconds = 1f;
     private Vector3 m_InitialMousePosition;
     private Vector3 m_CurrentMousePosition;
+    private bool m_IsEnabled = false;
+    public bool IsEnabled {
+      get {
+        return m_IsEnabled;
+      }
+      set {
+        if (value) {
+          Cursor.visible = true;
+        } else {
+          Cursor.visible = false;
+        }
+        m_IsEnabled = value;
+      }
+    }
 
     private Camera m_MainCamera;
     private float m_CameraOffset;
@@ -28,9 +42,13 @@ namespace Guidance.Gameplay {
     private void Start() {
       m_MainCamera = Camera.main;
       m_CameraOffset = m_MainCamera.transform.position.z;
+      IsEnabled = true;
     }
 
     void Update() {
+      if (!m_IsEnabled) {
+        return;
+      }
       if (Input.GetMouseButtonDown(0)) {
         CreatePlatform();
       }

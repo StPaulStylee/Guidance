@@ -1,4 +1,5 @@
 using Guidance.Data;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,18 +9,19 @@ namespace Guidance.Gameplay.Game.Manager {
     private static readonly float m_ShiftSpeed = Constants.STAGE_TRANSITION_EFFECT_SPEED;
     private static readonly float m_ShiftDistanceOffset = Constants.STAGE_TRANSITION_DISTANCE_OFFSET;
 
+    public static event Action<bool> OnStageTransition;
+
     public static IEnumerator ShiftForNextStage(Transform shiftable) {
       Vector3 currentPos = shiftable.transform.position;
       Vector3 targetPosition = new Vector3(currentPos.x, currentPos.y + m_YShiftDistance, currentPos.z);
+      OnStageTransition?.Invoke(true);
       while (Vector3.Distance(shiftable.position, targetPosition) > m_ShiftDistanceOffset) {
         Vector3 position = Vector3.Lerp(shiftable.position, targetPosition, Time.deltaTime * m_ShiftSpeed);
         shiftable.position = position;
         yield return null;
       }
+      OnStageTransition?.Invoke(false);
       shiftable.position = targetPosition;
     }
-
-
   }
-
 }

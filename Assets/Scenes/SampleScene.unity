@@ -658,18 +658,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5734056764825421635, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
         type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734056764825421635, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
-        type: 3}
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5734056764825421635, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
         type: 3}
       propertyPath: m_CollisionDetection
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8718069785869039790, guid: 2630a9b5020e8214e89ce1a2c4f722ec, type: 3}
