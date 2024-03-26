@@ -10,6 +10,13 @@ namespace Guidance.Gameplay.Game.Controller {
     [SerializeField] Ball m_CurrentActiveBall;
     [SerializeField] TargetManager m_TargetManager;
     [SerializeField] PlatformCreator m_PlatformCreator;
+    private int m_StageNumber;
+    private int m_NextStageNumber { get { return m_StageNumber + 1; } }
+
+    private void Awake() {
+      m_StageNumber = 0;
+    }
+
     private void OnEnable() {
       m_TargetManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
@@ -22,6 +29,10 @@ namespace Guidance.Gameplay.Game.Controller {
       StageTransitionManager.OnStageTransition -= StageTransitionManager_OnStageTransition;
     }
 
+    private void Start() {
+      m_TargetManager.SpawnTargetForStage(m_StageNumber);
+    }
+
     private void StageTransitionManager_OnStageTransition(bool isTransitioning) {
       m_PlatformCreator.IsEnabled = !isTransitioning;
     }
@@ -32,11 +43,13 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void TargetManager_OnTargetReached() {
-      m_WallBackgroundController.ExecuteNewWallAttachmentProcedure();
+      //m_WallBackgroundController.ExecuteNewWallAttachmentProcedure();
+      m_TargetManager.SpawnTargetForStage(m_NextStageNumber);
       TransitionToNextStage();
     }
 
     private void TransitionToNextStage() {
+      m_StageNumber++;
       m_CurrentActiveBall.ShiftForStageTransition();
       m_TargetManager.ShiftForStageTransition();
       m_PlatformCreator.ShiftForStageTransition();

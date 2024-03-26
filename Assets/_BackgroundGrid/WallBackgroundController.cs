@@ -39,12 +39,14 @@ namespace Guidance.Gameplay.BackgroundGrid {
       MoveWallBackground();
     }
 
+    // Deprecated
     public void ExecuteNewWallAttachmentProcedure() {
       IsCreatingNewWallSection = true;
       AttachNewWallSection();
       m_OldWallYPositionRemovalPoint = m_CurrentTailWallSection.transform.position.y - WALL_SECTION_OFFSET;
     }
 
+    // Deprecated
     public IEnumerator ManageWallSectionsAfterAddition() {
       // Maybe add a flag to WallSection component isHead/isTail???
       m_CurrentHeadWallSection = m_WallSections[4];
@@ -61,6 +63,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
       IsCreatingNewWallSection = false;
     }
 
+    // Deprecated
     private void RemoveOldWallSections() {
       // Perhaps I could add a property to the WallSection like a "isOld" flag
       // and I can filter using LINQ
@@ -72,6 +75,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
       }
     }
 
+    // Deprecated
     private void AttachNewWallSection() {
       Vector3 seedPosition = m_CurrentTailWallSection.transform.position;
       for (int i = 0; i < NUMBER_OF_WALL_SECTIONS_TO_REMOVE; i++) {
@@ -84,7 +88,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
       }
     }
 
-    private void Test() {
+    private void CreateWallSection() {
       Vector3 seedPosition = m_CurrentTailWallSection.transform.position;
       // This logic isn't right. The newly spawned wall sections are not getting placed in the right position
       Vector3 spawnPosition = new Vector3(seedPosition.x, seedPosition.y - WALL_SECTION_Y_SCALE, seedPosition.z);
@@ -103,7 +107,7 @@ namespace Guidance.Gameplay.BackgroundGrid {
       if (m_YDistanceTraveled > INCREMENT_DISTANCE && !IsCreatingNewWallSection) {
         m_YDistanceTraveled = 0f;
         SetCurrentHeadWallSection();
-        Test();
+        CreateWallSection();
       }
       Vector3 translation = Vector3.up * m_MoveSpeed * Time.deltaTime;
       m_YDistanceTraveled += translation.y;

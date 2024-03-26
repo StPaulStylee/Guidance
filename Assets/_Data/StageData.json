@@ -1,0 +1,47 @@
+[
+    {
+      "StageNumber": 0,
+      "TargetLocation": {
+        "x": 3.4,
+        "y": -5.5,
+        "z": 0
+      },
+      "Obstacles": [
+        {
+          "Scale": 0,
+          "Rotation": 0,
+          "Position": 0
+        }
+      ]
+    },
+    {
+      "StageNumber": 1,
+      "TargetLocation": {
+        "x": 4.27,
+        "y": -16.75,
+        "z": 0
+      },
+      "Obstacles": [
+        {
+          "Scale": 0,
+          "Rotation": 0,
+          "Position": 0
+        }
+      ]
+    },
+    {
+      "StageNumber": 2,
+      "TargetLocation": {
+        "x": 0,
+        "y": -16.75,
+        "z": 0
+      },
+      "Obstacles": [
+        {
+          "Scale": 0,
+          "Rotation": 0,
+          "Position": 0
+        }
+      ]
+    }
+]

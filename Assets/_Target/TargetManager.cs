@@ -1,7 +1,9 @@
 using Guidance.Data;
 using Guidance.Gameplay.Game.Manager;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Targets {
@@ -17,12 +19,15 @@ namespace Guidance.Gameplay.Targets {
     [SerializeField] private Target m_CurrentGoalTarget;
     [SerializeField] private Target m_PreviousGoalTarget = null;
 
+    private StageData[] m_StageData;
+
     private List<Target> m_Targets;
 
     private void Awake() {
       m_Targets = new();
-      GameObject initialTarget = SpawnNewTarget(-2.97f, -5.5f, 0f);
-      RegisterNewTarget(initialTarget);
+      LoadStageData();
+      //GameObject initialTarget = SpawnNewTarget(-2.97f, -5.5f, 0f);
+      //RegisterNewTarget(initialTarget);
     }
 
     public void DeactivatePreviousGoalTarget() {
@@ -41,10 +46,20 @@ namespace Guidance.Gameplay.Targets {
       }
     }
 
+    public void SpawnTargetForStage(int stageNumber) {
+      if (stageNumber < 0 || stageNumber >= m_StageData.Length) {
+        Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
+        return;
+      }
+      StageData stageData = m_StageData[stageNumber];
+      GameObject target = SpawnNewTarget(stageData.TargetLocation);
+      RegisterNewTarget(target);
+    }
+
 
     private void TargetGoalLocation_OnTargetReached() {
-      GameObject newTarget = SpawnNewTarget();
-      RegisterNewTarget(newTarget);
+      //GameObject newTarget = SpawnNewTarget();
+      //RegisterNewTarget(newTarget);
       OnTargetReached?.Invoke();
     }
 
@@ -59,8 +74,17 @@ namespace Guidance.Gameplay.Targets {
     }
 
     private GameObject SpawnNewTarget(float xPos, float yPos, float zPos) {
-      float spawnLocationX = UnityEngine.Random.Range(MINIMUM_X_SPAWN_LOCATION, MAXIMUM_X_SPAWN_LOCATION);
-      Vector3 spawnLocation = new Vector3(spawnLocationX, yPos, zPos);
+      //float spawnLocationX = UnityEngine.Random.Range(MINIMUM_X_SPAWN_LOCATION, MAXIMUM_X_SPAWN_LOCATION);
+      Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
+      GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, transform);
+      return newTarget;
+    }
+
+    private GameObject SpawnNewTarget(Vector3 spawnPositon) {
+      float xPos = spawnPositon.x;
+      float yPos = spawnPositon.y;
+      float zPos = spawnPositon.z;
+      Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
       GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, transform);
       return newTarget;
     }
@@ -73,6 +97,14 @@ namespace Guidance.Gameplay.Targets {
       Target targetComponent = target.GetComponent<Target>();
       targetComponent.GoalLocation.OnTargetReached += TargetGoalLocation_OnTargetReached;
       m_Targets.Add(targetComponent); ;
+    }
+
+    private void LoadStageData() {
+      string json = File.ReadAllText(Application.dataPath + "/_Data/StageData.json");
+      m_StageData = JsonConvert.DeserializeObject<StageData[]>(json);
+      foreach (var stage in m_StageData) {
+        Debug.Log(stage.TargetLocation);
+      }
     }
   }
 }
