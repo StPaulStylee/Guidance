@@ -46,13 +46,14 @@ namespace Guidance.Gameplay.Targets {
       }
     }
 
-    public void SpawnTargetForStage(int stageNumber) {
-      if (stageNumber < 0 || stageNumber >= m_StageData.Length) {
+    public void SpawnNextStage(int stageNumber) {
+      if (stageNumber < 0 || stageNumber >= m_StageData?.Length) {
         Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
         return;
       }
       StageData stageData = m_StageData[stageNumber];
       GameObject target = SpawnNewTarget(stageData.TargetLocation);
+      SpawnObstacles(stageData.Obstacles);
       RegisterNewTarget(target);
     }
 
@@ -61,6 +62,12 @@ namespace Guidance.Gameplay.Targets {
       //GameObject newTarget = SpawnNewTarget();
       //RegisterNewTarget(newTarget);
       OnTargetReached?.Invoke();
+    }
+
+    private void SpawnObstacles(Obstacle[] obstacles) {
+      if (obstacles.Length == 0) {
+        return;
+      }
     }
 
     private GameObject SpawnNewTarget() {

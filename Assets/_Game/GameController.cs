@@ -30,7 +30,7 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void Start() {
-      m_TargetManager.SpawnTargetForStage(m_StageNumber);
+      m_TargetManager.SpawnNextStage(m_StageNumber);
     }
 
     private void StageTransitionManager_OnStageTransition(bool isTransitioning) {
@@ -44,7 +44,7 @@ namespace Guidance.Gameplay.Game.Controller {
 
     private void TargetManager_OnTargetReached() {
       //m_WallBackgroundController.ExecuteNewWallAttachmentProcedure();
-      m_TargetManager.SpawnTargetForStage(m_NextStageNumber);
+      m_TargetManager.SpawnNextStage(m_NextStageNumber);
       TransitionToNextStage();
     }
 

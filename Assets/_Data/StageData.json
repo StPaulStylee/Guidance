@@ -6,13 +6,7 @@
         "y": -5.5,
         "z": 0
       },
-      "Obstacles": [
-        {
-          "Scale": 0,
-          "Rotation": 0,
-          "Position": 0
-        }
-      ]
+      "Obstacles": []
     },
     {
       "StageNumber": 1,
@@ -23,9 +17,13 @@
       },
       "Obstacles": [
         {
-          "Scale": 0,
-          "Rotation": 0,
-          "Position": 0
+          "Scale": 6,
+          "Rotation": 33.859,
+          "Position": {
+            "x": 0.57,
+            "y": -4.165,
+            "z": 0
+          }
         }
       ]
     },
@@ -36,12 +34,6 @@
         "y": -16.75,
         "z": 0
       },
-      "Obstacles": [
-        {
-          "Scale": 0,
-          "Rotation": 0,
-          "Position": 0
-        }
-      ]
+      "Obstacles": []
     }
 ]

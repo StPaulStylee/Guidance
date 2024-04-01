@@ -12,6 +12,6 @@ namespace Guidance.Data {
   public class Obstacle {
     public float Scale;
     public float Rotation;
-    public float Position;
+    public Vector3 Position;
   }
 }
