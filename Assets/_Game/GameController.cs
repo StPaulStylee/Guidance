@@ -8,7 +8,7 @@ namespace Guidance.Gameplay.Game.Controller {
     [SerializeField] CameraController m_CameraController;
     [SerializeField] WallBackgroundController m_WallBackgroundController;
     [SerializeField] Ball m_CurrentActiveBall;
-    [SerializeField] TargetManager m_TargetManager;
+    [SerializeField] StageManager m_StageManager;
     [SerializeField] PlatformCreator m_PlatformCreator;
     private int m_StageNumber;
     private int m_NextStageNumber { get { return m_StageNumber + 1; } }
@@ -18,19 +18,19 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void OnEnable() {
-      m_TargetManager.OnTargetReached += TargetManager_OnTargetReached;
+      m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
     }
 
     private void OnDisable() {
-      m_TargetManager.OnTargetReached -= TargetManager_OnTargetReached;
+      m_StageManager.OnTargetReached -= TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated -= PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition -= StageTransitionManager_OnStageTransition;
     }
 
     private void Start() {
-      m_TargetManager.SpawnNextStage(m_StageNumber);
+      m_StageManager.SpawnNextStage(m_StageNumber);
     }
 
     private void StageTransitionManager_OnStageTransition(bool isTransitioning) {
@@ -39,19 +39,19 @@ namespace Guidance.Gameplay.Game.Controller {
 
     private void PlatformCreator_OnPlatformCreated() {
       m_CurrentActiveBall.ActivateRigidbody();
-      m_TargetManager.DeactivatePreviousGoalTarget();
+      m_StageManager.DeactivatePreviousGoalTarget();
     }
 
     private void TargetManager_OnTargetReached() {
       //m_WallBackgroundController.ExecuteNewWallAttachmentProcedure();
-      m_TargetManager.SpawnNextStage(m_NextStageNumber);
+      m_StageManager.SpawnNextStage(m_NextStageNumber);
       TransitionToNextStage();
     }
 
     private void TransitionToNextStage() {
       m_StageNumber++;
       m_CurrentActiveBall.ShiftForStageTransition();
-      m_TargetManager.ShiftForStageTransition();
+      m_StageManager.ShiftForStageTransition();
       m_PlatformCreator.ShiftForStageTransition();
     }
   }

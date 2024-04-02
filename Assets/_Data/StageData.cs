@@ -5,11 +5,11 @@ namespace Guidance.Data {
   public class StageData {
     public int StageNumber;
     public Vector3 TargetLocation;
-    public Obstacle[] Obstacles;
+    public ObstacleData[] Obstacles;
   }
 
   [System.Serializable]
-  public class Obstacle {
+  public class ObstacleData {
     public float Scale;
     public float Rotation;
     public Vector3 Position;
