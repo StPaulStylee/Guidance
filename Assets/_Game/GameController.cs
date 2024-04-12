@@ -1,6 +1,6 @@
 using Guidance.Gameplay.BackgroundGrid;
 using Guidance.Gameplay.Game.Manager;
-using Guidance.Gameplay.Targets;
+using Guidance.Gameplay.Stage;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {

@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3612379666448843097}
-  - component: {fileID: 8960138086252434074}
+  - component: {fileID: 1113362489704896315}
   - component: {fileID: 400287926627864316}
   - component: {fileID: 2480055088016063030}
   - component: {fileID: 3678095218414127558}
-  - component: {fileID: 1113362489704896315}
   m_Layer: 0
   m_Name: Obstacle_Base
   m_TagString: Untagged
@@ -36,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8960138086252434074
+--- !u!114 &1113362489704896315
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,11 +44,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4137137376582917091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a2513ff5ad8f94a8d8da2f3766410e, type: 3}
+  m_Script: {fileID: 11500000, guid: 80bb04a9f89e7dd4b866f2e8ee06022a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TargetColor: {r: 2.4778893, g: 2.218794, b: 2.9960787, a: 1}
-  m_EmissionTransitionLengthInSeconds: 1
 --- !u!33 &400287926627864316
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -78,7 +75,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0849b4c69321334990a35b421ba2a64, type: 2}
+  - {fileID: 2100000, guid: c0cb07fc3a9a8b149acfc88e68eda765, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,15 +118,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.625595, y: 0.27123722, z: 0.65091443}
   m_Center: {x: 0.3127975, y: 0.00000010430813, z: 0.00000013411045}
---- !u!114 &1113362489704896315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4137137376582917091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80bb04a9f89e7dd4b866f2e8ee06022a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

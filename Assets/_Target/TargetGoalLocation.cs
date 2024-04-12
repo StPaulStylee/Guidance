@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Guidance.Gameplay.Targets {
+namespace Guidance.Gameplay.Stage {
   public class TargetGoalLocation : MonoBehaviour {
     public event Action OnTargetReached;
     private MeshCollider m_MeshCollider;

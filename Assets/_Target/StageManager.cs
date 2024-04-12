@@ -1,22 +1,24 @@
 using Guidance.Data;
 using Guidance.Gameplay.Game.Manager;
+using Guidance.Gameplay.Obstacles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Guidance.Gameplay.Targets {
+namespace Guidance.Gameplay.Stage {
   public class StageManager : MonoBehaviour, IStageTransition {
     private readonly float m_YSpawnDistance = Constants.Y_STAGE_LENGTH;
 
     public event Action OnTargetReached;
 
     [SerializeField] private GameObject m_TargetPrefab;
-    [SerializeField] private GameObject m_ObstaclePrefab;
+    [SerializeField] private List<Obstacle_SO> m_ObstacleScriptableObjs;
     private List<Target> m_Targets;
     private List<Obstacle> m_Obstacles;
 
+    private GameObject m_CurrentStage;
     private StageData[] m_StageData;
     private int m_StageNumber;
 
@@ -47,6 +49,8 @@ namespace Guidance.Gameplay.Targets {
 
     public void SpawnNextStage(int stageNumber) {
       m_StageNumber = stageNumber;
+      m_CurrentStage = new GameObject($"Stage_{m_StageNumber}");
+      m_CurrentStage.transform.SetParent(transform);
       if (m_StageNumber < 0 || m_StageNumber >= m_StageData?.Length) {
         Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
         return;
@@ -72,9 +76,10 @@ namespace Guidance.Gameplay.Targets {
         float zPos = obstacle.Position.z;
         Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
         Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
-        GameObject newObstacle = Instantiate(m_ObstaclePrefab, spawnLocation, spawnRoation);
+        GameObject obstaclePrefab = m_ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
+        GameObject newObstacle = Instantiate(obstaclePrefab, spawnLocation, spawnRoation, m_CurrentStage.transform);
         newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
-        m_Obstacles.Add(newObstacle.GetComponent<Obstacle>());
+        RegisterObstacle(newObstacle);
       }
     }
 
@@ -83,7 +88,7 @@ namespace Guidance.Gameplay.Targets {
       float yPos = spawnPositon.y;
       float zPos = spawnPositon.z;
       Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
-      GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, transform);
+      GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, m_CurrentStage.transform);
       return newTarget;
     }
 
@@ -95,6 +100,10 @@ namespace Guidance.Gameplay.Targets {
       Target targetComponent = target.GetComponent<Target>();
       targetComponent.GoalLocation.OnTargetReached += TargetGoalLocation_OnTargetReached;
       m_Targets.Add(targetComponent); ;
+    }
+
+    private void RegisterObstacle(GameObject obstacle) {
+      m_Obstacles.Add(obstacle.GetComponent<Obstacle>());
     }
 
     private void LoadStageData() {
