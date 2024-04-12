@@ -4,7 +4,6 @@ using Guidance.Gameplay.Stage;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -13,9 +12,9 @@ namespace Guidance.Editor {
   public class StageCreator : OdinEditorWindow {
     private Transform m_RootTransform;
     [SerializeField] private StageData[] m_StageData;
-    [SerializeField] private int m_StageNumber;
-    [SerializeField] private Vector3 m_TargetLocation;
-    [SerializeField] private List<ObstacleData> m_ObstacleData;
+    private int m_StageNumber;
+    private Vector3 m_TargetLocation;
+    private ObstacleData[] m_ObstacleData;
 
     [MenuItem("Tools/Stage Editor")]
     private static void OpenWindow() {
@@ -30,11 +29,17 @@ namespace Guidance.Editor {
 
     [Button("Add Stage Data")]
     private void AddStage() {
-      ArrayUtility.Add(ref m_StageData, new StageData());
+      ArrayUtility.Add(ref m_StageData, new StageData {
+        Obstacles = m_ObstacleData,
+        StageNumber = m_StageNumber,
+        TargetLocation = m_TargetLocation,
+      });
+      SaveStageData();
     }
 
     [Button("Capture Stage Data")]
     private void CaptureStage() {
+      ArrayUtility.Clear(ref m_ObstacleData);
       m_StageNumber = m_StageData.Length;
       m_TargetLocation = m_RootTransform.GetComponentInChildren<Target>().transform.position;
       Obstacle[] obstacles = m_RootTransform.GetComponentsInChildren<Obstacle>();
@@ -45,6 +50,7 @@ namespace Guidance.Editor {
           Scale = obstacle.transform.localScale.x,
           TypeId = obstacle.TypeId
         };
+        ArrayUtility.Add(ref m_ObstacleData, data);
         Debug.Log($"TargetLocation: {m_TargetLocation}, Position: {data.Position}, Rotation: {data.Rotation}, Scale: {data.Scale}, TypeId: {data.TypeId}");
       }
     }
