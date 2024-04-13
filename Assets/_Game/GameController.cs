@@ -5,12 +5,17 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
-    [SerializeField] CameraController m_CameraController;
-    [SerializeField] WallBackgroundController m_WallBackgroundController;
-    [SerializeField] Ball m_CurrentActiveBall;
-    [SerializeField] StageManager m_StageManager;
-    [SerializeField] PlatformCreator m_PlatformCreator;
+    [SerializeField] private CameraController m_CameraController;
+    [SerializeField] private WallBackgroundController m_WallBackgroundController;
+    [SerializeField] private Ball m_CurrentActiveBall;
+    [SerializeField] private StageManager m_StageManager;
+    [SerializeField] private PlatformCreator m_PlatformCreator;
     private int m_StageNumber;
+
+    [Header("Stage Testing")]
+    public bool IsStageDebug;
+    public int StageNumberToDebug;
+    public Vector3 BallPosition;
     private int m_NextStageNumber { get { return m_StageNumber + 1; } }
 
     private void Awake() {
@@ -18,6 +23,11 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void OnEnable() {
+      if (IsStageDebug) {
+        m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
+        m_CurrentActiveBall.SetBallPosition(BallPosition);
+        return;
+      }
       m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
@@ -30,7 +40,18 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void Start() {
+      if (IsStageDebug) {
+        m_CurrentActiveBall.ShiftForStageTransition();
+        m_StageManager.SpawnNextStage(StageNumberToDebug);
+        m_StageManager.ShiftForStageTransition();
+        m_PlatformCreator.ShiftForStageTransition();
+        return;
+      }
       m_StageManager.SpawnNextStage(m_StageNumber);
+    }
+
+    public void ResetBallPosition() {
+      m_CurrentActiveBall.ResetBallPosition();
     }
 
     private void StageTransitionManager_OnStageTransition(bool isTransitioning) {

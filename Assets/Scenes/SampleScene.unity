@@ -417,7 +417,7 @@ Transform:
   - {fileID: 1906933280}
   - {fileID: 795532065}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &608344539
 MonoBehaviour:
@@ -436,6 +436,9 @@ MonoBehaviour:
   m_CurrentActiveBall: {fileID: 1428609947815845487}
   m_StageManager: {fileID: 608344542}
   m_PlatformCreator: {fileID: 608344541}
+  IsStageDebug: 0
+  StageNumberToDebug: 0
+  BallPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &608344540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +569,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle_White
       objectReference: {fileID: 0}
+    - target: {fileID: 3061843137639812284, guid: 0176905c9112485499cd68ec23b19661,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -671,6 +679,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target_Base
       objectReference: {fileID: 0}
+    - target: {fileID: 68798658134643029, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3404347066038450803, guid: 2630a9b5020e8214e89ce1a2c4f722ec,
         type: 3}
       propertyPath: m_RootOrder
@@ -769,6 +782,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1576817951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576817952}
+  m_Layer: 0
+  m_Name: StageDebugger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1576817952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576817951}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2875047, y: -2.3673472, z: -1.5071517}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1906933279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -842,6 +886,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle_Green
       objectReference: {fileID: 0}
+    - target: {fileID: 3061843137639812284, guid: 1e8b55ec560e128438f25de1dac11c83,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -875,6 +924,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Constraints
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695409910723172757, guid: dd6ee03778dee9946838bbb65ce0156a,
+        type: 3}
+      propertyPath: m_StartingPosition.x
+      value: -3.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695409910723172757, guid: dd6ee03778dee9946838bbb65ce0156a,
+        type: 3}
+      propertyPath: m_StartingPosition.y
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695409910723172757, guid: dd6ee03778dee9946838bbb65ce0156a,
+        type: 3}
+      propertyPath: m_StartingPosition.z
+      value: 0.101
       objectReference: {fileID: 0}
     - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}

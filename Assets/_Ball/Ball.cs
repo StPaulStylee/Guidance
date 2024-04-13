@@ -5,6 +5,7 @@ namespace Guidance.Gameplay {
   [RequireComponent(typeof(Rigidbody))]
   public class Ball : MonoBehaviour, IStageTransition {
     private Rigidbody rb;
+    [SerializeField] private Vector3 m_StartingPosition;
 
     private void Awake() {
       rb = GetComponent<Rigidbody>();
@@ -33,5 +34,11 @@ namespace Guidance.Gameplay {
       DeactivateRigidbody();
       StartCoroutine(StageTransitionManager.ShiftForNextStage(transform));
     }
+
+    public void SetBallPosition(Vector3 position) {
+      transform.position = position;
+    }
+
+    public void ResetBallPosition() => transform.position = m_StartingPosition;
   }
 }

@@ -1,10 +1,9 @@
 using Guidance.Data;
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Obstacles;
-using Newtonsoft.Json;
+using Guidance.Stage;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Stage {
@@ -25,7 +24,7 @@ namespace Guidance.Gameplay.Stage {
     private void Awake() {
       m_Targets = new();
       m_Obstacles = new();
-      LoadStageData();
+      m_StageData = Utilities.GetStageData();
     }
 
     public void DeactivatePreviousGoalTarget() {
@@ -71,9 +70,9 @@ namespace Guidance.Gameplay.Stage {
         return;
       }
       foreach (ObstacleData obstacle in obstacles) {
-        float xPos = obstacle.Position.x;
-        float yPos = obstacle.Position.y - m_YSpawnDistance;
-        float zPos = obstacle.Position.z;
+        float xPos = obstacle.Position.X;
+        float yPos = obstacle.Position.Y - m_YSpawnDistance;
+        float zPos = obstacle.Position.Z;
         Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
         Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
         GameObject obstaclePrefab = m_ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
@@ -83,10 +82,10 @@ namespace Guidance.Gameplay.Stage {
       }
     }
 
-    private GameObject SpawnNewTarget(Vector3 spawnPositon) {
-      float xPos = spawnPositon.x;
-      float yPos = spawnPositon.y;
-      float zPos = spawnPositon.z;
+    private GameObject SpawnNewTarget(Position spawnPositon) {
+      float xPos = spawnPositon.X;
+      float yPos = spawnPositon.Y;
+      float zPos = spawnPositon.Z;
       Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
       GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, m_CurrentStage.transform);
       return newTarget;
@@ -104,11 +103,6 @@ namespace Guidance.Gameplay.Stage {
 
     private void RegisterObstacle(GameObject obstacle) {
       m_Obstacles.Add(obstacle.GetComponent<Obstacle>());
-    }
-
-    private void LoadStageData() {
-      string json = File.ReadAllText(Application.dataPath + "/_Data/StageData.json");
-      m_StageData = JsonConvert.DeserializeObject<StageData[]>(json);
     }
   }
 }

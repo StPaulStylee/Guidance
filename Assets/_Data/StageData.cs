@@ -1,5 +1,5 @@
+using Guidance.Stage;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Guidance.Data {
   [System.Serializable]
@@ -9,15 +9,28 @@ namespace Guidance.Data {
     [PropertyOrder(1)]
     public int StageNumber;
     [PropertyOrder(2)]
-    public Vector3 TargetLocation;
+    public Position TargetLocation;
+
+    [PropertyOrder(4)]
+    [Button("Debug This Stage")]
+    private void DebugStage() {
+      StageDebugger.SetStageDebug(StageNumber);
+    }
   }
 
   [System.Serializable]
   public class ObstacleData {
-    public Vector3 Position;
+    public Position Position;
     public float Rotation;
     public float Scale;
     [PropertyOrder(1)]
     public int TypeId;
+  }
+
+  [System.Serializable]
+  public class Position {
+    public float X;
+    public float Y;
+    public float Z;
   }
 }
