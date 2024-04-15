@@ -1,32 +1,34 @@
 using Guidance.Gameplay.BackgroundGrid;
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Stage;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
+    [Header("Dependencies")]
     [SerializeField] private CameraController m_CameraController;
     [SerializeField] private WallBackgroundController m_WallBackgroundController;
     [SerializeField] private Ball m_CurrentActiveBall;
     [SerializeField] private StageManager m_StageManager;
     [SerializeField] private PlatformCreator m_PlatformCreator;
-    private int m_StageNumber;
+
+    [Header("StageData")]
+    [field: SerializeField][ReadOnly] private int m_StageNumber;
+    public int StageNumber {
+      set {
+        m_StageNumber = value;
+      }
+    }
+    private int m_NextStageNumber { get { return m_StageNumber + 1; } }
 
     [Header("Stage Testing")]
     public bool IsStageDebug;
-    public int StageNumberToDebug;
     public Vector3 BallPosition;
-    private int m_NextStageNumber { get { return m_StageNumber + 1; } }
-
-    private void Awake() {
-      m_StageNumber = 0;
-    }
 
     private void OnEnable() {
       if (IsStageDebug) {
-        m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
         m_CurrentActiveBall.SetBallPosition(BallPosition);
-        return;
       }
       m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
@@ -42,7 +44,7 @@ namespace Guidance.Gameplay.Game.Controller {
     private void Start() {
       if (IsStageDebug) {
         m_CurrentActiveBall.ShiftForStageTransition();
-        m_StageManager.SpawnNextStage(StageNumberToDebug);
+        m_StageManager.SpawnNextStage(m_StageNumber);
         m_StageManager.ShiftForStageTransition();
         m_PlatformCreator.ShiftForStageTransition();
         return;
@@ -64,7 +66,6 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void TargetManager_OnTargetReached() {
-      //m_WallBackgroundController.ExecuteNewWallAttachmentProcedure();
       m_StageManager.SpawnNextStage(m_NextStageNumber);
       TransitionToNextStage();
     }

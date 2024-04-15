@@ -12,7 +12,7 @@ namespace Guidance.Data {
     public Position TargetLocation;
 
     [PropertyOrder(4)]
-    [Button("Debug This Stage")]
+    [Button("Debug this Stage")]
     private void DebugStage() {
       StageDebugger.SetStageDebug(StageNumber);
     }

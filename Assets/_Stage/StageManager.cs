@@ -49,6 +49,8 @@ namespace Guidance.Gameplay.Stage {
     public void SpawnNextStage(int stageNumber) {
       m_StageNumber = stageNumber;
       m_CurrentStage = new GameObject($"Stage_{m_StageNumber}");
+      StageIndentifier stageId = m_CurrentStage.AddComponent<StageIndentifier>();
+      stageId.StageId = m_StageNumber;
       m_CurrentStage.transform.SetParent(transform);
       if (m_StageNumber < 0 || m_StageNumber >= m_StageData?.Length) {
         Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
