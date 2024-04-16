@@ -1,17 +1,18 @@
 using Guidance.Gameplay.BackgroundGrid;
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Stage;
+using Guidance.Stage;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
     [Header("Dependencies")]
-    [SerializeField] private CameraController m_CameraController;
     [SerializeField] private WallBackgroundController m_WallBackgroundController;
     [SerializeField] private Ball m_CurrentActiveBall;
     [SerializeField] private StageManager m_StageManager;
     [SerializeField] private PlatformCreator m_PlatformCreator;
+    [SerializeField] private StageViewer m_StageViewer;
 
     [Header("StageData")]
     [field: SerializeField][ReadOnly] private int m_StageNumber;
@@ -25,6 +26,10 @@ namespace Guidance.Gameplay.Game.Controller {
     [Header("Stage Testing")]
     public bool IsStageDebug;
     public Vector3 BallPosition;
+
+    private void Awake() {
+      m_StageViewer.gameObject.SetActive(false);
+    }
 
     private void OnEnable() {
       if (IsStageDebug) {

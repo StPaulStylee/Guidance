@@ -16,6 +16,11 @@ namespace Guidance.Data {
     private void DebugStage() {
       StageDebugger.SetStageDebug(StageNumber);
     }
+    [PropertyOrder(5)]
+    [Button("View in Scene")]
+    private void ViewInScene() {
+      StageDebugger.ViewInScene(StageNumber);
+    }
   }
 
   [System.Serializable]

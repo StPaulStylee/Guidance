@@ -14,6 +14,11 @@ namespace Guidance.Gameplay.Stage {
 
     [SerializeField] private GameObject m_TargetPrefab;
     [SerializeField] private List<Obstacle_SO> m_ObstacleScriptableObjs;
+    public List<Obstacle_SO> ObstacleScriptableObjs {
+      get {
+        return m_ObstacleScriptableObjs;
+      }
+    }
     private List<Target> m_Targets;
     private List<Obstacle> m_Obstacles;
 
@@ -49,8 +54,6 @@ namespace Guidance.Gameplay.Stage {
     public void SpawnNextStage(int stageNumber) {
       m_StageNumber = stageNumber;
       m_CurrentStage = new GameObject($"Stage_{m_StageNumber}");
-      StageIndentifier stageId = m_CurrentStage.AddComponent<StageIndentifier>();
-      stageId.StageId = m_StageNumber;
       m_CurrentStage.transform.SetParent(transform);
       if (m_StageNumber < 0 || m_StageNumber >= m_StageData?.Length) {
         Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
@@ -84,10 +87,10 @@ namespace Guidance.Gameplay.Stage {
       }
     }
 
-    private GameObject SpawnNewTarget(Position spawnPositon) {
-      float xPos = spawnPositon.X;
-      float yPos = spawnPositon.Y;
-      float zPos = spawnPositon.Z;
+    private GameObject SpawnNewTarget(Position spawnPosition) {
+      float xPos = spawnPosition.X;
+      float yPos = spawnPosition.Y;
+      float zPos = spawnPosition.Z;
       Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
       GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, m_CurrentStage.transform);
       return newTarget;
