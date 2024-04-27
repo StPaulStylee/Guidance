@@ -10,6 +10,7 @@ namespace Guidance.Gameplay.Game.Controller {
     [Header("Dependencies")]
     [SerializeField] private WallBackgroundController m_WallBackgroundController;
     [SerializeField] private Ball m_CurrentActiveBall;
+    public Ball CurrentActiveBall { get { return m_CurrentActiveBall; } }
     [SerializeField] private StageManager m_StageManager;
     [SerializeField] private PlatformCreator m_PlatformCreator;
     [SerializeField] private StageViewer m_StageViewer;
@@ -24,8 +25,9 @@ namespace Guidance.Gameplay.Game.Controller {
     private int m_NextStageNumber { get { return m_StageNumber + 1; } }
 
     [Header("Stage Testing")]
-    public bool IsStageDebug;
-    public Vector3 BallPosition;
+    [ReadOnly] public bool IsStageDebug;
+    [ReadOnly] public bool IsStageEdit;
+    [ReadOnly] public Vector3 BallPosition;
 
     private void Awake() {
       m_StageViewer.gameObject.SetActive(false);

@@ -10,16 +10,20 @@ namespace Guidance.Data {
     public int StageNumber;
     [PropertyOrder(2)]
     public Position TargetLocation;
-
     [PropertyOrder(4)]
     [Button("Debug this Stage")]
     private void DebugStage() {
       StageDebugger.SetStageDebug(StageNumber);
     }
     [PropertyOrder(5)]
-    [Button("View in Scene")]
+    [Button("Edit/View in Scene")]
     private void ViewInScene() {
       StageDebugger.ViewInScene(StageNumber);
+    }
+    [PropertyOrder(6)]
+    [Button("Remove this Stage")]
+    private void RemoveStage() {
+      StageDebugger.RemoveStage(StageNumber);
     }
   }
 

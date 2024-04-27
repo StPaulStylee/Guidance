@@ -32,11 +32,11 @@
     "Obstacles": [
       {
         "Position": {
-          "X": 0.0,
-          "Y": -4.165,
+          "X": -1.74,
+          "Y": -1.6,
           "Z": 0.0
         },
-        "Rotation": 33.859,
+        "Rotation": 359.613129,
         "Scale": 6.0,
         "TypeId": 0
       }
@@ -52,18 +52,28 @@
     "Obstacles": [
       {
         "Position": {
-          "X": 0.0,
-          "Y": -4.165,
+          "X": -1.64,
+          "Y": -1.8,
           "Z": 0.0
         },
-        "Rotation": 33.859,
-        "Scale": 6.0,
-        "TypeId": 1
+        "Rotation": 31.10493,
+        "Scale": 5.4419,
+        "TypeId": 0
+      },
+      {
+        "Position": {
+          "X": 3.27,
+          "Y": 0.73,
+          "Z": 0.0
+        },
+        "Rotation": 315.350281,
+        "Scale": 5.4419,
+        "TypeId": 0
       }
     ],
     "StageNumber": 3,
     "TargetLocation": {
-      "X": 0.0,
+      "X": 2.84371924,
       "Y": -16.75,
       "Z": 0.0
     }
@@ -72,28 +82,48 @@
     "Obstacles": [
       {
         "Position": {
-          "X": 1.35996056,
-          "Y": 0.355524838,
+          "X": -2.09,
+          "Y": 4.87,
           "Z": 0.0
         },
-        "Rotation": 319.053253,
-        "Scale": 4.2535,
-        "TypeId": 1
+        "Rotation": 317.674255,
+        "Scale": 10.6032171,
+        "TypeId": 0
       },
       {
         "Position": {
-          "X": -2.14778566,
-          "Y": -2.42523956,
+          "X": 5.72,
+          "Y": 4.31,
           "Z": 0.0
         },
-        "Rotation": 33.74311,
-        "Scale": 4.7533,
+        "Rotation": 270.0,
+        "Scale": 5.4419,
         "TypeId": 0
       }
     ],
     "StageNumber": 4,
     "TargetLocation": {
-      "X": 2.84371924,
+      "X": -3.15,
+      "Y": -16.75,
+      "Z": 0.0
+    }
+  },
+  {
+    "Obstacles": [
+      {
+        "Position": {
+          "X": -1.93,
+          "Y": 0.45,
+          "Z": 0.0
+        },
+        "Rotation": 45.48269,
+        "Scale": 4.8914,
+        "TypeId": 1
+      }
+    ],
+    "StageNumber": 5,
+    "TargetLocation": {
+      "X": 2.58,
       "Y": -16.75,
       "Z": 0.0
     }

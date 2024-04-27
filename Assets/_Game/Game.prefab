@@ -32,9 +32,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1624174865112362504}
   - {fileID: 7758617589496938581}
   - {fileID: 2275379524916060690}
-  - {fileID: 1624174865112362504}
   - {fileID: 8344775580253424711}
   m_Father: {fileID: 0}
   m_RootOrder: 0

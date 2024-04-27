@@ -16,10 +16,15 @@ namespace Guidance.Stage {
     private Position m_TargetLocation;
     private ObstacleData[] m_ObstacleData;
 
+    //public static RemoveStage(int stageNumber) {
+
+    //}
+
     [MenuItem("Tools/Stage Editor")]
     private static void OpenWindow() {
       GetWindow<StageCreator>().Show();
     }
+
 
     protected override void OnEnable() {
       base.OnEnable();
@@ -28,16 +33,35 @@ namespace Guidance.Stage {
       m_StageData = Utilities.GetStageData();
     }
 
-    [Button("Add Stage Data")]
+    [Button("Add/Update Stage Data")]
     private void AddStage() {
-      ArrayUtility.Add(ref m_StageData, new StageData {
-        Obstacles = m_ObstacleData,
-        StageNumber = m_StageNumber,
-        TargetLocation = m_TargetLocation,
-      });
       CaptureStage();
+      if (StageDebugger.EditingData.IsEditing) {
+        m_StageData[StageDebugger.EditingData.StageBeingEdited].Obstacles = m_ObstacleData;
+        m_StageData[StageDebugger.EditingData.StageBeingEdited].TargetLocation = m_TargetLocation;
+      } else {
+        ArrayUtility.Add(ref m_StageData, new StageData {
+          Obstacles = m_ObstacleData,
+          StageNumber = m_StageNumber,
+          TargetLocation = m_TargetLocation,
+        });
+      }
       SaveStageData();
     }
+
+
+    private void SaveStageData() {
+      string path = Application.dataPath + "/_Data/StageData.json";
+      for (int i = 0; i < m_StageData.Length; i++) {
+        m_StageData[i].StageNumber = i;
+      }
+      string json = JsonConvert.SerializeObject(m_StageData, new JsonSerializerSettings {
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        Formatting = Formatting.Indented
+      });
+      File.WriteAllText(path, json);
+    }
+
 
     private void CaptureStage() {
       ArrayUtility.Clear(ref m_ObstacleData);
@@ -66,14 +90,6 @@ namespace Guidance.Stage {
       StageDebugger.ResetStageDebug();
     }
 
-    private void SaveStageData() {
-      string path = Application.dataPath + "/_Data/StageData.json";
-      string json = JsonConvert.SerializeObject(m_StageData, new JsonSerializerSettings {
-        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        Formatting = Formatting.Indented
-      });
-      File.WriteAllText(path, json);
-    }
 
     private Position GetTargetPosition(Vector3 position) {
       return new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_SPAWN_LOCATION, Z = 0f };
