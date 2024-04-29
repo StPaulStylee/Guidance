@@ -4,30 +4,30 @@ using UnityEngine;
 namespace Guidance.Gameplay {
   [RequireComponent(typeof(Rigidbody))]
   public class Ball : MonoBehaviour, IStageTransition {
-    private Rigidbody rb;
+    public Rigidbody Rb { get; private set; }
     [SerializeField] private Vector3 m_StartingPosition;
 
     private void Awake() {
-      rb = GetComponent<Rigidbody>();
-      rb.isKinematic = true;
+      Rb = GetComponent<Rigidbody>();
+      Rb.isKinematic = true;
     }
 
     public void ActivateRigidbody() {
-      if (rb.isKinematic == false) {
+      if (Rb.isKinematic == false) {
         return;
       }
-      rb.isKinematic = false;
+      Rb.isKinematic = false;
     }
 
     public void DeactivateRigidbody() {
-      if (rb.isKinematic) {
+      if (Rb.isKinematic) {
         return;
       }
-      rb.isKinematic = true;
+      Rb.isKinematic = true;
     }
 
     public void ToggleRigidbody() {
-      rb.isKinematic = !rb.isKinematic;
+      Rb.isKinematic = !Rb.isKinematic;
     }
 
     public void ShiftForStageTransition() {

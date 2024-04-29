@@ -1,9 +1,11 @@
 using Guidance.Data;
 using Guidance.Gameplay.Obstacles;
 using Guidance.Gameplay.Stage;
+using Guidance.Stage.Data;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace Guidance.Stage {
     private int m_StageNumber;
     private Position m_TargetLocation;
     private ObstacleData[] m_ObstacleData;
+    private Dictionary<string, GameObject> m_ObstaclePrefabs;
 
     //public static RemoveStage(int stageNumber) {
 
@@ -31,24 +34,19 @@ namespace Guidance.Stage {
       m_RootTransform = GameObject.Find("Game").transform;
       m_ObstacleData = new ObstacleData[] { };
       m_StageData = Utilities.GetStageData();
+      LoadObstaclePrefabs();
     }
 
-    [Button("Add/Update Stage Data")]
-    private void AddStage() {
-      CaptureStage();
-      if (StageDebugger.EditingData.IsEditing) {
-        m_StageData[StageDebugger.EditingData.StageBeingEdited].Obstacles = m_ObstacleData;
-        m_StageData[StageDebugger.EditingData.StageBeingEdited].TargetLocation = m_TargetLocation;
-      } else {
-        ArrayUtility.Add(ref m_StageData, new StageData {
-          Obstacles = m_ObstacleData,
-          StageNumber = m_StageNumber,
-          TargetLocation = m_TargetLocation,
-        });
+    private void LoadObstaclePrefabs() {
+      m_ObstaclePrefabs = new Dictionary<string, GameObject>();
+      foreach (ObstacleAssetData dataAsset in StageCreatorData.ObstacleAssetData) {
+        string path = Path.Combine(StageCreatorData.PrefabPath, dataAsset.Subdirectory);
+        string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { path });
+        string assetPath = AssetDatabase.GUIDToAssetPath(prefabGuids[0]);
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+        m_ObstaclePrefabs.Add(dataAsset.Name, prefab);
       }
-      SaveStageData();
     }
-
 
     private void SaveStageData() {
       string path = Application.dataPath + "/_Data/StageData.json";
@@ -80,9 +78,52 @@ namespace Guidance.Stage {
       }
     }
 
-    [Button("Reload Stage Data")]
+    [ButtonGroup("Add Obstacle")]
+    [Button("Add White Obstacle")]
+    private void AddWhiteObstacle() {
+      GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.White];
+      Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
+    }
+
+    [ButtonGroup("Add Obstacle")]
+    [Button("Add Green Obstacle")]
+    private void AddGreenObstacle() {
+      GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Green];
+      Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
+    }
+
+    [ButtonGroup("Add Obstacle")]
+    [Button("Add Red Obstacle")]
+    private void AddRedObstacle() {
+      Debug.Log("Add Red");
+    }
+
+
+    [Button("Add/Update Stage Data")]
+    private void AddStage() {
+      CaptureStage();
+      if (StageDebugger.EditingData.IsEditing) {
+        int index = StageDebugger.EditingData.StageBeingEdited;
+        m_StageData[index].Obstacles = m_ObstacleData;
+        m_StageData[index].TargetLocation = m_TargetLocation;
+      } else {
+        ArrayUtility.Add(ref m_StageData, new StageData {
+          Obstacles = m_ObstacleData,
+          StageNumber = m_StageNumber,
+          TargetLocation = m_TargetLocation,
+        });
+      }
+      SaveStageData();
+    }
+
+    [Button("Reload Stage Data Array")]
     private void ReloadStageData() {
       m_StageData = Utilities.GetStageData();
+    }
+
+    [Button("Save Stage Data Array")]
+    private void SaveStageDataArray() {
+      SaveStageData();
     }
 
     [Button("Reset Stage Debugger")]
