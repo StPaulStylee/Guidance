@@ -142,6 +142,56 @@
     "Obstacles": [
       {
         "Position": {
+          "X": 5.66,
+          "Y": -5.43,
+          "Z": 0.0
+        },
+        "Rotation": 135.125977,
+        "Scale": 20.9039574,
+        "TypeId": 0
+      },
+      {
+        "Position": {
+          "X": 5.49,
+          "Y": 0.72,
+          "Z": 0.0
+        },
+        "Rotation": 133.144211,
+        "Scale": 4.89140034,
+        "TypeId": 1
+      },
+      {
+        "Position": {
+          "X": 1.34,
+          "Y": 2.73,
+          "Z": 0.0
+        },
+        "Rotation": 146.182785,
+        "Scale": 7.439376,
+        "TypeId": 0
+      },
+      {
+        "Position": {
+          "X": -0.01,
+          "Y": 1.39,
+          "Z": 0.0
+        },
+        "Rotation": 135.125977,
+        "Scale": 8.266467,
+        "TypeId": 1
+      }
+    ],
+    "StageNumber": 6,
+    "TargetLocation": {
+      "X": 1.81,
+      "Y": -16.75,
+      "Z": 0.0
+    }
+  },
+  {
+    "Obstacles": [
+      {
+        "Position": {
           "X": -0.28,
           "Y": 3.23,
           "Z": 0.0
@@ -181,7 +231,7 @@
         "TypeId": 1
       }
     ],
-    "StageNumber": 6,
+    "StageNumber": 7,
     "TargetLocation": {
       "X": -2.71,
       "Y": -16.75,
