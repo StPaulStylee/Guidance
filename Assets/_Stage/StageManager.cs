@@ -2,6 +2,7 @@ using Guidance.Data;
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Obstacles;
 using Guidance.Stage;
+using Guidance.Stage.Data;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

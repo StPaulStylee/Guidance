@@ -1,3 +1,4 @@
+# if UNITY_EDITOR
 using Guidance.Data;
 using Guidance.Gameplay.Obstacles;
 using Guidance.Gameplay.Stage;
@@ -18,10 +19,6 @@ namespace Guidance.Stage {
     private Position m_TargetLocation;
     private ObstacleData[] m_ObstacleData;
     private Dictionary<string, GameObject> m_ObstaclePrefabs;
-
-    //public static RemoveStage(int stageNumber) {
-
-    //}
 
     [MenuItem("Tools/Stage Editor")]
     private static void OpenWindow() {
@@ -95,7 +92,8 @@ namespace Guidance.Stage {
     [ButtonGroup("Add Obstacle")]
     [Button("Add Red Obstacle")]
     private void AddRedObstacle() {
-      Debug.Log("Add Red");
+      GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Red];
+      Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
 
@@ -137,3 +135,4 @@ namespace Guidance.Stage {
     }
   }
 }
+#endif

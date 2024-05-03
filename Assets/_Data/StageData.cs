@@ -1,7 +1,7 @@
-using Guidance.Stage;
+using Guidance.Gameplay.Obstacles;
 using Sirenix.OdinInspector;
 
-namespace Guidance.Data {
+namespace Guidance.Stage.Data {
   [System.Serializable]
   public class StageData {
     [PropertyOrder(3)]
@@ -33,7 +33,7 @@ namespace Guidance.Data {
     public float Rotation;
     public float Scale;
     [PropertyOrder(1)]
-    public int TypeId;
+    public ObstacleType TypeId;
   }
 
   [System.Serializable]

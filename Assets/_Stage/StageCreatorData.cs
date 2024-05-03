@@ -5,13 +5,15 @@ namespace Guidance.Stage.Data {
     public const string PrefabPath = "Assets/_Obstacle";
     public static List<ObstacleAssetData> ObstacleAssetData = new List<ObstacleAssetData> {
       new ObstacleAssetData(ObstacleAssetDataKey.Green, "Obstacle_Green/"),
-      new ObstacleAssetData(ObstacleAssetDataKey.White, "Obstacle_White/")
+      new ObstacleAssetData(ObstacleAssetDataKey.White, "Obstacle_White/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.Red, "Obstacle_Red/"),
     };
   }
 
   public class ObstacleAssetDataKey {
     public const string Green = "green";
     public const string White = "white";
+    public const string Red = "red";
   }
 
   public class ObstacleAssetData {

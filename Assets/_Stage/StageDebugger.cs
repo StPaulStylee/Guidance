@@ -20,7 +20,14 @@ namespace Guidance.Stage {
       m_Data.Controller.IsStageEdit = false;
     }
 
-    public static EditingData EditingData { get { return m_Data.Editing; } }
+    public static EditingData EditingData {
+      get {
+        if (m_Data == null) {
+          SetStageDebuggerData();
+        }
+        return m_Data.Editing;
+      }
+    }
 
     public static void SetStageDebug(int stageNumber) {
       if (stageNumber <= 0) {
@@ -50,6 +57,9 @@ namespace Guidance.Stage {
     public static void ViewInScene(int stageNumber) {
       SetStageDebuggerData();
       DeleteAllObjectsInStageViewer();
+      foreach (StageData stage in m_Data.Data) {
+
+      }
       //ResetAllIsEditingFlags();
       StageData stageData = m_Data.Data[stageNumber];
       m_Data.Editing.IsEditing = true;

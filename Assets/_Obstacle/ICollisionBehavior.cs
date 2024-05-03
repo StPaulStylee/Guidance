@@ -1,5 +1,7 @@
+using UnityEngine;
+
 namespace Guidance.Gameplay.Obstacles {
   public interface ICollisionBehavior {
-    public void ApplyCollisionBehavior(Ball ball);
+    void ApplyCollisionBehavior(Ball ball, Collision collision);
   }
 }
