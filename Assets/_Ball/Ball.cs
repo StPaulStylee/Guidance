@@ -5,10 +5,12 @@ namespace Guidance.Gameplay {
   [RequireComponent(typeof(Rigidbody))]
   public class Ball : MonoBehaviour, IStageTransition {
     public Rigidbody Rb { get; private set; }
+    public Collider Collider { get; private set; }
     [SerializeField] private Vector3 m_StartingPosition;
 
     private void Awake() {
       Rb = GetComponent<Rigidbody>();
+      Collider = GetComponent<Collider>();
       Rb.isKinematic = true;
     }
 

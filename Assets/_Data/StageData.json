@@ -248,7 +248,7 @@
       {
         "Position": {
           "X": 0.0,
-          "Y": 2.33,
+          "Y": 3.1,
           "Z": 0.0
         },
         "Rotation": 0.0,
@@ -259,18 +259,160 @@
       {
         "Position": {
           "X": -3.84,
-          "Y": -2.63,
+          "Y": -1.84,
           "Z": 0.0
         },
         "Rotation": 0.0,
         "Scale": 4.0,
         "TypeId": 2,
         "LinkId": 1
+      },
+      {
+        "Position": {
+          "X": 0.31,
+          "Y": 4.76,
+          "Z": 0.0
+        },
+        "Rotation": 90.0,
+        "Scale": 1.19274545,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": -4.17,
+          "Y": 2.06,
+          "Z": 0.0
+        },
+        "Rotation": 90.0,
+        "Scale": 5.59030533,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": -4.28696442,
+          "Y": 1.975167,
+          "Z": 0.0
+        },
+        "Rotation": 0.0,
+        "Scale": 13.3977051,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": 4.013541,
+          "Y": 1.85303521,
+          "Z": 0.0
+        },
+        "Rotation": 270.0,
+        "Scale": 10.8273029,
+        "TypeId": 0,
+        "LinkId": null
       }
     ],
     "StageNumber": 8,
     "TargetLocation": {
       "X": -2.71,
+      "Y": -16.75,
+      "Z": 0.0
+    }
+  },
+  {
+    "Obstacles": [
+      {
+        "Position": {
+          "X": -4.54,
+          "Y": 5.35,
+          "Z": 0.0
+        },
+        "Rotation": 270.0,
+        "Scale": 2.98438549,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": -0.488,
+          "Y": 3.349,
+          "Z": 0.0
+        },
+        "Rotation": 0.0,
+        "Scale": 4.0,
+        "TypeId": 2,
+        "LinkId": 1
+      },
+      {
+        "Position": {
+          "X": -4.67411852,
+          "Y": 3.3660183,
+          "Z": 0.0
+        },
+        "Rotation": 0.0,
+        "Scale": 6.36450052,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": 2.25,
+          "Y": 3.3660183,
+          "Z": 0.0
+        },
+        "Rotation": 0.0,
+        "Scale": 4.222528,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": 4.76,
+          "Y": 5.33483744,
+          "Z": 0.0
+        },
+        "Rotation": 270.0,
+        "Scale": 2.98438549,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": -4.67,
+          "Y": 0.4,
+          "Z": 0.0
+        },
+        "Rotation": 0.0,
+        "Scale": 2.06384,
+        "TypeId": 2,
+        "LinkId": 1
+      },
+      {
+        "Position": {
+          "X": -0.8493773,
+          "Y": 3.254432,
+          "Z": 0.0
+        },
+        "Rotation": 270.0,
+        "Scale": 10.790019,
+        "TypeId": 0,
+        "LinkId": null
+      },
+      {
+        "Position": {
+          "X": -2.71,
+          "Y": -5.41,
+          "Z": 0.0
+        },
+        "Rotation": 34.74048,
+        "Scale": 2.782066,
+        "TypeId": 1,
+        "LinkId": null
+      }
+    ],
+    "StageNumber": 9,
+    "TargetLocation": {
+      "X": -0.07,
       "Y": -16.75,
       "Z": 0.0
     }
