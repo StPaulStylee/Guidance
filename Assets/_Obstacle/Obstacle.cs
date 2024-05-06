@@ -10,13 +10,13 @@ namespace Guidance.Gameplay.Obstacles {
 
     private void OnCollisionStay(Collision collision) {
       if (CollisionBehavior != null && collision.transform.TryGetComponent(out Ball ball)) {
-        CollisionBehavior.ApplyCollisionBehavior(ball, collision.collider);
+        CollisionBehavior.ApplyCollisionBehaviorOnStay(ball, collision.collider);
       }
     }
 
     private void OnTriggerStay(Collider collider) {
       if (CollisionBehavior != null && collider.transform.TryGetComponent(out Ball ball)) {
-        CollisionBehavior.ApplyCollisionBehavior(ball, collider);
+        CollisionBehavior.ApplyCollisionBehaviorOnStay(ball, collider);
       }
     }
   }

@@ -21,7 +21,15 @@ namespace Guidance.Gameplay.Obstacles {
       }
     }
 
-    public void ApplyCollisionBehavior(Ball ball, Collider collider) {
+    public void ApplyCollisionBehaviorOnEnter(Ball ball, Collider collider) {
+      Debug.LogWarning($"ApplyCollisionBehaviorOnEnter not implemented on {name}");
+    }
+
+    public void ApplyCollisionBehaviorOnExit(Ball ball, Collider collider) {
+      Debug.LogWarning($"ApplyCollisionBehaviorOnExit not implemented on {name}");
+    }
+
+    public void ApplyCollisionBehaviorOnStay(Ball ball, Collider collider) {
       Vector3 teleportPosition = m_Teleport1.transform.position;
       teleportPosition.y = m_Teleport1.transform.position.y - ball.Collider.bounds.size.y;
       Debug.Log(m_Teleport1_Collider.bounds.center);
@@ -31,7 +39,6 @@ namespace Guidance.Gameplay.Obstacles {
       currentVelocity.y = 0f;
       ball.Rb.velocity = currentVelocity;
       ball.Rb.position = teleportPosition;
-
     }
   }
 }
