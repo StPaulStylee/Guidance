@@ -20,11 +20,6 @@ namespace Guidance.Stage.Data {
     private void ViewInScene() {
       StageDebugger.ViewInScene(StageNumber);
     }
-    [PropertyOrder(6)]
-    [Button("Remove this Stage")]
-    private void RemoveStage() {
-      StageDebugger.RemoveStage(StageNumber);
-    }
   }
 
   [System.Serializable]
@@ -34,6 +29,7 @@ namespace Guidance.Stage.Data {
     public float Scale;
     [PropertyOrder(1)]
     public ObstacleType TypeId;
+    public int? LinkId = null;
   }
 
   [System.Serializable]

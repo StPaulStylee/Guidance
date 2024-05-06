@@ -1,5 +1,6 @@
 using Guidance.Data;
 using Guidance.Gameplay.Game.Controller;
+using Guidance.Gameplay.Obstacles;
 using Guidance.Gameplay.Stage;
 using Guidance.Stage.Data;
 using System.Linq;
@@ -43,24 +44,18 @@ namespace Guidance.Stage {
     public static void ResetStageDebug() {
       SetStageDebuggerData();
       DeleteAllObjectsInStageViewer();
-      //ResetAllIsEditingFlags();
       m_Data.Controller.IsStageDebug = false;
       m_Data.Controller.IsStageEdit = false;
       m_Data.Controller.StageNumber = 0;
       m_Data.Controller.ResetBallPosition();
     }
 
-    // THe editing isn't working. I think I need to be sharing the same reference of the stage data between
-    // this and the StageCreator. If I could find a way to remove this as a monobehavior could I just new up 
-    // and instance of this class to be consumed by the StageCreator? Can I pass an "Instantiate" method as
-    // a method parameter?
     public static void ViewInScene(int stageNumber) {
       SetStageDebuggerData();
       DeleteAllObjectsInStageViewer();
       foreach (StageData stage in m_Data.Data) {
 
       }
-      //ResetAllIsEditingFlags();
       StageData stageData = m_Data.Data[stageNumber];
       m_Data.Editing.IsEditing = true;
       m_Data.Editing.StageBeingEdited = stageData.StageNumber;
@@ -70,16 +65,6 @@ namespace Guidance.Stage {
       m_Data.Controller.StageNumber = stageNumber;
       m_Data.Controller.IsStageEdit = true;
     }
-
-    public static void RemoveStage(int StageNumber) {
-      Debug.LogError("Not implemented yet.");
-    }
-
-    //private static void ResetAllIsEditingFlags() {
-    //  foreach (StageData stage in m_Data.Data) {
-    //    stage.IsEditing = false;
-    //  }
-    //}
 
     private static void SetBallViewPosition(int stageNumber) {
       StageData stageData = m_Data.Data.FirstOrDefault(stage => stage.StageNumber == stageNumber - 1) ?? m_Data.Data[0];
@@ -119,7 +104,9 @@ namespace Guidance.Stage {
         Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
         GameObject obstaclePrefab = m_Data.StageManager.ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
         GameObject newObstacle = Instantiate(obstaclePrefab, spawnLocation, spawnRoation, m_Data.StageViewer.transform);
+        Obstacle obstacleComponent = newObstacle.GetComponent<Obstacle>();
         newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
+        obstacleComponent.LinkId = obstacle.LinkId;
       }
     }
 

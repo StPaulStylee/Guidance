@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5ff614cbaf8c5468fcf936ac25e66e, type: 3}
   m_Name: Obstacle_SO_White
   m_EditorClassIdentifier: 
+  <TypeId>k__BackingField: 0
   Prefab: {fileID: 3061843137639812284, guid: 0176905c9112485499cd68ec23b19661, type: 3}
-  ObstacleComponent: {fileID: 2045971047447036004, guid: 0176905c9112485499cd68ec23b19661,
+  Obstacle: {fileID: 6549524299443169642, guid: 0176905c9112485499cd68ec23b19661,
     type: 3}

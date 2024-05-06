@@ -83,7 +83,9 @@ namespace Guidance.Gameplay.Stage {
         Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
         GameObject obstaclePrefab = m_ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
         GameObject newObstacle = Instantiate(obstaclePrefab, spawnLocation, spawnRoation, m_CurrentStage.transform);
+        Obstacle obstacleComponent = newObstacle.GetComponent<Obstacle>();
         newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
+        obstacleComponent.LinkId = obstacle.LinkId;
         RegisterObstacle(newObstacle);
       }
     }

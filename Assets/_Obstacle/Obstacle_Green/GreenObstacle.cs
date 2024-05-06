@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.Obstacles {
   public class GreenObstacle : Obstacle, ICollisionBehavior {
-    public void ApplyCollisionBehavior(Ball ball, Collision collision) {
+    public void ApplyCollisionBehavior(Ball ball, Collider collider) {
       Vector3 direction = transform.right;
       ball.Rb.AddForce(direction * 0.2f, ForceMode.Impulse);
     }

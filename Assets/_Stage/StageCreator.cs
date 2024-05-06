@@ -68,7 +68,8 @@ namespace Guidance.Stage {
           Position = new Position { X = obstacle.transform.position.x, Y = obstacle.transform.position.y, Z = 0f },
           Rotation = obstacle.transform.eulerAngles.z,
           Scale = obstacle.transform.localScale.x,
-          TypeId = obstacle.TypeId
+          TypeId = obstacle.TypeId,
+          LinkId = obstacle.LinkId,
         };
         ArrayUtility.Add(ref m_ObstacleData, data);
         Debug.Log($"TargetLocation: {m_TargetLocation}, Position: {data.Position}, Rotation: {data.Rotation}, Scale: {data.Scale}, TypeId: {data.TypeId}");

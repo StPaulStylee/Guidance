@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5ff614cbaf8c5468fcf936ac25e66e, type: 3}
   m_Name: Obstacle_SO_Green
   m_EditorClassIdentifier: 
+  <TypeId>k__BackingField: 1
   Prefab: {fileID: 3061843137639812284, guid: 1e8b55ec560e128438f25de1dac11c83, type: 3}
+  Obstacle: {fileID: 5420662650583025755, guid: 1e8b55ec560e128438f25de1dac11c83,
+    type: 3}
