@@ -1,3 +1,4 @@
+# if UNITY_EDITOR
 using Guidance.Data;
 using Guidance.Gameplay.Game.Controller;
 using Guidance.Gameplay.Obstacles;
@@ -53,9 +54,6 @@ namespace Guidance.Stage {
     public static void ViewInScene(int stageNumber) {
       SetStageDebuggerData();
       DeleteAllObjectsInStageViewer();
-      foreach (StageData stage in m_Data.Data) {
-
-      }
       StageData stageData = m_Data.Data[stageNumber];
       m_Data.Editing.IsEditing = true;
       m_Data.Editing.StageBeingEdited = stageData.StageNumber;
@@ -117,3 +115,4 @@ namespace Guidance.Stage {
     }
   }
 }
+#endif

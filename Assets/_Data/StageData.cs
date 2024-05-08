@@ -10,6 +10,7 @@ namespace Guidance.Stage.Data {
     public int StageNumber;
     [PropertyOrder(2)]
     public Position TargetLocation;
+#if UNITY_EDITOR
     [PropertyOrder(4)]
     [Button("Debug this Stage")]
     private void DebugStage() {
@@ -20,6 +21,7 @@ namespace Guidance.Stage.Data {
     private void ViewInScene() {
       StageDebugger.ViewInScene(StageNumber);
     }
+#endif
   }
 
   [System.Serializable]

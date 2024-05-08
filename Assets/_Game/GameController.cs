@@ -16,7 +16,7 @@ namespace Guidance.Gameplay.Game.Controller {
     [SerializeField] private StageViewer m_StageViewer;
 
     [Header("StageData")]
-    [field: SerializeField][ReadOnly] private int m_StageNumber;
+    [SerializeField][ReadOnly] private int m_StageNumber;
     public int StageNumber {
       set {
         m_StageNumber = value;

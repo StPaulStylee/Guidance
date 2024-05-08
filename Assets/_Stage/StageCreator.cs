@@ -46,7 +46,9 @@ namespace Guidance.Stage {
     }
 
     private void SaveStageData() {
-      string path = Application.dataPath + "/_Data/StageData.json";
+      string path = Application.dataPath + "/_Data/Resources/StageData_Test.json";
+      //string path = Application.dataPath + "/_Data/Resources/StageData_Prod.json";
+
       for (int i = 0; i < m_StageData.Length; i++) {
         m_StageData[i].StageNumber = i;
       }
