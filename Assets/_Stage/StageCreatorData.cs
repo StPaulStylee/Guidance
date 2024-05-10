@@ -7,6 +7,7 @@ namespace Guidance.Stage.Data {
       new ObstacleAssetData(ObstacleAssetDataKey.Green, "Obstacle_Green/"),
       new ObstacleAssetData(ObstacleAssetDataKey.White, "Obstacle_White/"),
       new ObstacleAssetData(ObstacleAssetDataKey.Red, "Obstacle_Red/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.Blue, "Obstacle_Blue/")
     };
   }
 
@@ -14,6 +15,7 @@ namespace Guidance.Stage.Data {
     public const string Green = "green";
     public const string White = "white";
     public const string Red = "red";
+    public const string Blue = "blue";
   }
 
   public class ObstacleAssetData {

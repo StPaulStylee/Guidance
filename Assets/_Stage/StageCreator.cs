@@ -46,7 +46,6 @@ namespace Guidance.Stage {
 
     private void SaveStageData() {
       string path = Application.dataPath + $"/_Data/Resources/{Utilities.StageDataFileName}.json";
-      Debug.Log(path);
       for (int i = 0; i < m_StageData.Length; i++) {
         m_StageData[i].StageNumber = i;
       }
@@ -94,6 +93,13 @@ namespace Guidance.Stage {
     [Button("Add Red Obstacle")]
     private void AddRedObstacle() {
       GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Red];
+      Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
+    }
+
+    [ButtonGroup("Add Obstacle")]
+    [Button("Add Blue Obstacle")]
+    private void AddBlueObstacle() {
+      GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Blue];
       Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
