@@ -386,11 +386,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2855485250520533792}
     m_Modifications:
-    - target: {fileID: 976413484291591908, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_Drag
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}
       propertyPath: m_RootOrder
@@ -399,37 +394,12 @@ PrefabInstance:
     - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.14
+      value: -2.51
       objectReference: {fileID: 0}
     - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.101
-      objectReference: {fileID: 0}
-    - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
+      value: 5.16
       objectReference: {fileID: 0}
     - target: {fileID: 7163208546003497072, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}
@@ -1406,7 +1376,7 @@ MonoBehaviour:
   m_StageNumber: 0
   IsStageDebug: 0
   IsStageEdit: 0
-  BallPosition: {x: 1.81, y: 5.5, z: 0}
+  BallPosition: {x: 2.58, y: -5.5, z: 0}
 --- !u!1 &3493980631612923702
 GameObject:
   m_ObjectHideFlags: 0

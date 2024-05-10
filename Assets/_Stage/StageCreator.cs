@@ -1,5 +1,4 @@
 # if UNITY_EDITOR
-using Guidance.Data;
 using Guidance.Gameplay.Obstacles;
 using Guidance.Gameplay.Stage;
 using Guidance.Stage.Data;
@@ -46,9 +45,8 @@ namespace Guidance.Stage {
     }
 
     private void SaveStageData() {
-      string path = Application.dataPath + "/_Data/Resources/StageData_Test.json";
-      //string path = Application.dataPath + "/_Data/Resources/StageData_Prod.json";
-
+      string path = Application.dataPath + $"/_Data/Resources/{Utilities.StageDataFileName}.json";
+      Debug.Log(path);
       for (int i = 0; i < m_StageData.Length; i++) {
         m_StageData[i].StageNumber = i;
       }
@@ -134,7 +132,7 @@ namespace Guidance.Stage {
 
 
     private Position GetTargetPosition(Vector3 position) {
-      return new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_SPAWN_LOCATION, Z = 0f };
+      return new Position { X = position.x, Y = position.y, Z = 0f };
     }
   }
 }

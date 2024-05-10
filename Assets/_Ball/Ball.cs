@@ -1,4 +1,6 @@
+using Guidance.Data;
 using Guidance.Gameplay.Game.Manager;
+using Guidance.Stage.Data;
 using UnityEngine;
 
 namespace Guidance.Gameplay {
@@ -34,7 +36,10 @@ namespace Guidance.Gameplay {
 
     public void ShiftForStageTransition() {
       DeactivateRigidbody();
-      StartCoroutine(StageTransitionManager.ShiftForNextStage(transform));
+      Vector3 position = transform.position;
+      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
+      StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(transform, previousTargetLocation));
+      //StartCoroutine(StageTransitionManager.ShiftForNextStage(transform));
     }
 
     public void SetBallPosition(Vector3 position) {
