@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.Stage {
   public class StageManager : MonoBehaviour, IStageTransition {
-    private readonly float m_YSpawnDistance = Constants.Y_STAGE_LENGTH;
+    private readonly float m_YObstacleSpawnDistance = Constants.Y_STAGE_LENGTH;
 
     public event Action OnTargetReached;
 
@@ -20,7 +20,9 @@ namespace Guidance.Gameplay.Stage {
         return m_ObstacleScriptableObjs;
       }
     }
-    private List<Target> m_Targets;
+    private Target m_PreviousTarget;
+    private Target m_CurrentTarget;
+    private List<Target> m_InactiveTargets;
     private List<Obstacle> m_Obstacles;
 
     private GameObject m_CurrentStage;
@@ -28,23 +30,28 @@ namespace Guidance.Gameplay.Stage {
     private int m_StageNumber;
 
     private void Awake() {
-      m_Targets = new();
+      m_InactiveTargets = new();
       m_Obstacles = new();
       m_StageData = Utilities.GetStageData();
     }
 
     public void DeactivatePreviousGoalTarget() {
-      if (m_Targets.Count < 2) {
+      if (m_PreviousTarget == null) {
         return;
       }
-      if (!m_Targets[^2].GoalLocation.IsMeshColliderEnabled) {
+      if (!m_PreviousTarget.GoalLocation.IsMeshColliderEnabled) {
         return;
       }
-      m_Targets[^2].GoalLocation.DisableMeshCollider();
+      m_PreviousTarget.GoalLocation.DisableMeshCollider();
     }
 
     public void ShiftForStageTransition() {
-      foreach (Target target in m_Targets) {
+      Vector3 position = m_PreviousTarget.transform.position;
+      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
+      StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_PreviousTarget.transform, previousTargetLocation));
+      Position newTargetLocation = m_StageData[m_StageNumber].TargetLocation;
+      StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_CurrentTarget.transform, newTargetLocation));
+      foreach (Target target in m_InactiveTargets) {
         StartCoroutine(StageTransitionManager.ShiftForNextStage(target.transform));
       }
       foreach (Obstacle obstacle in m_Obstacles) {
@@ -77,7 +84,7 @@ namespace Guidance.Gameplay.Stage {
       }
       foreach (ObstacleData obstacle in obstacles) {
         float xPos = obstacle.Position.X;
-        float yPos = obstacle.Position.Y - m_YSpawnDistance;
+        float yPos = obstacle.Position.Y - m_YObstacleSpawnDistance;
         float zPos = obstacle.Position.Z;
         Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
         Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
@@ -91,22 +98,29 @@ namespace Guidance.Gameplay.Stage {
     }
 
     private GameObject SpawnNewTarget(Position spawnPosition) {
-      float xPos = spawnPosition.X;
-      float yPos = spawnPosition.Y;
-      float zPos = spawnPosition.Z;
+      float xPos, yPos, zPos;
+      xPos = spawnPosition.X;
+      zPos = spawnPosition.Z;
+      if (m_StageNumber == 0) {
+        yPos = spawnPosition.Y;
+      } else {
+        yPos = Constants.TARGET_LOCATION_Y_SPAWN_LOCATION;
+      }
       Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
       GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, m_CurrentStage.transform);
       return newTarget;
     }
 
     private void RegisterNewTarget(GameObject target) {
-      if (m_Targets.Count > 0) {
-        Target previousTarget = m_Targets[m_Targets.Count - 1];
-        previousTarget.GoalLocation.OnTargetReached -= TargetGoalLocation_OnTargetReached;
+      if (m_PreviousTarget != null) {
+        m_PreviousTarget.GoalLocation.OnTargetReached -= TargetGoalLocation_OnTargetReached;
+        m_InactiveTargets.Add(m_PreviousTarget);
+        m_PreviousTarget = m_CurrentTarget;
       }
       Target targetComponent = target.GetComponent<Target>();
+      m_PreviousTarget = m_CurrentTarget;
+      m_CurrentTarget = targetComponent;
       targetComponent.GoalLocation.OnTargetReached += TargetGoalLocation_OnTargetReached;
-      m_Targets.Add(targetComponent); ;
     }
 
     private void RegisterObstacle(GameObject obstacle) {

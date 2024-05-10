@@ -83,7 +83,7 @@ namespace Guidance.Stage {
     private static void SpawnTarget(StageData stageData) {
       GameObject targetPrefab = m_Data.Root.gameObject.GetComponentInChildren<Target>(true).gameObject;
       float xPos = stageData.TargetLocation.X;
-      float yPos = stageData.StageNumber == 0 ? stageData.TargetLocation.Y : stageData.TargetLocation.Y + Constants.Y_STAGE_LENGTH;
+      float yPos = stageData.TargetLocation.Y;
       float zPos = stageData.TargetLocation.Z;
       Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
       GameObject newTarget = Instantiate(targetPrefab, spawnLocation, Quaternion.identity, m_Data.StageViewer.transform);
