@@ -76,7 +76,7 @@
         "Scale": 1.0,
         "TypeId": 4,
         "LinkId": null,
-        "RotationDirection": 1
+        "RotationDirection": 0
       }
     ],
     "StageNumber": 3,

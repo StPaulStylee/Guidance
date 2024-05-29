@@ -81,7 +81,6 @@ namespace Guidance.Stage {
 
     private SpinDirection GetRotationDirection(Obstacle obstacle) {
       if (obstacle is YellowObstacle yellowObstacle) {
-        // This isn't loading correctly when I play the game. It's always counter clockwise
         return yellowObstacle.SpinDirection;
       }
       return SpinDirection.None;

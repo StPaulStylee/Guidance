@@ -15,6 +15,9 @@ namespace Guidance.Gameplay.Obstacles {
       // RIght now I am trying to save this SpinDirectoin value in the StageCreator. I tried to overwrite 
       // the base classes value here with Yellow's own value but for some reason the GetSpinDirection is 
       // returning SpinDirection.None in the StageCreator. 
+    }
+
+    private void Start() {
       m_RotationDirection = SpinDirection == SpinDirection.Clockwise ? Vector3.back : Vector3.forward;
     }
 
@@ -24,7 +27,7 @@ namespace Guidance.Gameplay.Obstacles {
 
     public override GameObject Initialize(ObstacleData obstacleData, Transform parent) {
       GameObject obstacle = base.Initialize(obstacleData, parent);
-
+      SpinDirection = obstacleData.RotationDirection;
       return obstacle;
     }
 
