@@ -46,9 +46,11 @@ namespace Guidance.Gameplay.Stage {
     }
 
     public void ShiftForStageTransition() {
-      Vector3 position = m_PreviousTarget.transform.position;
-      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
-      StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_PreviousTarget.transform, previousTargetLocation));
+      if (m_PreviousTarget != null) {
+        Vector3 position = m_PreviousTarget.transform.position;
+        Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
+        StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_PreviousTarget.transform, previousTargetLocation));
+      }
       Position newTargetLocation = m_StageData[m_StageNumber].TargetLocation;
       StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_CurrentTarget.transform, newTargetLocation));
       foreach (Target target in m_InactiveTargets) {
@@ -59,18 +61,19 @@ namespace Guidance.Gameplay.Stage {
       }
     }
 
-    public void SpawnNextStage(int stageNumber) {
+    public bool SpawnNextStage(int stageNumber) {
       m_StageNumber = stageNumber;
       m_CurrentStage = new GameObject($"Stage_{m_StageNumber}");
       m_CurrentStage.transform.SetParent(transform);
       if (m_StageNumber < 0 || m_StageNumber >= m_StageData?.Length) {
         Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
-        return;
+        return false;
       }
       StageData stageData = m_StageData[m_StageNumber];
       GameObject target = SpawnNewTarget(stageData.TargetLocation);
       RegisterNewTarget(target);
       SpawnObstacles(stageData.Obstacles);
+      return true;
     }
 
 
@@ -83,16 +86,9 @@ namespace Guidance.Gameplay.Stage {
         return;
       }
       foreach (ObstacleData obstacle in obstacles) {
-        float xPos = obstacle.Position.X;
-        float yPos = obstacle.Position.Y - m_YObstacleSpawnDistance;
-        float zPos = obstacle.Position.Z;
-        Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
-        Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
         GameObject obstaclePrefab = m_ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
-        GameObject newObstacle = Instantiate(obstaclePrefab, spawnLocation, spawnRoation, m_CurrentStage.transform);
-        Obstacle obstacleComponent = newObstacle.GetComponent<Obstacle>();
-        newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
-        obstacleComponent.LinkId = obstacle.LinkId;
+        Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
+        GameObject newObstacle = obstacleComponent.Initialize(obstacle, m_CurrentStage.transform);
         RegisterObstacle(newObstacle);
       }
     }

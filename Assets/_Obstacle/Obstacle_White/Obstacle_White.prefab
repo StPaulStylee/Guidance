@@ -101,3 +101,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TypeId: 0
+  m_ObstalePrefab: {fileID: 3061843137639812284}

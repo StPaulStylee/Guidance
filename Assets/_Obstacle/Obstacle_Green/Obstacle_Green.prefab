@@ -78,7 +78,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle_Green
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2264795917586482860, guid: 39c9e5a7960976d4f99b4348495af95e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -106,3 +107,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TypeId: 1
+  m_ObstalePrefab: {fileID: 3061843137639812284}

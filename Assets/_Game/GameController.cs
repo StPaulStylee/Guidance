@@ -73,8 +73,10 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void TargetManager_OnTargetReached() {
-      m_StageManager.SpawnNextStage(m_NextStageNumber);
-      TransitionToNextStage();
+      bool hasNextStage = m_StageManager.SpawnNextStage(m_NextStageNumber);
+      if (hasNextStage) {
+        TransitionToNextStage();
+      }
     }
 
     private void TransitionToNextStage() {

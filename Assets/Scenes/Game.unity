@@ -1376,7 +1376,7 @@ MonoBehaviour:
   m_StageNumber: 0
   IsStageDebug: 0
   IsStageEdit: 0
-  BallPosition: {x: 2.58, y: -5.5, z: 0}
+  BallPosition: {x: -3.5, y: 5.5, z: 0}
 --- !u!1 &3493980631612923702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,3 +2631,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a63e85931706784da101ec332475893, type: 2}
   - {fileID: 11400000, guid: 56a2d00d6d8f5d64481bca60c6909cbe, type: 2}
   - {fileID: 11400000, guid: eca484f84dba52c42809b4b9bdc7d7d8, type: 2}
+  - {fileID: 11400000, guid: 288a9bfa4b0f6624c8f6f002f21e9d4b, type: 2}

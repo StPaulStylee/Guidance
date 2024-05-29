@@ -106,3 +106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TypeId: 2
+  m_ObstalePrefab: {fileID: 3061843137639812284}
+  m_Teleport0: {fileID: 0}
+  m_Teleport1: {fileID: 0}

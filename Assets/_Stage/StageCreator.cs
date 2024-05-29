@@ -19,6 +19,8 @@ namespace Guidance.Stage {
     private ObstacleData[] m_ObstacleData;
     private Dictionary<string, GameObject> m_ObstaclePrefabs;
 
+    [OnInspectorGUI] private void Space1() { GUILayout.Space(20); }
+
     [MenuItem("Tools/Stage Editor")]
     private static void OpenWindow() {
       GetWindow<StageCreator>().Show();
@@ -53,6 +55,7 @@ namespace Guidance.Stage {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
         Formatting = Formatting.Indented
       });
+      Debug.Log(path);
       File.WriteAllText(path, json);
     }
 
@@ -69,40 +72,57 @@ namespace Guidance.Stage {
           Scale = obstacle.transform.localScale.x,
           TypeId = obstacle.TypeId,
           LinkId = obstacle.LinkId,
+          RotationDirection = GetRotationDirection(obstacle)
         };
         ArrayUtility.Add(ref m_ObstacleData, data);
         Debug.Log($"TargetLocation: {m_TargetLocation}, Position: {data.Position}, Rotation: {data.Rotation}, Scale: {data.Scale}, TypeId: {data.TypeId}");
       }
     }
 
-    [ButtonGroup("Add Obstacle")]
+    private SpinDirection GetRotationDirection(Obstacle obstacle) {
+      if (obstacle is YellowObstacle yellowObstacle) {
+        // This isn't loading correctly when I play the game. It's always counter clockwise
+        return yellowObstacle.SpinDirection;
+      }
+      return SpinDirection.None;
+    }
+
+    [ResponsiveButtonGroup("Add Obstacle")]
     [Button("Add White Obstacle")]
     private void AddWhiteObstacle() {
       GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.White];
       Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
-    [ButtonGroup("Add Obstacle")]
+    [ResponsiveButtonGroup("Add Obstacle")]
     [Button("Add Green Obstacle")]
     private void AddGreenObstacle() {
       GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Green];
       Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
-    [ButtonGroup("Add Obstacle")]
+    [ResponsiveButtonGroup("Add Obstacle")]
     [Button("Add Red Obstacle")]
     private void AddRedObstacle() {
       GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Red];
       Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
-    [ButtonGroup("Add Obstacle")]
+    [ResponsiveButtonGroup("Add Obstacle")]
     [Button("Add Blue Obstacle")]
     private void AddBlueObstacle() {
       GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Blue];
       Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
+    [ResponsiveButtonGroup("Add Obstacle")]
+    [Button("Add Yellow Obstacle")]
+    private void AddYellowObstacle() {
+      GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Yellow];
+      Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
+    }
+
+    [OnInspectorGUI] private void Space2() { GUILayout.Space(20); }
 
     [Button("Add/Update Stage Data")]
     private void AddStage() {
