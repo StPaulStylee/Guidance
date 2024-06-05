@@ -2,7 +2,6 @@ using Guidance.Gameplay.Game.Manager;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Guidance.Gameplay {
   public class PlatformCreator : MonoBehaviour, IStageTransition {
@@ -51,9 +50,9 @@ namespace Guidance.Gameplay {
         return;
       }
       // Temporary
-      if (Input.GetKeyDown(KeyCode.R)) {
-        SceneManager.LoadSceneAsync(0);
-      }
+      //if (Input.GetKeyDown(KeyCode.R)) {
+      //  SceneManager.LoadSceneAsync(0);
+      //}
       if (Input.GetMouseButtonDown(0)) {
         CreatePlatform();
       }

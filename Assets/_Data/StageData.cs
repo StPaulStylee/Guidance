@@ -32,7 +32,7 @@ namespace Guidance.Stage.Data {
     [PropertyOrder(1)]
     public ObstacleType TypeId;
     public int? LinkId = null;
-    public SpinDirection RotationDirection = SpinDirection.None;
+    public SpinDirection RotationDirection;
   }
 
   [System.Serializable]

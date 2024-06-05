@@ -24,6 +24,18 @@ namespace Guidance.Gameplay.Obstacles {
       return obstacle;
     }
 
+    public virtual GameObject InitializeDebug(ObstacleData obstacleData, Transform parent) {
+      float xPos = obstacleData.Position.X;
+      float yPos = obstacleData.Position.Y;
+      float zPos = obstacleData.Position.Z;
+      Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
+      Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacleData.Rotation);
+      GameObject obstacle = Instantiate(m_ObstalePrefab, spawnLocation, spawnRoation, parent);
+      obstacle.transform.localScale = new Vector3(obstacleData.Scale, 1f, 1f);
+      LinkId = obstacleData.LinkId;
+      return obstacle;
+    }
+
     private void OnCollisionEnter(Collision collision) {
       if (CollisionBehavior != null && collision.transform.TryGetComponent(out Ball ball)) {
         CollisionBehavior.ApplyCollisionBehaviorOnEnter(ball, collision.collider);

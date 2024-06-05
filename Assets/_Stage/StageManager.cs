@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace Guidance.Gameplay.Stage {
   public class StageManager : MonoBehaviour, IStageTransition {
-    private readonly float m_YObstacleSpawnDistance = Constants.Y_STAGE_LENGTH;
 
     public event Action OnTargetReached;
 

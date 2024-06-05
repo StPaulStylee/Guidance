@@ -12,9 +12,6 @@ namespace Guidance.Gameplay.Obstacles {
     private void Awake() {
       TypeId = ObstacleType.Yellow;
       CollisionBehavior = this;
-      // RIght now I am trying to save this SpinDirectoin value in the StageCreator. I tried to overwrite 
-      // the base classes value here with Yellow's own value but for some reason the GetSpinDirection is 
-      // returning SpinDirection.None in the StageCreator. 
     }
 
     private void Start() {
@@ -27,7 +24,15 @@ namespace Guidance.Gameplay.Obstacles {
 
     public override GameObject Initialize(ObstacleData obstacleData, Transform parent) {
       GameObject obstacle = base.Initialize(obstacleData, parent);
-      SpinDirection = obstacleData.RotationDirection;
+      YellowObstacle yellowObstacle = obstacle.GetComponent<YellowObstacle>();
+      yellowObstacle.SpinDirection = obstacleData.RotationDirection;
+      return obstacle;
+    }
+
+    public override GameObject InitializeDebug(ObstacleData obstacleData, Transform parent) {
+      GameObject obstacle = base.InitializeDebug(obstacleData, parent);
+      YellowObstacle yellowObstacle = obstacle.GetComponent<YellowObstacle>();
+      yellowObstacle.SpinDirection = obstacleData.RotationDirection;
       return obstacle;
     }
 

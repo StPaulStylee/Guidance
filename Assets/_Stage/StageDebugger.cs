@@ -95,16 +95,19 @@ namespace Guidance.Stage {
         return;
       }
       foreach (ObstacleData obstacle in obstacles) {
-        float xPos = obstacle.Position.X;
-        float yPos = obstacle.Position.Y;
-        float zPos = obstacle.Position.Z;
-        Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
-        Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
+        //float xPos = obstacle.Position.X;
+        //float yPos = obstacle.Position.Y;
+        //float zPos = obstacle.Position.Z;
+        //Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
+        //Quaternion spawnRoation = Quaternion.Euler(0, 0, obstacle.Rotation);
+        //GameObject obstaclePrefab = m_Data.StageManager.ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
+        //GameObject newObstacle = Instantiate(obstaclePrefab, spawnLocation, spawnRoation, m_Data.StageViewer.transform);
+        //Obstacle obstacleComponent = newObstacle.GetComponent<Obstacle>();
+        //newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
+        //obstacleComponent.LinkId = obstacle.LinkId;
         GameObject obstaclePrefab = m_Data.StageManager.ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
-        GameObject newObstacle = Instantiate(obstaclePrefab, spawnLocation, spawnRoation, m_Data.StageViewer.transform);
-        Obstacle obstacleComponent = newObstacle.GetComponent<Obstacle>();
-        newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
-        obstacleComponent.LinkId = obstacle.LinkId;
+        Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
+        GameObject newObstacle = obstacleComponent.InitializeDebug(obstacle, m_Data.StageViewer.transform);
       }
     }
 

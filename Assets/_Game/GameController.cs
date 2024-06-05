@@ -1,5 +1,6 @@
 using Guidance.Gameplay.BackgroundGrid;
 using Guidance.Gameplay.Game.Manager;
+using Guidance.Gameplay.Inputs;
 using Guidance.Gameplay.Stage;
 using Guidance.Stage;
 using Sirenix.OdinInspector;
@@ -37,9 +38,17 @@ namespace Guidance.Gameplay.Game.Controller {
       if (IsStageDebug) {
         m_CurrentActiveBall.SetBallPosition(BallPosition);
       }
+      InputManager.OnReloadStage += InputManager_OnReloadStage;
       m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
+    }
+
+    private void InputManager_OnReloadStage() {
+      m_StageManager.SpawnNextStage(m_StageNumber);
+      m_CurrentActiveBall.ShiftForStageTransition();
+      m_StageManager.ShiftForStageTransition();
+      m_PlatformCreator.ShiftForStageTransition();
     }
 
     private void OnDisable() {
