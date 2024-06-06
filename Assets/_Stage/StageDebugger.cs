@@ -32,10 +32,10 @@ namespace Guidance.Stage {
     }
 
     public static void SetStageDebug(int stageNumber) {
-      if (stageNumber <= 0) {
-        Debug.LogError("The Stage Number must be greater than zero. If you want to debug the first level... Just play the game.)");
-        return;
-      }
+      //if (stageNumber <= 0) {
+      //  Debug.LogError("The Stage Number must be greater than zero. If you want to debug the first level... Just play the game.)");
+      //  return;
+      //}
       SetStageDebuggerData();
       m_Data.Controller.IsStageDebug = true;
       m_Data.Controller.StageNumber = stageNumber;
@@ -105,8 +105,8 @@ namespace Guidance.Stage {
         //Obstacle obstacleComponent = newObstacle.GetComponent<Obstacle>();
         //newObstacle.transform.localScale = new Vector3(obstacle.Scale, 1f, 1f);
         //obstacleComponent.LinkId = obstacle.LinkId;
-        GameObject obstaclePrefab = m_Data.StageManager.ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
-        Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
+        Obstacle obstacleComponent = m_Data.StageManager.ObstacleComponentTypes.Find(component => component.TypeId == obstacle.TypeId);
+        //Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
         GameObject newObstacle = obstacleComponent.InitializeDebug(obstacle, m_Data.StageViewer.transform);
       }
     }

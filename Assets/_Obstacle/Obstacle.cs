@@ -48,6 +48,12 @@ namespace Guidance.Gameplay.Obstacles {
       }
     }
 
+    private void OnCollisionExit(Collision collision) {
+      if (CollisionBehavior != null && collision.transform.TryGetComponent(out Ball ball)) {
+        CollisionBehavior.ApplyCollisionBehaviorOnExit(ball, collision.collider);
+      }
+    }
+
     private void OnTriggerStay(Collider collider) {
       if (CollisionBehavior != null && collider.transform.TryGetComponent(out Ball ball)) {
         CollisionBehavior.ApplyCollisionBehaviorOnStay(ball, collider);

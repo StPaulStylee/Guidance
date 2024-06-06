@@ -13,10 +13,10 @@ namespace Guidance.Gameplay.Stage {
     public event Action OnTargetReached;
 
     [SerializeField] private GameObject m_TargetPrefab;
-    [SerializeField] private List<Obstacle_SO> m_ObstacleScriptableObjs;
-    public List<Obstacle_SO> ObstacleScriptableObjs {
+    [SerializeField] private List<Obstacle> m_ObstacleCompnentTypes;
+    public List<Obstacle> ObstacleComponentTypes {
       get {
-        return m_ObstacleScriptableObjs;
+        return m_ObstacleCompnentTypes;
       }
     }
     private Target m_PreviousTarget;
@@ -85,8 +85,8 @@ namespace Guidance.Gameplay.Stage {
         return;
       }
       foreach (ObstacleData obstacle in obstacles) {
-        GameObject obstaclePrefab = m_ObstacleScriptableObjs.Find(so => so.TypeId == obstacle.TypeId).Prefab;
-        Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
+        Obstacle obstacleComponent = m_ObstacleCompnentTypes.Find(component => component.TypeId == obstacle.TypeId);
+        //Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
         GameObject newObstacle = obstacleComponent.Initialize(obstacle, m_CurrentStage.transform);
         RegisterObstacle(newObstacle);
       }

@@ -84,7 +84,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4137137376582917091, guid: 39c9e5a7960976d4f99b4348495af95e,
         type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: -3082376803953346839}
   m_SourcePrefab: {fileID: 100100000, guid: 39c9e5a7960976d4f99b4348495af95e, type: 3}
 --- !u!1 &5710094817542989379 stripped
@@ -105,3 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacdd021526c67a47bb89a86c1715a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TypeId: 5
+  m_ObstalePrefab: {fileID: 5710094817542989379}
+  m_TimeScaleValue: 0.111

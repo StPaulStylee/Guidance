@@ -5,5 +5,6 @@ namespace Guidance.Gameplay.Obstacles {
     Red = 2,
     Blue = 3,
     Yellow = 4,
+    Gold = 5
   }
 }

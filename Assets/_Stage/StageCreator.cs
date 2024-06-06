@@ -121,6 +121,13 @@ namespace Guidance.Stage {
       Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
     }
 
+    [ResponsiveButtonGroup("Add Obstacle")]
+    [Button("Add Gold Obstacle")]
+    private void AddGoldObstacle() {
+      GameObject prefab = m_ObstaclePrefabs[ObstacleAssetDataKey.Gold];
+      Instantiate(prefab, Vector3.zero, Quaternion.identity, m_RootTransform);
+    }
+
     [OnInspectorGUI] private void Space2() { GUILayout.Space(20); }
 
     [Button("Add/Update Stage Data")]
