@@ -9,7 +9,7 @@ namespace Guidance.Environment {
       m_MovementVector = new Vector3(0f, m_Speed, 0f);
     }
     void Update() {
-      transform.Translate(Vector3.left * m_Speed * Time.deltaTime, Space.World);
+      transform.Translate(Vector3.forward * m_Speed * Time.deltaTime);
     }
   }
 }
