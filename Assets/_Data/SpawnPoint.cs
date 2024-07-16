@@ -15,7 +15,7 @@ namespace Guidance.Background.Object {
       if (m_YVariation[0] == 0f) {
         return -Random.Range(0, m_YVariation[1]);
       }
-      // If the second index value is "0" I know it can oly vary on the "+Y"
+      // If the second index value is "0" I know it can only vary on the "+Y"
       if (m_YVariation[1] == 0f) {
         return Random.Range(0, m_YVariation[0]);
       }
@@ -25,7 +25,7 @@ namespace Guidance.Background.Object {
 
     public BackgroundObjectSpawnData GetSpawnData() {
       Quaternion rotation = Quaternion.Euler(0f, GetRandomYRotation(), 0f);
-      Vector3 position = new Vector3(transform.position.x, GetRandomYPositionVariation(), transform.position.z);
+      Vector3 position = new Vector3(transform.position.x, transform.position.y + GetRandomYPositionVariation(), transform.position.z);
       return new(rotation, position);
     }
   }
