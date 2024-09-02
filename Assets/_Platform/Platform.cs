@@ -7,12 +7,17 @@ namespace Guidance.Gameplay {
     [ColorUsage(true, true)]
     [SerializeField] private Color m_TargetColor = new Color(2.4778893f, 2.21879411f, 2.99607873f, 1f);
     [SerializeField] private float m_EmissionTransitionLengthInSeconds = 1f;
-    public Color GetTargetColor() => m_TargetColor;
+    [SerializeField] private bool m_IsEmissionDisabled = false;
     private Color m_CurrentEmission;
     private Material m_Material;
 
+    public Color GetTargetColor() => m_TargetColor;
+
     private void Awake() {
       m_Material = GetComponent<MeshRenderer>().material;
+      if (m_IsEmissionDisabled) {
+        m_Material.SetColor("_EmissionColor", m_TargetColor);
+      }
     }
 
     public Coroutine PerformTransitionEmission() {

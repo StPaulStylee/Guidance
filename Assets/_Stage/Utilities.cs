@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Guidance.Stage {
   public static class Utilities {
-    public static string StageDataFileName { get; } = "StageData_Test";
-    //public static string StageDataFileName { get; } = "StageData_Prod";
+    //public static string StageDataFileName { get; } = "StageData_Test";
+    public static string StageDataFileName { get; } = "StageData_Prod";
 
     public static void InitializeStageDataToPersistentPath() {
       string persistentPath = Path.Combine(Application.persistentDataPath, StageDataFileName);

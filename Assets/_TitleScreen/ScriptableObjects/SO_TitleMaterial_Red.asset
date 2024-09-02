@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c66d84374dc68144b3065e18f99f28d, type: 3}
+  m_Name: SO_TitleMaterial_Red
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 0895e42a053616c48a8d5cc79090b387, type: 2}
+  m_DefaultColor: {r: 2.0000005, g: 0.08376966, b: 0.26178017, a: 0}
+  m_MaxEmissionColor: {r: 4.000001, g: 0.16753931, b: 0.52356035, a: 0}
