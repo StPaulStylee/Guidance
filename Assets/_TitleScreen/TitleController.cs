@@ -5,41 +5,44 @@ namespace Guidance.Title {
   public class TitleController : MonoBehaviour {
     [SerializeField] private TitleMaterial_SO[] m_TitleMaterial_SOs;
     [SerializeField] private GameObject m_GuidanceText;
-    [SerializeField] float m_PulseDuration = .25f;
+    [SerializeField] float m_PulseDuration = 1f;
     private Coroutine m_PulsingCoroutine;
     private bool isPulsingActive = true;
-    //private float m_PulsePhaseDuration;
 
-    // Before I continue I need to make a copy of all the materials so I don't actually edit 
-    // the provided materials because those changes are permanent.
-
-    private void Awake() {
-      //m_PulsePhaseDuration = m_PulseDuration / 2;
+    private enum PulseColorOption {
+      Default, Max
     }
 
     private void Start() {
-      //m_PulsingCoroutine = StartCoroutine(PulseEmission());
+      m_PulsingCoroutine = StartCoroutine(PulseEmission());
     }
+
+
 
     private IEnumerator PulseEmission() {
       while (isPulsingActive) {
         foreach (var titleMaterial in m_TitleMaterial_SOs) {
-          yield return PulseToEmissionColor(titleMaterial.MaxEmissionColor);
-          yield return PulseToEmissionColor(titleMaterial.DefaultColor);
+          yield return PulseToEmissionColor(PulseColorOption.Max);
+          yield return PulseToEmissionColor(PulseColorOption.Default);
         }
       }
     }
 
-    private IEnumerator PulseToEmissionColor(Color targetColor) {
-      foreach (var titleMaterial in m_TitleMaterial_SOs) {
-        Color currentEmission = titleMaterial.Material.GetColor("_EmissionColor");
-        float timeElapsed = 0f;
-        while (timeElapsed < m_PulseDuration) {
-          Color newEmissionColor = Color.Lerp(currentEmission, targetColor, timeElapsed / m_PulseDuration);
+    private IEnumerator PulseToEmissionColor(PulseColorOption option) {
+      float timeElapsed = 0f;
+      while (timeElapsed < m_PulseDuration) {
+        float t = (Mathf.Sin((timeElapsed / m_PulseDuration) * Mathf.PI * 2 - Mathf.PI / 2) + 1) / 2;
+        foreach (var titleMaterial in m_TitleMaterial_SOs) {
+          Color targetColor = option == PulseColorOption.Default ? titleMaterial.DefaultColor : titleMaterial.MaxEmissionColor;
+          Color currentEmission = titleMaterial.Material.GetColor("_EmissionColor");
+          Color newEmissionColor = Color.Lerp(currentEmission, targetColor, t);
           titleMaterial.Material.SetColor("_EmissionColor", newEmissionColor);
           timeElapsed += Time.deltaTime;
           yield return null;
         }
+      }
+      foreach (var titleMaterial in m_TitleMaterial_SOs) {
+        Color targetColor = option == PulseColorOption.Default ? titleMaterial.DefaultColor : titleMaterial.MaxEmissionColor;
         titleMaterial.Material.SetColor("_EmissionColor", targetColor);
       }
     }
@@ -47,6 +50,9 @@ namespace Guidance.Title {
     private void OnDisable() {
       if (m_PulsingCoroutine != null) {
         StopCoroutine(m_PulsingCoroutine);
+        foreach (var titleMaterial in m_TitleMaterial_SOs) {
+          titleMaterial.Material.SetColor("_EmissionColor", titleMaterial.DefaultColor);
+        }
       }
     }
   }
