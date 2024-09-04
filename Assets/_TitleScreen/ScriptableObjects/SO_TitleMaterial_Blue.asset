@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 31b7b799fb8b21e448966f1955754eea, type: 2}
   m_DefaultColor: {r: 0.003921569, g: 0.15294118, b: 0.9843137, a: 0}
-  m_MaxEmissionColor: {r: 0.007843138, g: 0.30588236, b: 1.9686275, a: 0}
+  m_MaxEmissionColor: {r: 0.013190535, g: 0.5144309, b: 3.310824, a: 0}
