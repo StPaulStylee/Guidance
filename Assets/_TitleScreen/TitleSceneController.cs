@@ -1,4 +1,5 @@
 using Guidance.Gameplay;
+using Guidance.Gameplay.Game.Manager;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -33,52 +34,34 @@ namespace Guidance.Title {
         Debug.LogWarning("No Stop POint found in TitleSceneController");
       }
       m_BallMaterial = m_Ball.GetComponent<Renderer>().material;
-      StartCoroutine(PerformVerticalDissolveDown());
+      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
+      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
+
+    }
+
+    private void Update() {
+      if (Input.GetKeyDown(KeyCode.Escape)) {
+        StartCoroutine(DissolveBallDown());
+      }
     }
 
 
     private void OnCameraDeactivated(ICinemachineMixer arg0, ICinemachineCamera arg1) {
-      StartCoroutine(MoveBallToStart());
+      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
+      //StartCoroutine(MoveBallToStart());
+      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
     }
 
     private void OnCameraActivated(ICinemachineCamera.ActivationEventParams evt) {
       //Debug.Log(evt.IncomingCamera);
-    }
-
-    private IEnumerator PerformVerticalDissolveDown() {
-      float elapsedTime = 0f;
-      m_BallMaterial.SetFloat("_DisAmount", -2.0f);
-      while (m_BallMaterial.GetFloat("_DisAmount") < 2.0f) {
-        m_BallMaterial.SetFloat("_DisAmount", Mathf.Lerp(-2.0f, 2.0f, elapsedTime / VerticalDissolveTime));
-        //float amountToAdd = Mathf.Lerp(-2.0f, 2.0f, elapsedTime / VerticalDissolveTime);
-        elapsedTime += Time.deltaTime;
-        yield return null;
-      }
-      m_BallMaterial.SetFloat("_DisAmount", 2.0f);
-      //m_BallMaterial.SetFloat("_DisAmount", 2.0f);
-      //while (m_BallMaterial.GetFloat("_DisAmount") > -2.0f) {
-      //  //float amountToAdd = Mathf.Lerp(2.0f, -2.0f, elapsedTime / VerticalDissolveTime);
-      //  m_BallMaterial.SetFloat("_DisAmount", Mathf.Lerp(2.0f, -2.0f, elapsedTime / VerticalDissolveTime));
-      //  elapsedTime += Time.deltaTime;
-      //  yield return null;
-      //}
-    }
-
-    private IEnumerator PerformVerticalDissolveUp() {
-      float elapsedTime = 0f;
-      m_BallMaterial.SetFloat("_DisAmount", 2.0f);
-      while (m_BallMaterial.GetFloat("_DisAmount") > -2.0f) {
-        //float amountToAdd = Mathf.Lerp(2.0f, -2.0f, elapsedTime / VerticalDissolveTime);
-        m_BallMaterial.SetFloat("_DisAmount", Mathf.Lerp(2.0f, -2.0f, elapsedTime / VerticalDissolveTime));
-        elapsedTime += Time.deltaTime;
-        yield return null;
-      }
-      m_BallMaterial.SetFloat("_DisAmount", -2.0f);
+      //if (evt.IncomingCamera.Vir)
+      //  StartCoroutine(Test());
     }
 
     private IEnumerator MoveBallToStart() {
-      MeshRenderer meshRenderer = m_Ball.GetComponent<MeshRenderer>();
-      meshRenderer.enabled = false;
+      //MeshRenderer meshRenderer = m_Ball.GetComponent<MeshRenderer>();
+      //meshRenderer.enabled = false;
+      //yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
       float elapsedTime = 0f;
       Vector3 initialPosition = m_Ball.transform.position;
       while (elapsedTime < BallMoveTime) {
@@ -87,7 +70,26 @@ namespace Guidance.Title {
         yield return null;
       }
       m_Ball.transform.position = m_BallStopPoint.transform.position;
-      meshRenderer.enabled = true;
+      //meshRenderer.enabled = true;
+    }
+
+    private IEnumerator Test() {
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
+      StartCoroutine(MoveBallToStart());
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
+    }
+
+    public IEnumerator DissolveBallDown() {
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
+      Camera.enabled = false;
+    }
+
+    public void MoveBall() {
+      m_Ball.transform.position = m_BallStopPoint.transform.position;
+    }
+
+    public void DissolveBallUp() {
+      StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
     }
 
     //private void OnCameraDeactivated(ICinemachineCamera.ActivationEventParams evt) {
