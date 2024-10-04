@@ -57,7 +57,7 @@ namespace Guidance.Title {
           Color targetColor = titleMaterial.TransparentBaseColor;
           Color currentColor = titleMaterial.Material.GetColor("_BaseColor");
           Color newColor = Color.Lerp(currentColor, targetColor, timeElapsed / m_FadeOutTime);
-          titleMaterial.Material.SetColor("_BaseColor");
+          titleMaterial.Material.SetColor("_BaseColor", newColor);
           timeElapsed += Time.deltaTime;
           yield return null;
         }
