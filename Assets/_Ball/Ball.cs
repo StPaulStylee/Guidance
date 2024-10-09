@@ -8,12 +8,14 @@ namespace Guidance.Gameplay {
   public class Ball : MonoBehaviour, IStageTransition {
     public Rigidbody Rb { get; private set; }
     public Collider Collider { get; private set; }
+    public Material BallMaterial { get; private set; }
     [SerializeField] private Vector3 m_StartingPosition;
 
     private void Awake() {
       Rb = GetComponent<Rigidbody>();
       Collider = GetComponent<Collider>();
       Rb.isKinematic = true;
+      BallMaterial = GetComponent<Renderer>().material;
     }
 
     public void ActivateRigidbody() {

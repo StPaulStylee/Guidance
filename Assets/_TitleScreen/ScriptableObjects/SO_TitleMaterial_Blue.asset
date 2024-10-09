@@ -15,5 +15,6 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 31b7b799fb8b21e448966f1955754eea, type: 2}
   m_DefaultColor: {r: 0.003921569, g: 0.15294118, b: 0.9843137, a: 0}
   m_MaxEmissionColor: {r: 0.013190535, g: 0.5144309, b: 3.310824, a: 0}
+  m_MinEmissionColor: {r: 0.0000029142002, g: 0.00011365381, b: 0.0007314642, a: 0}
   m_DefaultBaseColor: {r: 0.007843138, g: 0.21568629, b: 0.53333336, a: 1}
   m_TransparentBaseColor: {r: 0.007843138, g: 0.21568629, b: 0.53333336, a: 0}

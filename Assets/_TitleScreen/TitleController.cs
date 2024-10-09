@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Guidance.Title {
   public class TitleController : MonoBehaviour {
     [SerializeField] private TitleMaterial_SO[] m_TitleMaterial_SOs;
-    [SerializeField] private GameObject m_GuidanceText;
+    [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] float m_PulseDuration = 1f;
     [SerializeField] float m_FadeOutTime = 5f;
     private Coroutine m_PulsingCoroutine;
@@ -16,19 +16,23 @@ namespace Guidance.Title {
     }
 
     private void Start() {
-      //m_PulsingCoroutine = StartCoroutine(PulseEmission());
-      m_FadeCoroutine = StartCoroutine(FadeOut());
+      m_PulsingCoroutine = StartCoroutine(PulseEmission());
+      //m_FadeCoroutine = StartCoroutine(FadeOut());
     }
 
-
-
-    private IEnumerator PulseEmission() {
+    public IEnumerator PulseEmission() {
       while (isPulsingActive) {
         foreach (var titleMaterial in m_TitleMaterial_SOs) {
           yield return PulseToEmissionColor(PulseColorOption.Max);
           yield return PulseToEmissionColor(PulseColorOption.Default);
         }
       }
+    }
+
+    public IEnumerator LerpToMaxEmission() {
+      //foreach (var titleMaterial in m_TitleMaterial_SOs) {
+      yield return PulseToEmissionColor(PulseColorOption.Max);
+      //}
     }
 
     private IEnumerator PulseToEmissionColor(PulseColorOption option) {
@@ -50,23 +54,31 @@ namespace Guidance.Title {
       }
     }
 
-    private IEnumerator FadeOut() {
+    public IEnumerator FadeOut() {
       float timeElapsed = 0f;
+      Debug.Log("Starting");
       while (timeElapsed < m_FadeOutTime) {
         foreach (var titleMaterial in m_TitleMaterial_SOs) {
-          Color targetColor = titleMaterial.TransparentBaseColor;
-          Color currentColor = titleMaterial.Material.GetColor("_BaseColor");
-          Color newColor = Color.Lerp(currentColor, targetColor, timeElapsed / m_FadeOutTime);
-          titleMaterial.Material.SetColor("_BaseColor", newColor);
+          Color targetBaseColor = titleMaterial.TransparentBaseColor;
+          Color currentBaseColor = titleMaterial.Material.GetColor("_BaseColor");
+          Color targetEmissiveColor = titleMaterial.MinEmissionColor;
+          Color currentEmission = titleMaterial.Material.GetColor("_EmissionColor");
+          Color newBaseColor = Color.Lerp(currentBaseColor, targetBaseColor, timeElapsed / m_FadeOutTime);
+          Color newEmissiveColor = Color.Lerp(currentEmission, targetEmissiveColor, timeElapsed / m_FadeOutTime);
+          m_CanvasGroup.alpha = Mathf.Lerp(m_CanvasGroup.alpha, 0f, timeElapsed / m_FadeOutTime);
+          titleMaterial.Material.SetColor("_BaseColor", newBaseColor);
+          titleMaterial.Material.SetColor("_EmissionColor", newEmissiveColor);
           timeElapsed += Time.deltaTime;
           yield return null;
         }
       }
       foreach (var titleMaterial in m_TitleMaterial_SOs) {
-        Color endColor = titleMaterial.TransparentBaseColor;
-        titleMaterial.Material.SetColor("_BaseColor", endColor);
-
+        Color endBaseColor = titleMaterial.TransparentBaseColor;
+        Color endEmissiveColor = titleMaterial.MinEmissionColor;
+        titleMaterial.Material.SetColor("_BaseColor", endBaseColor);
+        titleMaterial.Material.SetColor("_EmissionColor", endEmissiveColor);
       }
+      Debug.Log("Ending");
     }
 
     private void OnDisable() {
@@ -82,8 +94,11 @@ namespace Guidance.Title {
       }
       foreach (var titleMaterial in m_TitleMaterial_SOs) {
         titleMaterial.Material.SetColor("_BaseColor", titleMaterial.DefaultBaseColor);
+        titleMaterial.Material.SetColor("_EmissionColor", titleMaterial.DefaultColor);
       }
-
+      if (m_CanvasGroup != null) {
+        m_CanvasGroup.alpha = 1f;
+      }
     }
   }
 }
