@@ -94,14 +94,14 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistanceFilter: 0.52
+    - _DistanceFilter: 0.53
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _IsMoving: 0
+    - _IsMoving: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -127,7 +127,7 @@ Material:
     - _GridColor: {r: 1.1773591, g: 0.108521506, b: 1.7697346, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TileColor: {r: 0, g: 0, b: 0, a: 0.22745098}
-    - _Tiling: {r: -6.045, g: 17.725, b: 0, a: 0}
+    - _Tiling: {r: -6.04, g: 6.04, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &9031090340501010440
 MonoBehaviour:

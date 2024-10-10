@@ -1,4 +1,3 @@
-using Guidance.Gameplay.BackgroundGrid;
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Inputs;
 using Guidance.Gameplay.Stage;
@@ -9,7 +8,7 @@ using UnityEngine;
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
     [Header("Dependencies")]
-    [SerializeField] private WallBackgroundController m_WallBackgroundController;
+    //[SerializeField] private WallBackgroundController m_WallBackgroundController;
     [SerializeField] private Ball m_CurrentActiveBall;
     public Ball CurrentActiveBall { get { return m_CurrentActiveBall; } }
     [SerializeField] private StageManager m_StageManager;
