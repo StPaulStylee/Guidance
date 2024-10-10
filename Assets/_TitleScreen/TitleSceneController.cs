@@ -1,12 +1,14 @@
 using Guidance.Gameplay;
 using Guidance.Gameplay.Game.Manager;
+using System;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Guidance.Title {
   public class TitleSceneController : MonoBehaviour {
+    public event Action OnTitleSceneEnd;
+
     public CinemachineCamera Camera;
     public float BallMoveTime = 5f;
     private Ball m_Ball;
@@ -19,13 +21,11 @@ namespace Guidance.Title {
     private void OnEnable() {
       CinemachineCore.CameraActivatedEvent.AddListener(OnCameraActivated);
       CinemachineCore.CameraDeactivatedEvent.AddListener(OnCameraDeactivated);
-      BallDissolveManager.BallDissolved += LoadStart;
     }
 
     private void OnDisable() {
       CinemachineCore.CameraActivatedEvent.RemoveListener(OnCameraActivated);
       CinemachineCore.CameraDeactivatedEvent.RemoveListener(OnCameraDeactivated);
-      BallDissolveManager.BallDissolved -= LoadStart;
     }
 
     private void Start() {
@@ -75,13 +75,13 @@ namespace Guidance.Title {
         yield return null;
       }
       m_Ball.transform.position = m_BallStopPoint.transform.position;
+      StartCoroutine(ActivateGame());
       //meshRenderer.enabled = true;
     }
 
-    private void LoadStart(bool isDissolved) {
-      if (!isDissolved) {
-        SceneManager.LoadSceneAsync(1);
-      }
+    private IEnumerator ActivateGame() {
+      yield return new WaitForSeconds(VerticalDissolveTime + 1);
+      OnTitleSceneEnd?.Invoke();
     }
 
     public IEnumerator Test() {
@@ -101,10 +101,12 @@ namespace Guidance.Title {
     // Cinemachine Camera Events
     public void MoveBall() {
       m_Ball.transform.position = m_BallStopPoint.transform.position;
+      StartCoroutine(ActivateGame());
     }
 
     public void DissolveBallUp() {
       StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
+
     }
 
     //private void OnCameraDeactivated(ICinemachineCamera.ActivationEventParams evt) {

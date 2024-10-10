@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Manager {
   public static class BallDissolveManager {
-    public static event Action<bool> BallDissolved;
     public static IEnumerator PerformVerticalDissolveDown(Material ballMaterial, float dissolveTime) {
       float elapsedTime = 0f;
       ballMaterial.SetFloat("_DisAmount", -2.0f);
@@ -34,7 +32,6 @@ namespace Guidance.Gameplay.Game.Manager {
         yield return null;
       }
       ballMaterial.SetFloat("_DisAmount", -2.0f);
-      BallDissolved?.Invoke(false);
     }
 
     public static void SetDissolved(Material ballMaterial, bool isDissolved) {
@@ -43,7 +40,6 @@ namespace Guidance.Gameplay.Game.Manager {
         return;
       }
       ballMaterial.SetFloat("_DisAmount", 2.0f);
-      BallDissolved?.Invoke(true);
     }
   }
 }
