@@ -81,6 +81,7 @@ namespace Guidance.Title {
 
     private IEnumerator ActivateGame() {
       yield return new WaitForSeconds(VerticalDissolveTime + 1);
+      //m_TitleController.gameObject.SetActive(false);
       OnTitleSceneEnd?.Invoke();
     }
 
