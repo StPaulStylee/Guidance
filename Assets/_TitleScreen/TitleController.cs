@@ -56,7 +56,6 @@ namespace Guidance.Title {
 
     public IEnumerator FadeOut() {
       float timeElapsed = 0f;
-      Debug.Log("Starting");
       while (timeElapsed < m_FadeOutTime) {
         foreach (var titleMaterial in m_TitleMaterial_SOs) {
           Color targetBaseColor = titleMaterial.TransparentBaseColor;
@@ -78,7 +77,6 @@ namespace Guidance.Title {
         titleMaterial.Material.SetColor("_BaseColor", endBaseColor);
         titleMaterial.Material.SetColor("_EmissionColor", endEmissiveColor);
       }
-      Debug.Log("Ending");
     }
 
     private void OnDisable() {
