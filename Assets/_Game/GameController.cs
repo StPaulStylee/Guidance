@@ -2,6 +2,7 @@ using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Inputs;
 using Guidance.Gameplay.Stage;
 using Guidance.Stage;
+using Guidance.Title;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace Guidance.Gameplay.Game.Controller {
     [SerializeField] private StageManager m_StageManager;
     [SerializeField] private PlatformCreator m_PlatformCreator;
     [SerializeField] private StageViewer m_StageViewer;
+    [SerializeField] private TitleSceneController m_TitleSceneController;
+    [SerializeField] private InputManager m_InputManager;
 
     [Header("StageData")]
     [SerializeField][ReadOnly] private int m_StageNumber;
@@ -41,6 +44,7 @@ namespace Guidance.Gameplay.Game.Controller {
       m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
+      m_TitleSceneController.OnTitleSceneEnd += ActivateInGameDependencies;
     }
 
     private void InputManager_OnReloadStage() {
@@ -54,6 +58,8 @@ namespace Guidance.Gameplay.Game.Controller {
       m_StageManager.OnTargetReached -= TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated -= PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition -= StageTransitionManager_OnStageTransition;
+      m_TitleSceneController.OnTitleSceneEnd -= ActivateInGameDependencies;
+
     }
 
     private void Start() {
@@ -69,6 +75,13 @@ namespace Guidance.Gameplay.Game.Controller {
 
     public void ResetBallPosition() {
       m_CurrentActiveBall.ResetBallPosition();
+    }
+
+    private void ActivateInGameDependencies() {
+      Debug.Log("Ya heard");
+      m_PlatformCreator.enabled = true;
+      m_InputManager.enabled = true;
+      m_TitleSceneController.enabled = false;
     }
 
     private void StageTransitionManager_OnStageTransition(bool isTransitioning) {
