@@ -13,9 +13,9 @@ namespace Guidance.Title {
     public float BallMoveTime = 5f;
     private Ball m_Ball;
     private Material m_BallMaterial;
-    public float VerticalDissolveTime = 2.0f;
     private BallStopPoint m_BallStopPoint;
     private bool m_IsBallMoving = false;
+    [SerializeField] float m_ActivateDelay = 3f;
     private TitleController m_TitleController;
 
     private void OnEnable() {
@@ -80,22 +80,22 @@ namespace Guidance.Title {
     }
 
     private IEnumerator ActivateGame() {
-      yield return new WaitForSeconds(VerticalDissolveTime + 1);
+      yield return new WaitForSeconds(m_ActivateDelay);
       //m_TitleController.gameObject.SetActive(false);
       OnTitleSceneEnd?.Invoke();
     }
 
     public IEnumerator Test() {
-      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial));
       StartCoroutine(MoveBallToStart());
-      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial));
     }
 
     public IEnumerator DissolveBallDown() {
       StopCoroutine(m_TitleController.PulseEmission());
       //yield return StartCoroutine(m_TitleController.LerpToMaxEmission());
       yield return StartCoroutine(m_TitleController.FadeOut());
-      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial));
       Camera.enabled = false;
     }
 
@@ -106,7 +106,7 @@ namespace Guidance.Title {
     }
 
     public void DissolveBallUp() {
-      StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
+      StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial));
 
     }
 

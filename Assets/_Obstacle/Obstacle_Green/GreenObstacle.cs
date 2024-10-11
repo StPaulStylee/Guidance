@@ -3,11 +3,11 @@ using UnityEngine;
 namespace Guidance.Gameplay.Obstacles {
   public class GreenObstacle : Obstacle, ICollisionBehavior {
 
-    private void OnCollisionEnter(Collision collision) {
-      if (collision.transform.TryGetComponent(out Ball ball)) {
-        ball.Rb.velocity = Vector3.zero;
-      }
-    }
+    //private void OnCollisionEnter(Collision collision) {
+    //  if (collision.transform.TryGetComponent(out Ball ball)) {
+    //    ball.Rb.velocity = Vector3.zero;
+    //  }
+    //}
 
     private void Awake() {
       CollisionBehavior = this;
@@ -15,6 +15,8 @@ namespace Guidance.Gameplay.Obstacles {
     }
 
     public void ApplyCollisionBehaviorOnEnter(Ball ball, Collider collider) {
+      ball.Rb.velocity = Vector3.zero;
+
       Debug.LogWarning($"ApplyCollisionBehaviorOnEnter not implemented on {name}");
     }
     public void ApplyCollisionBehaviorOnExit(Ball ball, Collider collider) {
