@@ -17,6 +17,7 @@ namespace Guidance.Gameplay.Game.Controller {
     [SerializeField] private StageViewer m_StageViewer;
     [SerializeField] private TitleSceneController m_TitleSceneController;
     [SerializeField] private InputManager m_InputManager;
+    [SerializeField] private GameObject m_TitleSceneObjects;
 
     [Header("StageData")]
     [SerializeField][ReadOnly] private int m_StageNumber;
@@ -78,10 +79,10 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private void ActivateInGameDependencies() {
-      Debug.Log("Ya heard");
       m_PlatformCreator.enabled = true;
       m_InputManager.enabled = true;
       m_TitleSceneController.enabled = false;
+      Destroy(m_TitleSceneObjects);
     }
 
     private void StageTransitionManager_OnStageTransition(bool isTransitioning) {
