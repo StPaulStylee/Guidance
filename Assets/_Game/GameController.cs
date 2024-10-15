@@ -1,15 +1,16 @@
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Gameplay.Inputs;
+using Guidance.Gameplay.Obstacles;
 using Guidance.Gameplay.Stage;
 using Guidance.Stage;
 using Guidance.Title;
 using Sirenix.OdinInspector;
+using System.Collections;
 using UnityEngine;
 
 namespace Guidance.Gameplay.Game.Controller {
   public class GameController : MonoBehaviour {
     [Header("Dependencies")]
-    //[SerializeField] private WallBackgroundController m_WallBackgroundController;
     [SerializeField] private Ball m_CurrentActiveBall;
     public Ball CurrentActiveBall { get { return m_CurrentActiveBall; } }
     [SerializeField] private StageManager m_StageManager;
@@ -46,21 +47,24 @@ namespace Guidance.Gameplay.Game.Controller {
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
       m_TitleSceneController.OnTitleSceneEnd += ActivateInGameDependencies;
-    }
-
-    private void InputManager_OnReloadStage() {
-      m_StageManager.SpawnNextStage(m_StageNumber);
-      m_CurrentActiveBall.ShiftForStageTransition();
-      m_StageManager.ShiftForStageTransition();
-      m_PlatformCreator.ShiftForStageTransition();
+      WhiteObstacle.OnWhiteObstacleCollision += WhiteObstacle_OnCollision;
     }
 
     private void OnDisable() {
+      InputManager.OnReloadStage -= InputManager_OnReloadStage;
       m_StageManager.OnTargetReached -= TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated -= PlatformCreator_OnPlatformCreated;
       StageTransitionManager.OnStageTransition -= StageTransitionManager_OnStageTransition;
       m_TitleSceneController.OnTitleSceneEnd -= ActivateInGameDependencies;
+      WhiteObstacle.OnWhiteObstacleCollision -= WhiteObstacle_OnCollision;
+    }
 
+    private void InputManager_OnReloadStage() {
+      m_CurrentActiveBall.ResetBallToStartOfStageProcedure();
+      //m_StageManager.SpawnNextStage(m_StageNumber);
+      //m_CurrentActiveBall.ShiftForStageTransition();
+      //m_StageManager.ShiftForStageTransition();
+      //m_PlatformCreator.ShiftForStageTransition();
     }
 
     private void Start() {
@@ -106,6 +110,16 @@ namespace Guidance.Gameplay.Game.Controller {
       m_CurrentActiveBall.ShiftForStageTransition();
       m_StageManager.ShiftForStageTransition();
       m_PlatformCreator.ShiftForStageTransition();
+    }
+
+    private void WhiteObstacle_OnCollision() {
+      StartCoroutine(ResetBallToStartOfStage());
+    }
+
+    private IEnumerator ResetBallToStartOfStage() {
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_CurrentActiveBall.BallMaterial));
+      m_CurrentActiveBall.ResetBallToStartOfStageProcedure();
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_CurrentActiveBall.BallMaterial));
     }
   }
 }

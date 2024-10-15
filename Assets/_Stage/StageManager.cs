@@ -86,7 +86,6 @@ namespace Guidance.Gameplay.Stage {
       }
       foreach (ObstacleData obstacle in obstacles) {
         Obstacle obstacleComponent = m_ObstacleCompnentTypes.Find(component => component.TypeId == obstacle.TypeId);
-        //Obstacle obstacleComponent = obstaclePrefab.GetComponent<Obstacle>();
         GameObject newObstacle = obstacleComponent.Initialize(obstacle, m_CurrentStage.transform);
         RegisterObstacle(newObstacle);
       }
