@@ -118,6 +118,8 @@ namespace Guidance.Gameplay.Game.Controller {
 
     private IEnumerator ResetBallToStartOfStage() {
       yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_CurrentActiveBall.BallMaterial));
+      yield return StartCoroutine(m_PlatformCreator.ShiftForStageRestart());
+      yield return new WaitForSeconds(1f);
       m_CurrentActiveBall.ResetBallToStartOfStageProcedure();
       yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_CurrentActiveBall.BallMaterial));
     }

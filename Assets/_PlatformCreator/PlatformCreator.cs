@@ -1,5 +1,6 @@
 using Guidance.Gameplay.Game.Manager;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,6 +72,13 @@ namespace Guidance.Gameplay {
     public void ShiftForStageTransition() {
       foreach (Platform platform in m_CreatedPlatforms) {
         StartCoroutine(StageTransitionManager.ShiftForNextStage(platform.transform));
+      }
+    }
+
+    public IEnumerator ShiftForStageRestart() {
+      foreach (Platform platform in m_CreatedPlatforms) {
+        StartCoroutine(StageTransitionManager.ShiftForNextStage(platform.transform));
+        yield return null;
       }
     }
 
