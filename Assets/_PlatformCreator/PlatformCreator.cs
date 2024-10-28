@@ -8,7 +8,7 @@ namespace Guidance.Gameplay {
   public class PlatformCreator : MonoBehaviour, IStageTransition {
     public event Action OnPlatformCreated;
     [SerializeField] private GameObject m_PlatformPrefab;
-    [SerializeField] private float m_ScaleModifier = 23.5f;
+    private float m_ScaleModifier = 0.03f;
 
 
     private GameObject m_CurrentCube;
@@ -97,10 +97,11 @@ namespace Guidance.Gameplay {
         m_CurrentMousePosition = Input.mousePosition;
         m_CurrentMousePosition.z = m_CameraOffset;
         float distance = Vector3.Distance(m_InitialMousePosition, m_CurrentMousePosition);
+        float normalizedDistance = distance / Screen.width;
 
         Vector3 direction = (m_CurrentMousePosition - m_InitialMousePosition);
         m_CurrentCube.transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
-        m_CurrentCube.transform.localScale = new Vector3((distance / m_ScaleModifier), m_CurrentCube.transform.localScale.y, m_CurrentCube.transform.localScale.z);
+        m_CurrentCube.transform.localScale = new Vector3((normalizedDistance / m_ScaleModifier), m_CurrentCube.transform.localScale.y, m_CurrentCube.transform.localScale.z);
       }
     }
 

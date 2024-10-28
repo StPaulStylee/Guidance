@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.006038303, g: 0.007250357, b: 0.039775603, a: 1}
+  m_IndirectSpecularColor: {r: 0.0041546095, g: 0.004968435, b: 0.027973004, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -46680,7 +46680,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlatformPrefab: {fileID: 5317560816717581262, guid: cff40c44bcc30f04b824580217072287,
     type: 3}
-  m_ScaleModifier: 23.5
   m_EmissionTransitionLengthInSeconds: 1
 --- !u!33 &4126300284250586705
 MeshFilter:
