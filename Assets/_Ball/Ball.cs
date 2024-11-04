@@ -10,15 +10,15 @@ namespace Guidance.Gameplay {
     public Rigidbody Rb { get; private set; }
     public Collider Collider { get; private set; }
     public Material BallMaterial { get; private set; }
+    public PathTraveledRenderer PathTraveledRenderer { get; private set; }
     [SerializeField] private Vector3 m_StartingPosition; // This is used for debugging. Maybe it can be reused but I can't remember how it works rn
     private Vector3 m_RestartPosition; // This is used to set the position on fail/reload
-    private PathTraveledRenderer m_PathTraveledRendered;
     private void Awake() {
       Rb = GetComponent<Rigidbody>();
       Collider = GetComponent<Collider>();
       Rb.isKinematic = true;
       BallMaterial = GetComponent<Renderer>().material;
-      m_PathTraveledRendered = GetComponent<PathTraveledRenderer>();
+      PathTraveledRenderer = GetComponent<PathTraveledRenderer>();
     }
 
     private void OnEnable() {
@@ -52,7 +52,7 @@ namespace Guidance.Gameplay {
       Vector3 position = transform.position;
       Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
       StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(transform, previousTargetLocation));
-      StartCoroutine(ManagePathTraveledRenderer(previousTargetLocation));
+      StartCoroutine(ManagePathTraveledRendererOnStageTransition(previousTargetLocation));
       // Capture the ball position after this shift has occurred then it can be used to reset the ball position
       // on a fail
     }
@@ -66,6 +66,7 @@ namespace Guidance.Gameplay {
     public void ResetBallToStartOfStageProcedure() {
       DeactivateRigidbody();
       ResetBallPositionToStartOfStage();
+
       Rb.useGravity = true;
     }
 
@@ -77,13 +78,16 @@ namespace Guidance.Gameplay {
       m_RestartPosition = transform.position;
     }
 
-    private IEnumerator ManagePathTraveledRenderer(Position targetPosition) {
+    private IEnumerator ManagePathTraveledRendererOnStageTransition(Position targetPosition) {
       Debug.Log("Disabling PathTraveledRenderer");
-      float enablePosition = targetPosition.Y - m_PathTraveledRendered.PositionTolerance;
+      PathTraveledRenderer.DisableDataCapture();
+      float enablePosition = targetPosition.Y - PathTraveledRenderer.PositionTolerance;
       while (transform.position.y < enablePosition) {
         yield return null;
       }
       Debug.Log("Enabling PathTraveledRendered");
+      PathTraveledRenderer.ClearDataCapture();
+      PathTraveledRenderer.EnableDataCapture();
     }
   }
 
