@@ -22,11 +22,11 @@ namespace Guidance.Gameplay {
     }
 
     private void OnEnable() {
-      StageTransitionManager.OnStageTransition += SetRestartPosition;
+      StageTransitionManager.OnIsStageTransitioning += SetRestartPosition;
     }
 
     private void OnDisable() {
-      StageTransitionManager.OnStageTransition -= SetRestartPosition;
+      StageTransitionManager.OnIsStageTransitioning -= SetRestartPosition;
     }
 
     public void ActivateRigidbody() {
@@ -50,7 +50,7 @@ namespace Guidance.Gameplay {
     public void ShiftForStageTransition() {
       DeactivateRigidbody();
       Vector3 position = transform.position;
-      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
+      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION - (Collider.bounds.size.y / 2), Z = position.z };
       StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(transform, previousTargetLocation));
       StartCoroutine(ManagePathTraveledRendererOnStageTransition(previousTargetLocation));
       // Capture the ball position after this shift has occurred then it can be used to reset the ball position

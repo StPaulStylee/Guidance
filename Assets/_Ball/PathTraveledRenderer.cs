@@ -13,7 +13,6 @@ namespace Guidance.Gameplay {
 
     private void Awake() {
       m_LineRenderer = GetComponent<LineRenderer>();
-      //m_LineRenderer.enabled = false;
       m_PathPositions = new List<Vector3>();
     }
 
@@ -30,6 +29,7 @@ namespace Guidance.Gameplay {
     public void ClearDataCapture() => m_PathPositions.Clear();
     public bool DisableDataCapture() => m_IsActivelyCapturingPathData = false;
     public bool EnableDataCapture() => m_IsActivelyCapturingPathData = true;
+
     public IEnumerator DrawPathTraveledOverDuration() {
       float elapsedTime = 0f;
       int positionsToDraw;
@@ -37,14 +37,14 @@ namespace Guidance.Gameplay {
         positionsToDraw = Mathf.FloorToInt((elapsedTime / m_DrawDuration) * m_PathPositions.Count);
         m_LineRenderer.positionCount = positionsToDraw;
         for (int i = 0; i < positionsToDraw; i++) {
-          m_LineRenderer.SetPosition(i, m_PathPositions[i]);
+          m_LineRenderer.SetPosition(i, m_PathPositions[m_PathPositions.Count - 1 - i]);
         }
         elapsedTime += Time.deltaTime;
         yield return null;
       }
       m_LineRenderer.positionCount = m_PathPositions.Count;
       for (int i = 0; i < m_PathPositions.Count; i++) {
-        m_LineRenderer.SetPosition(i, m_PathPositions[i]);
+        m_LineRenderer.SetPosition(i, m_PathPositions[m_PathPositions.Count - 1 - i]);
       }
       m_LineRenderer.positionCount = 0;
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.0057837307, g: 0.007031427, b: 0.039007116, a: 1}
+  m_IndirectSpecularColor: {r: 0.004318833, g: 0.0053651, b: 0.029938992, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11726,10 +11726,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2855485250520533792}
     m_Modifications:
-    - target: {fileID: -6616351680266864722, guid: dd6ee03778dee9946838bbb65ce0156a,
+    - target: {fileID: 729642836792969727, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}
-      propertyPath: m_DrawDuration
-      value: 2
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 729642836792969727, guid: dd6ee03778dee9946838bbb65ce0156a,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 729642836792969727, guid: dd6ee03778dee9946838bbb65ce0156a,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.4960041
+      objectReference: {fileID: 0}
+    - target: {fileID: 729642836792969727, guid: dd6ee03778dee9946838bbb65ce0156a,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.47785294
       objectReference: {fileID: 0}
     - target: {fileID: 976413484291591908, guid: dd6ee03778dee9946838bbb65ce0156a,
         type: 3}

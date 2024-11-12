@@ -18,6 +18,14 @@ namespace Guidance.Gameplay.Stage {
       }
     }
 
+    private void OnCollisionExit(Collision collision) {
+      Debug.Log(collision.gameObject.name + "collision exit");
+    }
+
+    private void OnTriggerExit(Collider other) {
+      Debug.Log(other.name + "exited the target");
+    }
+
     public void EnableMeshCollider() {
       m_MeshCollider.enabled = true;
     }

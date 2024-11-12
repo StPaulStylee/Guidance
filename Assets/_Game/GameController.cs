@@ -45,7 +45,7 @@ namespace Guidance.Gameplay.Game.Controller {
       InputManager.OnReloadStage += InputManager_OnReloadStage;
       m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
-      StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
+      StageTransitionManager.OnIsStageTransitioning += StageTransitionManager_OnStageTransition;
       m_TitleSceneController.OnTitleSceneEnd += ActivateInGameDependencies;
       WhiteObstacle.OnWhiteObstacleCollision += WhiteObstacle_OnCollision;
     }
@@ -54,7 +54,7 @@ namespace Guidance.Gameplay.Game.Controller {
       InputManager.OnReloadStage -= InputManager_OnReloadStage;
       m_StageManager.OnTargetReached -= TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated -= PlatformCreator_OnPlatformCreated;
-      StageTransitionManager.OnStageTransition -= StageTransitionManager_OnStageTransition;
+      StageTransitionManager.OnIsStageTransitioning -= StageTransitionManager_OnStageTransition;
       m_TitleSceneController.OnTitleSceneEnd -= ActivateInGameDependencies;
       WhiteObstacle.OnWhiteObstacleCollision -= WhiteObstacle_OnCollision;
     }
@@ -87,6 +87,7 @@ namespace Guidance.Gameplay.Game.Controller {
     private void ActivateInGameDependencies() {
       m_PlatformCreator.enabled = true;
       m_InputManager.enabled = true;
+      m_CurrentActiveBall.PathTraveledRenderer.enabled = true;
       m_TitleSceneController.enabled = false;
       Destroy(m_TitleSceneObjects);
     }

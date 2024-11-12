@@ -36,7 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3695409910723172757
 MonoBehaviour:
@@ -58,11 +58,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7503846442094881482}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 430e05fa52d70484ba41de9ea156825d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DrawDuration: 3
 --- !u!33 &6108868655835758549
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7503846442094881482}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -208,13 +209,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.057225175
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.1026783
+        value: 0.52010536
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -223,7 +224,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.0044642836
+        value: 0.49070084
         inSlope: 0
         outSlope: 0
         tangentMode: 0
