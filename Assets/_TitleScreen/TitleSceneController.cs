@@ -75,7 +75,6 @@ namespace Guidance.Title {
 
     public void DissolveBallUp() {
       StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial));
-
     }
   }
 }

@@ -11,7 +11,7 @@ namespace Guidance.Gameplay {
     public Collider Collider { get; private set; }
     public Material BallMaterial { get; private set; }
     public PathTraveledRenderer PathTraveledRenderer { get; private set; }
-    [SerializeField] private Vector3 m_StartingPosition; // This is used for debugging. Maybe it can be reused but I can't remember how it works rn
+    [SerializeField] private Vector3 m_StartingPosition; // This is used for debugging. Maybe it can be reused, but I can't remember how it works rn
     private Vector3 m_RestartPosition; // This is used to set the position on fail/reload
     private void Awake() {
       Rb = GetComponent<Rigidbody>();
@@ -36,7 +36,7 @@ namespace Guidance.Gameplay {
       Rb.isKinematic = false;
     }
 
-    public void DeactivateRigidbody() {
+    private void DeactivateRigidbody() {
       if (Rb.isKinematic) {
         return;
       }
@@ -61,7 +61,7 @@ namespace Guidance.Gameplay {
       transform.position = position;
     }
 
-    public void ResetBallPositionToStartOfStage() => transform.position = m_RestartPosition;
+    private void ResetBallPositionToStartOfStage() => transform.position = m_RestartPosition;
 
     public void ResetBallToStartOfStageProcedure() {
       DeactivateRigidbody();

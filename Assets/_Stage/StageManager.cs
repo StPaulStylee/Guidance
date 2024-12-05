@@ -47,6 +47,7 @@ namespace Guidance.Gameplay.Stage {
     public void ShiftForStageTransition() {
       if (m_PreviousTarget != null) {
         Vector3 position = m_PreviousTarget.transform.position;
+        // Should this variable be named "newTargetLocation" or "shiftLocation" or something?
         Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
         StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_PreviousTarget.transform, previousTargetLocation));
       }
