@@ -18,16 +18,6 @@ namespace Guidance.Title {
     [SerializeField] float m_ActivateDelay = 3f;
     private TitleController m_TitleController;
 
-    private void OnEnable() {
-      CinemachineCore.CameraActivatedEvent.AddListener(OnCameraActivated);
-      CinemachineCore.CameraDeactivatedEvent.AddListener(OnCameraDeactivated);
-    }
-
-    private void OnDisable() {
-      CinemachineCore.CameraActivatedEvent.RemoveListener(OnCameraActivated);
-      CinemachineCore.CameraDeactivatedEvent.RemoveListener(OnCameraDeactivated);
-    }
-
     private void Start() {
       m_TitleController = FindObjectOfType<TitleController>();
       m_Ball = FindObjectOfType<Ball>();
@@ -36,12 +26,9 @@ namespace Guidance.Title {
         Debug.LogWarning("No Ball found in Title scene");
       }
       if (m_BallStopPoint == null) {
-        Debug.LogWarning("No Stop POint found in TitleSceneController");
+        Debug.LogWarning("No Stop Point found in TitleSceneController");
       }
       m_BallMaterial = m_Ball.BallMaterial;
-      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
-      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
-
     }
 
     private void Update() {
@@ -50,23 +37,7 @@ namespace Guidance.Title {
       }
     }
 
-
-    private void OnCameraDeactivated(ICinemachineMixer arg0, ICinemachineCamera arg1) {
-      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
-      //StartCoroutine(MoveBallToStart());
-      //StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial, VerticalDissolveTime));
-    }
-
-    private void OnCameraActivated(ICinemachineCamera.ActivationEventParams evt) {
-      //Debug.Log(evt.IncomingCamera);
-      //if (evt.IncomingCamera.Vir)
-      //  StartCoroutine(Test());
-    }
-
     private IEnumerator MoveBallToStart() {
-      //MeshRenderer meshRenderer = m_Ball.GetComponent<MeshRenderer>();
-      //meshRenderer.enabled = false;
-      //yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial, VerticalDissolveTime));
       float elapsedTime = 0f;
       Vector3 initialPosition = m_Ball.transform.position;
       while (elapsedTime < BallMoveTime) {
@@ -76,12 +47,10 @@ namespace Guidance.Title {
       }
       m_Ball.transform.position = m_BallStopPoint.transform.position;
       StartCoroutine(ActivateGame());
-      //meshRenderer.enabled = true;
     }
 
     private IEnumerator ActivateGame() {
       yield return new WaitForSeconds(m_ActivateDelay);
-      //m_TitleController.gameObject.SetActive(false);
       OnTitleSceneEnd?.Invoke();
     }
 
@@ -93,7 +62,6 @@ namespace Guidance.Title {
 
     public IEnumerator DissolveBallDown() {
       StopCoroutine(m_TitleController.PulseEmission());
-      //yield return StartCoroutine(m_TitleController.LerpToMaxEmission());
       yield return StartCoroutine(m_TitleController.FadeOut());
       yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial));
       Camera.enabled = false;
@@ -107,13 +75,6 @@ namespace Guidance.Title {
 
     public void DissolveBallUp() {
       StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial));
-
     }
-
-    //private void OnCameraDeactivated(ICinemachineCamera.ActivationEventParams evt) {
-    //  if (evt.IncomingCamera === Camera) {
-    //    Debug.Log("We've got one!");
-    //  }
-    //}
   }
 }

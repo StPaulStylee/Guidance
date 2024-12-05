@@ -1,6 +1,7 @@
 using Guidance.Data;
 using Guidance.Gameplay.Game.Manager;
 using Guidance.Stage.Data;
+using System.Collections;
 using UnityEngine;
 
 namespace Guidance.Gameplay {
@@ -9,22 +10,23 @@ namespace Guidance.Gameplay {
     public Rigidbody Rb { get; private set; }
     public Collider Collider { get; private set; }
     public Material BallMaterial { get; private set; }
-    [SerializeField] private Vector3 m_StartingPosition; // This is used for debugging. Maybe it can be reused but I can't remember how it works rn
+    public PathTraveledRenderer PathTraveledRenderer { get; private set; }
+    [SerializeField] private Vector3 m_StartingPosition; // This is used for debugging. Maybe it can be reused, but I can't remember how it works rn
     private Vector3 m_RestartPosition; // This is used to set the position on fail/reload
-
     private void Awake() {
       Rb = GetComponent<Rigidbody>();
       Collider = GetComponent<Collider>();
       Rb.isKinematic = true;
       BallMaterial = GetComponent<Renderer>().material;
+      PathTraveledRenderer = GetComponent<PathTraveledRenderer>();
     }
 
     private void OnEnable() {
-      StageTransitionManager.OnStageTransition += SetRestartPosition;
+      StageTransitionManager.OnIsStageTransitioning += SetRestartPosition;
     }
 
     private void OnDisable() {
-      StageTransitionManager.OnStageTransition -= SetRestartPosition;
+      StageTransitionManager.OnIsStageTransitioning -= SetRestartPosition;
     }
 
     public void ActivateRigidbody() {
@@ -34,7 +36,7 @@ namespace Guidance.Gameplay {
       Rb.isKinematic = false;
     }
 
-    public void DeactivateRigidbody() {
+    private void DeactivateRigidbody() {
       if (Rb.isKinematic) {
         return;
       }
@@ -48,8 +50,9 @@ namespace Guidance.Gameplay {
     public void ShiftForStageTransition() {
       DeactivateRigidbody();
       Vector3 position = transform.position;
-      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
+      Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION - (Collider.bounds.size.y / 2), Z = position.z };
       StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(transform, previousTargetLocation));
+      StartCoroutine(ManagePathTraveledRendererOnStageTransition(previousTargetLocation));
       // Capture the ball position after this shift has occurred then it can be used to reset the ball position
       // on a fail
     }
@@ -58,11 +61,12 @@ namespace Guidance.Gameplay {
       transform.position = position;
     }
 
-    public void ResetBallPositionToStartOfStage() => transform.position = m_RestartPosition;
+    private void ResetBallPositionToStartOfStage() => transform.position = m_RestartPosition;
 
     public void ResetBallToStartOfStageProcedure() {
       DeactivateRigidbody();
       ResetBallPositionToStartOfStage();
+
       Rb.useGravity = true;
     }
 
@@ -72,6 +76,18 @@ namespace Guidance.Gameplay {
         return;
       }
       m_RestartPosition = transform.position;
+    }
+
+    private IEnumerator ManagePathTraveledRendererOnStageTransition(Position targetPosition) {
+      Debug.Log("Disabling PathTraveledRenderer");
+      PathTraveledRenderer.DisableDataCapture();
+      float enablePosition = targetPosition.Y - PathTraveledRenderer.PositionTolerance;
+      while (transform.position.y < enablePosition) {
+        yield return null;
+      }
+      Debug.Log("Enabling PathTraveledRendered");
+      PathTraveledRenderer.ClearDataCapture();
+      PathTraveledRenderer.EnableDataCapture();
     }
   }
 

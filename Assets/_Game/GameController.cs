@@ -45,7 +45,7 @@ namespace Guidance.Gameplay.Game.Controller {
       InputManager.OnReloadStage += InputManager_OnReloadStage;
       m_StageManager.OnTargetReached += TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated += PlatformCreator_OnPlatformCreated;
-      StageTransitionManager.OnStageTransition += StageTransitionManager_OnStageTransition;
+      StageTransitionManager.OnIsStageTransitioning += StageTransitionManager_OnStageTransition;
       m_TitleSceneController.OnTitleSceneEnd += ActivateInGameDependencies;
       WhiteObstacle.OnWhiteObstacleCollision += WhiteObstacle_OnCollision;
     }
@@ -54,7 +54,7 @@ namespace Guidance.Gameplay.Game.Controller {
       InputManager.OnReloadStage -= InputManager_OnReloadStage;
       m_StageManager.OnTargetReached -= TargetManager_OnTargetReached;
       m_PlatformCreator.OnPlatformCreated -= PlatformCreator_OnPlatformCreated;
-      StageTransitionManager.OnStageTransition -= StageTransitionManager_OnStageTransition;
+      StageTransitionManager.OnIsStageTransitioning -= StageTransitionManager_OnStageTransition;
       m_TitleSceneController.OnTitleSceneEnd -= ActivateInGameDependencies;
       WhiteObstacle.OnWhiteObstacleCollision -= WhiteObstacle_OnCollision;
     }
@@ -76,6 +76,8 @@ namespace Guidance.Gameplay.Game.Controller {
         return;
       }
       m_StageManager.SpawnNextStage(m_StageNumber);
+      m_CurrentActiveBall.PathTraveledRenderer.ClearDataCapture();
+      m_CurrentActiveBall.PathTraveledRenderer.EnableDataCapture();
     }
 
     public void ResetBallPosition() {
@@ -85,6 +87,7 @@ namespace Guidance.Gameplay.Game.Controller {
     private void ActivateInGameDependencies() {
       m_PlatformCreator.enabled = true;
       m_InputManager.enabled = true;
+      m_CurrentActiveBall.PathTraveledRenderer.enabled = true;
       m_TitleSceneController.enabled = false;
       Destroy(m_TitleSceneObjects);
     }
@@ -101,11 +104,12 @@ namespace Guidance.Gameplay.Game.Controller {
     private void TargetManager_OnTargetReached() {
       bool hasNextStage = m_StageManager.SpawnNextStage(m_NextStageNumber);
       if (hasNextStage) {
-        TransitionToNextStage();
+        StartCoroutine(TransitionToNextStage());
       }
     }
 
-    private void TransitionToNextStage() {
+    private IEnumerator TransitionToNextStage() {
+      yield return StartCoroutine(m_CurrentActiveBall.PathTraveledRenderer.DrawPathTraveledOverDuration());
       m_StageNumber++;
       m_CurrentActiveBall.ShiftForStageTransition();
       m_StageManager.ShiftForStageTransition();
@@ -117,11 +121,14 @@ namespace Guidance.Gameplay.Game.Controller {
     }
 
     private IEnumerator ResetBallToStartOfStage() {
+      m_CurrentActiveBall.PathTraveledRenderer.DisableDataCapture();
       yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_CurrentActiveBall.BallMaterial));
       yield return StartCoroutine(m_PlatformCreator.ShiftForStageRestart());
       yield return new WaitForSeconds(1f);
       m_CurrentActiveBall.ResetBallToStartOfStageProcedure();
       yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_CurrentActiveBall.BallMaterial));
+      m_CurrentActiveBall.PathTraveledRenderer.ClearDataCapture();
+      m_CurrentActiveBall.PathTraveledRenderer.EnableDataCapture();
     }
   }
 }
