@@ -1,9 +1,10 @@
+using _Ball;
 using UnityEngine;
 
-namespace Guidance.Gameplay.Obstacles {
+namespace _Obstacle {
   public interface ICollisionBehavior {
-    void ApplyCollisionBehaviorOnEnter(Ball ball, Collider collider);
-    void ApplyCollisionBehaviorOnExit(Ball ball, Collider collider);
-    void ApplyCollisionBehaviorOnStay(Ball ball, Collider collider);
+    void ApplyCollisionBehaviorOnEnter(Ball ball, Collider col);
+    void ApplyCollisionBehaviorOnExit(Ball ball, Collider col);
+    void ApplyCollisionBehaviorOnStay(Ball ball, Collider col);
   }
 }

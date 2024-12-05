@@ -1,4 +1,4 @@
-namespace Guidance.Gameplay.Obstacles {
+namespace _Obstacle {
   public enum ObstacleType {
     White = 0,
     Green = 1,

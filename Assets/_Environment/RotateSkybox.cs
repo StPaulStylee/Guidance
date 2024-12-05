@@ -1,13 +1,16 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Environment {
+namespace _Environment {
   public class RotateSkybox : MonoBehaviour {
-    [SerializeField] private float m_RotationSpeed = 0f;
-    [SerializeField] private bool m_IsRotating = false;
-    void Update() {
-      if (m_IsRotating) {
-        RenderSettings.skybox.SetFloat("_Rotation", Time.time * m_RotationSpeed);
-      }
+    [FormerlySerializedAs("m_RotationSpeed")] [SerializeField]
+    private float rotationSpeed;
+
+    [FormerlySerializedAs("m_IsRotating")] [SerializeField]
+    private bool isRotating;
+
+    private void Update() {
+      if (isRotating) RenderSettings.skybox.SetFloat("_Rotation", Time.time * rotationSpeed);
     }
   }
 }

@@ -1,25 +1,27 @@
-using Guidance.Gameplay.Stage;
+using _Ball;
+using _Ball.Obstacles;
+using _Target;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Gameplay.Obstacles {
+namespace _Obstacle.Obstacle_Blue {
   public class BlueObstacle : Obstacle, ICollisionBehavior {
-    private Target m_Target;
-    [SerializeField] private float m_LaunchForce;
+    [FormerlySerializedAs("m_LaunchForce")] [SerializeField]
+    private float launchForce;
+
+    private Target _target;
+
     private void Awake() {
       CollisionBehavior = this;
       TypeId = ObstacleType.Blue;
     }
 
-    public void ApplyCollisionBehaviorOnEnter(Ball ball, Collider collider) {
-      return;
-    }
+    public void ApplyCollisionBehaviorOnEnter(Ball ball, Collider col) { }
 
-    public void ApplyCollisionBehaviorOnExit(Ball ball, Collider collider) {
-      return;
-    }
+    public void ApplyCollisionBehaviorOnExit(Ball ball, Collider col) { }
 
-    public void ApplyCollisionBehaviorOnStay(Ball ball, Collider collider) {
-      ball.Rb.AddForce(Vector3.up * m_LaunchForce, ForceMode.Impulse);
+    public void ApplyCollisionBehaviorOnStay(Ball ball, Collider col) {
+      ball.Rb.AddForce(Vector3.up * launchForce, ForceMode.Impulse);
     }
   }
 }

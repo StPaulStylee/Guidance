@@ -1,4 +1,4 @@
-namespace Guidance.Gameplay.Game.Manager {
+namespace _Game {
   public interface IStageTransition {
     void ShiftForStageTransition();
   }

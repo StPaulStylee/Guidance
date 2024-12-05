@@ -1,55 +1,64 @@
-using Guidance.Gameplay.Game.Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Game;
+using _Platform;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Gameplay {
+namespace _PlatformCreator {
   public class PlatformCreator : MonoBehaviour, IStageTransition {
-    public event Action OnPlatformCreated;
-    [SerializeField] private GameObject m_PlatformPrefab;
-    private float m_ScaleModifier = 0.03f;
+    private const float SCALE_MODIFIER = 0.03f;
 
+    [FormerlySerializedAs("m_PlatformPrefab")] [SerializeField]
+    private GameObject platformPrefab;
 
-    private GameObject m_CurrentCube;
-    private Platform m_CurrentCubePlatform;
-    private List<Platform> m_CreatedPlatforms;
+    [FormerlySerializedAs("m_EmissionTransitionLengthInSeconds")] [SerializeField]
+    private float emissionTransitionLengthInSeconds = 1f;
 
-    [SerializeField] private float m_EmissionTransitionLengthInSeconds = 1f;
-    private Vector3 m_InitialMousePosition;
-    private Vector3 m_CurrentMousePosition;
-    private bool m_IsEnabled = false;
+    private float _cameraOffset;
+    private List<Platform> _createdPlatforms;
+
+    private GameObject _currentCube;
+    private Platform _currentCubePlatform;
+    private Vector3 _currentMousePosition;
+    private Vector3 _initialMousePosition;
+    private bool _isEnabled;
+
+    private Camera _mainCamera;
+
     public bool IsEnabled {
-      get {
-        return m_IsEnabled;
-      }
+      get => _isEnabled;
       set {
         if (value) {
           Cursor.visible = true;
-        } else {
+        }
+        else {
           Cursor.visible = false;
         }
-        m_IsEnabled = value;
+
+        _isEnabled = value;
       }
     }
 
-    private Camera m_MainCamera;
-    private float m_CameraOffset;
-
     private void Awake() {
-      m_CreatedPlatforms = new List<Platform>();
+      _createdPlatforms = new List<Platform>();
     }
 
     private void Start() {
-      m_MainCamera = Camera.main;
-      m_CameraOffset = m_MainCamera.transform.position.z;
+      _mainCamera = Camera.main;
+      if (_mainCamera != null) {
+        _cameraOffset = _mainCamera.transform.position.z;
+      }
+
       IsEnabled = true;
     }
 
-    void Update() {
-      if (!m_IsEnabled) {
+    private void Update() {
+      if (!_isEnabled) {
         return;
       }
+
       // Temporary
       //if (Input.GetKeyDown(KeyCode.R)) {
       //  SceneManager.LoadSceneAsync(0);
@@ -63,51 +72,55 @@ namespace Guidance.Gameplay {
       }
 
       if (Input.GetMouseButtonUp(0)) {
-        m_CurrentCubePlatform.PerformTransitionEmission();
+        _currentCubePlatform.PerformTransitionEmission();
         OnPlatformCreated?.Invoke();
         ResetMousePosition();
       }
     }
 
     public void ShiftForStageTransition() {
-      foreach (Platform platform in m_CreatedPlatforms) {
+      foreach (Platform platform in _createdPlatforms)
         StartCoroutine(StageTransitionManager.ShiftForNextStage(platform.transform));
-      }
     }
 
+    public event Action OnPlatformCreated;
+
     public IEnumerator ShiftForStageRestart() {
-      foreach (Platform platform in m_CreatedPlatforms) {
+      foreach (Platform platform in _createdPlatforms) {
         StartCoroutine(StageTransitionManager.ShiftForNextStage(platform.transform));
         yield return null;
       }
     }
 
     private void CreatePlatform() {
-      m_InitialMousePosition = Input.mousePosition;
-      m_InitialMousePosition.z = m_CameraOffset;
-      Vector3 spawnPosition = m_MainCamera.ScreenToWorldPoint(new Vector3(m_InitialMousePosition.x, m_InitialMousePosition.y, -m_CameraOffset));
+      _initialMousePosition = Input.mousePosition;
+      _initialMousePosition.z = _cameraOffset;
+      Vector3 spawnPosition =
+        _mainCamera.ScreenToWorldPoint(
+          new Vector3(_initialMousePosition.x, _initialMousePosition.y, -_cameraOffset));
 
-      m_CurrentCube = Instantiate(m_PlatformPrefab, spawnPosition, m_PlatformPrefab.transform.rotation, transform);
-      m_CurrentCubePlatform = m_CurrentCube.GetComponent<Platform>();
-      m_CreatedPlatforms.Add(m_CurrentCubePlatform);
+      _currentCube = Instantiate(platformPrefab, spawnPosition, platformPrefab.transform.rotation, transform);
+      _currentCubePlatform = _currentCube.GetComponent<Platform>();
+      _createdPlatforms.Add(_currentCubePlatform);
     }
 
     private void UpdatePlatformSize() {
-      if (m_CurrentCube != null) {
-        m_CurrentMousePosition = Input.mousePosition;
-        m_CurrentMousePosition.z = m_CameraOffset;
-        float distance = Vector3.Distance(m_InitialMousePosition, m_CurrentMousePosition);
+      if (_currentCube) {
+        _currentMousePosition = Input.mousePosition;
+        _currentMousePosition.z = _cameraOffset;
+        float distance = Vector3.Distance(_initialMousePosition, _currentMousePosition);
         float normalizedDistance = distance / Screen.width;
 
-        Vector3 direction = (m_CurrentMousePosition - m_InitialMousePosition);
-        m_CurrentCube.transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
-        m_CurrentCube.transform.localScale = new Vector3((normalizedDistance / m_ScaleModifier), m_CurrentCube.transform.localScale.y, m_CurrentCube.transform.localScale.z);
+        Vector3 direction = _currentMousePosition - _initialMousePosition;
+        _currentCube.transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
+        _currentCube.transform.localScale = new Vector3(normalizedDistance / SCALE_MODIFIER,
+          _currentCube.transform.localScale.y, _currentCube.transform.localScale.z);
       }
     }
 
     private void ResetMousePosition() {
-      m_InitialMousePosition = Vector3.zero;
-      m_CurrentMousePosition = Vector3.zero;
+      _initialMousePosition = Vector3.zero;
+      _currentMousePosition = Vector3.zero;
     }
   }
 }

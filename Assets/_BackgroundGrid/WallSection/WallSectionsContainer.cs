@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Guidance.Gameplay.BackgroundGrid {
-  public class WallSectionsContainer : MonoBehaviour {
-  }
+namespace _BackgroundGrid.WallSection {
+  // I think this can be removed
+  public class WallSectionsContainer : MonoBehaviour { }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Guidance.Stage {
+namespace _Stage {
   public class StageViewer : MonoBehaviour {
 
   }

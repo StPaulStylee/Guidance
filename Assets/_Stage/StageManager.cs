@@ -1,81 +1,85 @@
-using Guidance.Data;
-using Guidance.Gameplay.Game.Manager;
-using Guidance.Gameplay.Obstacles;
-using Guidance.Stage;
-using Guidance.Stage.Data;
 using System;
 using System.Collections.Generic;
+using _Data;
+using _Game;
+using _Obstacle;
+using _Target;
+using Guidance.Stage;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Gameplay.Stage {
+namespace _Stage {
   public class StageManager : MonoBehaviour, IStageTransition {
+    [FormerlySerializedAs("mTargetPrefab")] [FormerlySerializedAs("m_TargetPrefab")] [SerializeField]
+    private GameObject targetPrefab;
 
-    public event Action OnTargetReached;
+    [FormerlySerializedAs("m_ObstacleCompnentTypes")] [SerializeField]
+    private List<Obstacle> obstacleCompnentTypes;
 
-    [SerializeField] private GameObject m_TargetPrefab;
-    [SerializeField] private List<Obstacle> m_ObstacleCompnentTypes;
-    public List<Obstacle> ObstacleComponentTypes {
-      get {
-        return m_ObstacleCompnentTypes;
-      }
-    }
-    private Target m_PreviousTarget;
-    private Target m_CurrentTarget;
-    private List<Target> m_InactiveTargets;
-    private List<Obstacle> m_Obstacles;
+    private GameObject _currentStage;
+    private Target _currentTarget;
+    private List<Target> _inactiveTargets;
+    private List<Obstacle> _obstacles;
+    private Target _previousTarget;
+    private StageData[] _stageData;
+    private int _stageNumber;
 
-    private GameObject m_CurrentStage;
-    private StageData[] m_StageData;
-    private int m_StageNumber;
+    public List<Obstacle> ObstacleComponentTypes => obstacleCompnentTypes;
 
     private void Awake() {
-      m_InactiveTargets = new();
-      m_Obstacles = new();
-      m_StageData = Utilities.GetStageData();
-    }
-
-    public void DeactivatePreviousGoalTarget() {
-      if (m_PreviousTarget == null) {
-        return;
-      }
-      if (!m_PreviousTarget.GoalLocation.IsMeshColliderEnabled) {
-        return;
-      }
-      m_PreviousTarget.GoalLocation.DisableMeshCollider();
+      _inactiveTargets = new List<Target>();
+      _obstacles = new List<Obstacle>();
+      _stageData = Utilities.GetStageData();
     }
 
     public void ShiftForStageTransition() {
-      if (m_PreviousTarget != null) {
-        Vector3 position = m_PreviousTarget.transform.position;
+      if (_previousTarget) {
+        Vector3 position = _previousTarget.transform.position;
         // Should this variable be named "newTargetLocation" or "shiftLocation" or something?
-        Position previousTargetLocation = new Position { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
-        StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_PreviousTarget.transform, previousTargetLocation));
+        Position previousTargetLocation = new()
+          { X = position.x, Y = Constants.TARGET_LOCATION_Y_FINAL_LOCATION, Z = position.z };
+        StartCoroutine(
+          StageTransitionManager.ShiftToStartLocationForNextStage(_previousTarget.transform, previousTargetLocation));
       }
-      Position newTargetLocation = m_StageData[m_StageNumber].TargetLocation;
-      StartCoroutine(StageTransitionManager.ShiftToStartLocationForNextStage(m_CurrentTarget.transform, newTargetLocation));
-      foreach (Target target in m_InactiveTargets) {
+
+      Position newTargetLocation = _stageData[_stageNumber].TargetLocation;
+      StartCoroutine(
+        StageTransitionManager.ShiftToStartLocationForNextStage(_currentTarget.transform, newTargetLocation));
+      foreach (Target target in _inactiveTargets)
         StartCoroutine(StageTransitionManager.ShiftForNextStage(target.transform));
-      }
-      foreach (Obstacle obstacle in m_Obstacles) {
+      foreach (Obstacle obstacle in _obstacles)
         StartCoroutine(StageTransitionManager.ShiftForNextStage(obstacle.transform));
+    }
+
+    public event Action OnTargetReached;
+
+    public void DeactivatePreviousGoalTarget() {
+      if (!_previousTarget) {
+        return;
       }
+
+      if (!_previousTarget.GoalLocation.IsMeshColliderEnabled) {
+        return;
+      }
+
+      _previousTarget.GoalLocation.DisableMeshCollider();
     }
 
     public bool SpawnNextStage(int stageNumber) {
-      m_StageNumber = stageNumber;
-      m_CurrentStage = new GameObject($"Stage_{m_StageNumber}");
-      m_CurrentStage.transform.SetParent(transform);
-      if (m_StageNumber < 0 || m_StageNumber >= m_StageData?.Length) {
+      _stageNumber = stageNumber;
+      _currentStage = new GameObject($"Stage_{_stageNumber}");
+      _currentStage.transform.SetParent(transform);
+      if (_stageNumber < 0 || _stageNumber >= _stageData?.Length) {
         Debug.LogError("Cannot access stage data for spawning a target because the index does not exist");
         return false;
       }
-      StageData stageData = m_StageData[m_StageNumber];
+
+      StageData stageData = _stageData[_stageNumber];
       GameObject target = SpawnNewTarget(stageData.TargetLocation);
       RegisterNewTarget(target);
       SpawnObstacles(stageData.Obstacles);
       return true;
     }
-
 
     private void TargetGoalLocation_OnTargetReached() {
       OnTargetReached?.Invoke();
@@ -85,41 +89,39 @@ namespace Guidance.Gameplay.Stage {
       if (obstacles.Length == 0) {
         return;
       }
+
       foreach (ObstacleData obstacle in obstacles) {
-        Obstacle obstacleComponent = m_ObstacleCompnentTypes.Find(component => component.TypeId == obstacle.TypeId);
-        GameObject newObstacle = obstacleComponent.Initialize(obstacle, m_CurrentStage.transform);
+        Obstacle obstacleComponent = obstacleCompnentTypes.Find(component => component.TypeId == obstacle.TypeId);
+        GameObject newObstacle = obstacleComponent.Initialize(obstacle, _currentStage.transform);
         RegisterObstacle(newObstacle);
       }
     }
 
     private GameObject SpawnNewTarget(Position spawnPosition) {
-      float xPos, yPos, zPos;
-      xPos = spawnPosition.X;
-      zPos = spawnPosition.Z;
-      if (m_StageNumber == 0) {
-        yPos = spawnPosition.Y;
-      } else {
-        yPos = Constants.TARGET_LOCATION_Y_SPAWN_LOCATION;
-      }
-      Vector3 spawnLocation = new Vector3(xPos, yPos, zPos);
-      GameObject newTarget = Instantiate(m_TargetPrefab, spawnLocation, Quaternion.identity, m_CurrentStage.transform);
+      float xPos = spawnPosition.X;
+      float zPos = spawnPosition.Z;
+      float yPos = _stageNumber == 0 ? spawnPosition.Y : Constants.TARGET_LOCATION_Y_SPAWN_LOCATION;
+
+      Vector3 spawnLocation = new(xPos, yPos, zPos);
+      GameObject newTarget = Instantiate(targetPrefab, spawnLocation, Quaternion.identity, _currentStage.transform);
       return newTarget;
     }
 
     private void RegisterNewTarget(GameObject target) {
-      if (m_PreviousTarget != null) {
-        m_PreviousTarget.GoalLocation.OnTargetReached -= TargetGoalLocation_OnTargetReached;
-        m_InactiveTargets.Add(m_PreviousTarget);
-        m_PreviousTarget = m_CurrentTarget;
+      if (_previousTarget != null) {
+        _previousTarget.GoalLocation.OnTargetReached -= TargetGoalLocation_OnTargetReached;
+        _inactiveTargets.Add(_previousTarget);
+        _previousTarget = _currentTarget;
       }
+
       Target targetComponent = target.GetComponent<Target>();
-      m_PreviousTarget = m_CurrentTarget;
-      m_CurrentTarget = targetComponent;
+      _previousTarget = _currentTarget;
+      _currentTarget = targetComponent;
       targetComponent.GoalLocation.OnTargetReached += TargetGoalLocation_OnTargetReached;
     }
 
     private void RegisterObstacle(GameObject obstacle) {
-      m_Obstacles.Add(obstacle.GetComponent<Obstacle>());
+      _obstacles.Add(obstacle.GetComponent<Obstacle>());
     }
   }
 }

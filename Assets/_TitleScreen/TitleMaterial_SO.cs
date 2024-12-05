@@ -1,8 +1,6 @@
 using UnityEngine;
 
-
-
-namespace Guidance.Title {
+namespace _TitleScreen {
   [CreateAssetMenu(fileName = "Title Material", menuName = "ScriptableObjects/Title Material", order = 2)]
 
   public class TitleMaterial_SO : ScriptableObject {

@@ -1,5 +1,7 @@
-namespace Guidance.Gameplay.Obstacles {
+namespace _Ball.Obstacles {
   public enum SpinDirection {
-    Clockwise, CounterClockwise, None
+    Clockwise,
+    CounterClockwise,
+    None
   }
 }

@@ -1,34 +1,35 @@
 using System.Collections.Generic;
 
-namespace Guidance.Stage.Data {
+namespace _Stage {
   public class StageCreatorData {
-    public const string PrefabPath = "Assets/_Obstacle";
-    public static List<ObstacleAssetData> ObstacleAssetData = new List<ObstacleAssetData> {
-      new ObstacleAssetData(ObstacleAssetDataKey.Green, "Obstacle_Green/"),
-      new ObstacleAssetData(ObstacleAssetDataKey.White, "Obstacle_White/"),
-      new ObstacleAssetData(ObstacleAssetDataKey.Red, "Obstacle_Red/"),
-      new ObstacleAssetData(ObstacleAssetDataKey.Blue, "Obstacle_Blue/"),
-      new ObstacleAssetData(ObstacleAssetDataKey.Yellow, "Obstacle_Yellow/"),
-      new ObstacleAssetData(ObstacleAssetDataKey.Gold, "Obstacle_Gold/")
+    public const string PREFAB_PATH = "Assets/_Obstacle";
 
+    public static readonly List<ObstacleAssetData> ObstacleAssetData = new() {
+      new ObstacleAssetData(ObstacleAssetDataKey.GREEN, "Obstacle_Green/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.WHITE, "Obstacle_White/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.RED, "Obstacle_Red/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.BLUE, "Obstacle_Blue/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.YELLOW, "Obstacle_Yellow/"),
+      new ObstacleAssetData(ObstacleAssetDataKey.GOLD, "Obstacle_Gold/")
     };
   }
 
   public class ObstacleAssetDataKey {
-    public const string Green = "green";
-    public const string White = "white";
-    public const string Red = "red";
-    public const string Blue = "blue";
-    public const string Yellow = "yellow";
-    public const string Gold = "gold";
+    public const string GREEN = "green";
+    public const string WHITE = "white";
+    public const string RED = "red";
+    public const string BLUE = "blue";
+    public const string YELLOW = "yellow";
+    public const string GOLD = "gold";
   }
 
   public class ObstacleAssetData {
-    public string Name { get; set; }
-    public string Subdirectory { get; set; }
     public ObstacleAssetData(string name, string subdirectory) {
       Name = name;
       Subdirectory = subdirectory;
     }
+
+    public string Name { get; set; }
+    public string Subdirectory { get; set; }
   }
 }

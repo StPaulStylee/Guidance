@@ -1,52 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Gameplay {
+namespace _Ball {
   public class PathTraveledRenderer : MonoBehaviour {
-    public float PositionTolerance { get; } = 0.1f;
-    [SerializeField] float m_DrawDuration = 2f;
-    private LineRenderer m_LineRenderer;
-    private List<Vector3> m_PathPositions;
-    private bool m_IsActivelyCapturingPathData = false;
+    [FormerlySerializedAs("m_DrawDuration")] [SerializeField]
+    private float drawDuration = 2f;
 
+    private bool _isActivelyCapturingPathData;
+    private LineRenderer _lineRenderer;
+    private List<Vector3> _pathPositions;
+    public float PositionTolerance { get; } = 0.1f;
 
     private void Awake() {
-      m_LineRenderer = GetComponent<LineRenderer>();
-      m_PathPositions = new List<Vector3>();
+      _lineRenderer = GetComponent<LineRenderer>();
+      _pathPositions = new List<Vector3>();
     }
 
     private void Start() {
-      m_LineRenderer.positionCount = 0;
+      _lineRenderer.positionCount = 0;
     }
 
     private void FixedUpdate() {
-      if (m_IsActivelyCapturingPathData) {
-        m_PathPositions.Add(transform.position);
-      }
+      if (_isActivelyCapturingPathData) _pathPositions.Add(transform.position);
     }
 
-    public void ClearDataCapture() => m_PathPositions.Clear();
-    public bool DisableDataCapture() => m_IsActivelyCapturingPathData = false;
-    public bool EnableDataCapture() => m_IsActivelyCapturingPathData = true;
+    public void ClearDataCapture() {
+      _pathPositions.Clear();
+    }
+
+    public bool DisableDataCapture() {
+      return _isActivelyCapturingPathData = false;
+    }
+
+    public bool EnableDataCapture() {
+      return _isActivelyCapturingPathData = true;
+    }
 
     public IEnumerator DrawPathTraveledOverDuration() {
       float elapsedTime = 0f;
       int positionsToDraw;
-      while (elapsedTime < m_DrawDuration) {
-        positionsToDraw = Mathf.FloorToInt((elapsedTime / m_DrawDuration) * m_PathPositions.Count);
-        m_LineRenderer.positionCount = positionsToDraw;
-        for (int i = 0; i < positionsToDraw; i++) {
-          m_LineRenderer.SetPosition(i, m_PathPositions[m_PathPositions.Count - 1 - i]);
-        }
+      while (elapsedTime < drawDuration) {
+        positionsToDraw = Mathf.FloorToInt(elapsedTime / drawDuration * _pathPositions.Count);
+        _lineRenderer.positionCount = positionsToDraw;
+        for (int i = 0; i < positionsToDraw; i++)
+          _lineRenderer.SetPosition(i, _pathPositions[_pathPositions.Count - 1 - i]);
         elapsedTime += Time.deltaTime;
         yield return null;
       }
-      m_LineRenderer.positionCount = m_PathPositions.Count;
-      for (int i = 0; i < m_PathPositions.Count; i++) {
-        m_LineRenderer.SetPosition(i, m_PathPositions[m_PathPositions.Count - 1 - i]);
-      }
-      m_LineRenderer.positionCount = 0;
+
+      _lineRenderer.positionCount = _pathPositions.Count;
+      for (int i = 0; i < _pathPositions.Count; i++)
+        _lineRenderer.SetPosition(i, _pathPositions[_pathPositions.Count - 1 - i]);
+      _lineRenderer.positionCount = 0;
     }
   }
 }

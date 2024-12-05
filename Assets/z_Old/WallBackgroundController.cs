@@ -1,13 +1,15 @@
 using UnityEngine;
 
-namespace Guidance.Gameplay.BackgroundGrid {
+namespace _Ball {
   public class WallBackgroundController : MonoBehaviour {
     private static WallBackgroundController instance;
+
     private void Awake() {
       if (instance != null) {
         Destroy(gameObject);
         return;
       }
+
       instance = this;
       DontDestroyOnLoad(gameObject);
     }

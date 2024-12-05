@@ -1,29 +1,27 @@
 using System;
+using _Ball;
+using _Ball.Obstacles;
 using UnityEngine;
 
-namespace Guidance.Gameplay.Obstacles {
+namespace _Obstacle.Obstacle_White {
   public class WhiteObstacle : Obstacle, ICollisionBehavior {
-    public static event Action OnWhiteObstacleCollision;
-    public void ApplyCollisionBehaviorOnEnter(Ball ball, Collider collider) {
+    private void Awake() {
+      TypeId = ObstacleType.White;
+      CollisionBehavior = this;
+    }
+
+    public void ApplyCollisionBehaviorOnEnter(Ball ball, Collider col) {
       ball.Rb.velocity = Vector3.zero;
       ball.Rb.useGravity = false;
       ball.Rb.angularVelocity = Vector3.zero;
       ball.transform.rotation = Quaternion.identity;
       OnWhiteObstacleCollision?.Invoke();
-      return;
     }
 
-    public void ApplyCollisionBehaviorOnExit(Ball ball, Collider collider) {
-      return;
-    }
+    public void ApplyCollisionBehaviorOnExit(Ball ball, Collider col) { }
 
-    public void ApplyCollisionBehaviorOnStay(Ball ball, Collider collider) {
-      return;
-    }
+    public void ApplyCollisionBehaviorOnStay(Ball ball, Collider col) { }
 
-    private void Awake() {
-      TypeId = ObstacleType.White;
-      CollisionBehavior = this;
-    }
+    public static event Action OnWhiteObstacleCollision;
   }
 }

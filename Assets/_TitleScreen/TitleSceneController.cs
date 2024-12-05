@@ -1,34 +1,40 @@
-using Guidance.Gameplay;
-using Guidance.Gameplay.Game.Manager;
 using System;
 using System.Collections;
+using _Ball;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Title {
+namespace _TitleScreen {
   public class TitleSceneController : MonoBehaviour {
-    public event Action OnTitleSceneEnd;
-
     public CinemachineCamera Camera;
     public float BallMoveTime = 5f;
-    private Ball m_Ball;
-    private Material m_BallMaterial;
-    private BallStopPoint m_BallStopPoint;
-    private bool m_IsBallMoving = false;
-    [SerializeField] float m_ActivateDelay = 3f;
-    private TitleController m_TitleController;
+
+    [FormerlySerializedAs("m_ActivateDelay")] [SerializeField]
+    private float activateDelay = 3f;
+
+    private Ball _ball;
+    private Material _ballMaterial;
+
+    private BallStopPoint _ballStopPoint;
+
+    // private bool _isBallMoving;
+    private TitleController _titleController;
 
     private void Start() {
-      m_TitleController = FindObjectOfType<TitleController>();
-      m_Ball = FindObjectOfType<Ball>();
-      m_BallStopPoint = FindObjectOfType<BallStopPoint>();
-      if (m_Ball == null) {
+      // _isBallMoving = false;
+      _titleController = FindObjectOfType<TitleController>();
+      _ball = FindObjectOfType<Ball>();
+      _ballStopPoint = FindObjectOfType<BallStopPoint>();
+      if (_ball == null) {
         Debug.LogWarning("No Ball found in Title scene");
       }
-      if (m_BallStopPoint == null) {
+
+      if (_ballStopPoint == null) {
         Debug.LogWarning("No Stop Point found in TitleSceneController");
       }
-      m_BallMaterial = m_Ball.BallMaterial;
+
+      _ballMaterial = _ball.BallMaterial;
     }
 
     private void Update() {
@@ -37,44 +43,48 @@ namespace Guidance.Title {
       }
     }
 
+    public event Action OnTitleSceneEnd;
+
     private IEnumerator MoveBallToStart() {
       float elapsedTime = 0f;
-      Vector3 initialPosition = m_Ball.transform.position;
+      Vector3 initialPosition = _ball.transform.position;
       while (elapsedTime < BallMoveTime) {
-        m_Ball.transform.position = Vector3.Lerp(initialPosition, m_BallStopPoint.transform.position, elapsedTime / BallMoveTime);
+        _ball.transform.position =
+          Vector3.Lerp(initialPosition, _ballStopPoint.transform.position, elapsedTime / BallMoveTime);
         elapsedTime += Time.deltaTime;
         yield return null;
       }
-      m_Ball.transform.position = m_BallStopPoint.transform.position;
+
+      _ball.transform.position = _ballStopPoint.transform.position;
       StartCoroutine(ActivateGame());
     }
 
     private IEnumerator ActivateGame() {
-      yield return new WaitForSeconds(m_ActivateDelay);
+      yield return new WaitForSeconds(activateDelay);
       OnTitleSceneEnd?.Invoke();
     }
 
     public IEnumerator Test() {
-      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial));
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(_ballMaterial));
       StartCoroutine(MoveBallToStart());
-      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial));
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(_ballMaterial));
     }
 
     public IEnumerator DissolveBallDown() {
-      StopCoroutine(m_TitleController.PulseEmission());
-      yield return StartCoroutine(m_TitleController.FadeOut());
-      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(m_BallMaterial));
+      StopCoroutine(_titleController.PulseEmission());
+      yield return StartCoroutine(_titleController.FadeOut());
+      yield return StartCoroutine(BallDissolveManager.PerformVerticalDissolveDown(_ballMaterial));
       Camera.enabled = false;
     }
 
     // Cinemachine Camera Events
     public void MoveBall() {
-      m_Ball.transform.position = m_BallStopPoint.transform.position;
+      _ball.transform.position = _ballStopPoint.transform.position;
       StartCoroutine(ActivateGame());
     }
 
     public void DissolveBallUp() {
-      StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(m_BallMaterial));
+      StartCoroutine(BallDissolveManager.PerformVerticalDissolveUp(_ballMaterial));
     }
   }
 }

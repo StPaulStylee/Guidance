@@ -1,15 +1,15 @@
 using System;
+using _Ball;
 using UnityEngine;
 
-namespace Guidance.Gameplay.Stage {
+namespace _Target {
   public class TargetGoalLocation : MonoBehaviour {
-    public event Action OnTargetReached;
-    private MeshCollider m_MeshCollider;
+    private MeshCollider _meshCollider;
 
-    public bool IsMeshColliderEnabled => m_MeshCollider.enabled;
+    public bool IsMeshColliderEnabled => _meshCollider.enabled;
 
     private void Awake() {
-      m_MeshCollider = GetComponent<MeshCollider>();
+      _meshCollider = GetComponent<MeshCollider>();
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -26,12 +26,14 @@ namespace Guidance.Gameplay.Stage {
       Debug.Log(other.name + "exited the target");
     }
 
+    public event Action OnTargetReached;
+
     public void EnableMeshCollider() {
-      m_MeshCollider.enabled = true;
+      _meshCollider.enabled = true;
     }
 
     public void DisableMeshCollider() {
-      m_MeshCollider.enabled = false;
+      _meshCollider.enabled = false;
     }
   }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Guidance.Gameplay.BackgroundGrid {
+namespace _BackgroundGrid.WallSection {
   public class WallSection : MonoBehaviour {
     [field: SerializeField] public int Id { get; set; }
   }

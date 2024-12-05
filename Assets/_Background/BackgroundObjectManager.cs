@@ -1,47 +1,54 @@
-using Guidance.Background.Object;
+using _Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Background.Manager {
+namespace _Background {
   public class BackgroundObjectManager : MonoBehaviour {
-    [SerializeField] private BackgroundObjectNotifier m_Notifier;
-    [SerializeField] private GameObject[] m_SpaceShipPrefabs;
-    [SerializeField] private SpawnPoint[] m_SpawnPoints;
-    private float m_MaxSpawnDelay = 1f;
-    private GameObject m_CurrentBackgroundObject;
+    [FormerlySerializedAs("mNotifier")] [FormerlySerializedAs("m_Notifier")] [SerializeField]
+    private BackgroundObjectNotifier notifier;
 
-    private void OnEnable() {
-      m_Notifier.OnObjectTriggerExit += DestroyBackgroundObject;
-    }
+    [FormerlySerializedAs("m_SpaceShipPrefabs")] [SerializeField]
+    private GameObject[] spaceShipPrefabs;
 
-    private void OnDisable() {
-      m_Notifier.OnObjectTriggerExit -= DestroyBackgroundObject;
-    }
+    [FormerlySerializedAs("m_SpawnPoints")] [SerializeField]
+    private SpawnPoint[] spawnPoints;
 
-    void Start() {
+    private readonly float _maxSpawnDelay = 1f;
+    private GameObject _currentBackgroundObject;
+
+    private void Start() {
       CreateSpaceship();
     }
 
+    private void OnEnable() {
+      notifier.OnObjectTriggerExit += DestroyBackgroundObject;
+    }
+
+    private void OnDisable() {
+      notifier.OnObjectTriggerExit -= DestroyBackgroundObject;
+    }
+
     private void DestroyBackgroundObject(GameObject backgroundObject) {
-      if (m_CurrentBackgroundObject != null) {
+      if (_currentBackgroundObject != null) {
         Destroy(backgroundObject);
-        Invoke("CreateSpaceship", Random.Range(0f, m_MaxSpawnDelay));
+        Invoke("CreateSpaceship", Random.Range(0f, _maxSpawnDelay));
       }
     }
 
     private GameObject GetRandomSpaceShip() {
-      int index = Random.Range(0, m_SpaceShipPrefabs.Length);
-      return m_SpaceShipPrefabs[index];
+      int index = Random.Range(0, spaceShipPrefabs.Length);
+      return spaceShipPrefabs[index];
     }
 
     private void CreateBackgroundObject(GameObject go) {
       SpawnPoint spawnPoint = GetRandomSpawnPoint();
       BackgroundObjectSpawnData spawnData = spawnPoint.GetSpawnData();
-      m_CurrentBackgroundObject = Instantiate(go, spawnData.Position, spawnData.Rotation, transform);
+      _currentBackgroundObject = Instantiate(go, spawnData.Position, spawnData.Rotation, transform);
     }
 
     private SpawnPoint GetRandomSpawnPoint() {
-      int index = Random.Range(0, m_SpawnPoints.Length);
-      return m_SpawnPoints[index];
+      int index = Random.Range(0, spawnPoints.Length);
+      return spawnPoints[index];
     }
 
     private void CreateSpaceship() {

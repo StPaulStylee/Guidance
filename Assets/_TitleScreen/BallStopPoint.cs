@@ -1,5 +1,5 @@
 using UnityEngine;
 
-namespace Guidance.Title {
+namespace _TitleScreen {
   public class BallStopPoint : MonoBehaviour { }
 }

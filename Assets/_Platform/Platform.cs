@@ -1,23 +1,31 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Guidance.Gameplay {
+namespace _Platform {
   [RequireComponent(typeof(MeshRenderer))]
   public class Platform : MonoBehaviour {
-    [ColorUsage(true, true)]
-    [SerializeField] private Color m_TargetColor = new Color(2.4778893f, 2.21879411f, 2.99607873f, 1f);
-    [SerializeField] private float m_EmissionTransitionLengthInSeconds = 1f;
-    [SerializeField] private bool m_IsEmissionDisabled = false;
-    private Color m_CurrentEmission;
-    private Material m_Material;
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-    public Color GetTargetColor() => m_TargetColor;
+    [FormerlySerializedAs("m_TargetColor")] [ColorUsage(true, true)] [SerializeField]
+    private Color targetColor = new(2.4778893f, 2.21879411f, 2.99607873f, 1f);
+
+    [FormerlySerializedAs("m_EmissionTransitionLengthInSeconds")] [SerializeField]
+    private float emissionTransitionLengthInSeconds = 1f;
+
+    [FormerlySerializedAs("m_IsEmissionDisabled")] [SerializeField]
+    private bool isEmissionDisabled;
+
+    private Color _currentEmission;
+    private Material _material;
 
     private void Awake() {
-      m_Material = GetComponent<MeshRenderer>().material;
-      if (m_IsEmissionDisabled) {
-        m_Material.SetColor("_EmissionColor", m_TargetColor);
-      }
+      _material = GetComponent<MeshRenderer>().material;
+      if (isEmissionDisabled) _material.SetColor(EmissionColor, targetColor);
+    }
+
+    public Color GetTargetColor() {
+      return targetColor;
     }
 
     public Coroutine PerformTransitionEmission() {
@@ -25,11 +33,12 @@ namespace Guidance.Gameplay {
     }
 
     private IEnumerator TransitionEmission() {
-      m_CurrentEmission = m_Material.GetColor("_EmissionColor");
+      _currentEmission = _material.GetColor(EmissionColor);
       float timeElapsed = 0f;
-      while (timeElapsed < m_EmissionTransitionLengthInSeconds) {
-        Color currentEmissionColor = Color.Lerp(m_CurrentEmission, m_TargetColor, timeElapsed / m_EmissionTransitionLengthInSeconds);
-        m_Material.SetColor("_EmissionColor", currentEmissionColor);
+      while (timeElapsed < emissionTransitionLengthInSeconds) {
+        Color currentEmissionColor = Color.Lerp(_currentEmission, targetColor,
+          timeElapsed / emissionTransitionLengthInSeconds);
+        _material.SetColor(EmissionColor, currentEmissionColor);
         timeElapsed += Time.deltaTime;
         yield return null;
       }

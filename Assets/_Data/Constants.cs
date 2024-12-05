@@ -1,4 +1,4 @@
-namespace Guidance.Data {
+namespace _Data {
   public static class Constants {
     public const float STAGE_TRANSITION_EFFECT_SPEED = 2f;
     public const float STAGE_TRANSITION_DISTANCE_OFFSET = 0.01f;
